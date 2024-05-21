@@ -1,0 +1,11 @@
+{
+    "Admin_component":{
+        "components_sidbar":[
+            {"name":"Index_Sidbar"}
+        ],
+        "components_panel":[
+            {"name":"Index_Navbar"},
+            {"name":"Preview"}
+        ]
+    }
+}

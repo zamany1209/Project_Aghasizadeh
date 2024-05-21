@@ -1,0 +1,28 @@
+{
+    "Data":[
+        {"name":"Header","discription":"...","Total_Propertis":"4"},
+        {"name":"single-slider","discription":""},
+        {"name":"","discription":""},
+        {"name":"","discription":""}
+    ],
+    "Header":{
+        "Total_Propertis":"4",
+        "Propertis":{
+            "id_1":{"name":"","discription":"......","validation":"List_2","tree_discription":["name","Url"]},
+            "id_2":{"name":"","discription":"......","validation":"String","tree_discription":[]},
+            "id_3":{"name":"","discription":"......","validation":"String","tree_discription":[]},
+            "id_4":{"name":"","discription":"......","validation":"List_2","tree_discription":["text","Url"]}
+        }
+    },
+    "single-slider":{
+        "Total_Propertis":"4",
+        "Propertis":{
+            "id_1":{"name":"","discription":"......","validation":"String_2","tree_discription":["text","Size"]},
+            "id_2":{"name":"","discription":"......","validation":"String_2","tree_discription":["text","Size"]},
+            "id_3":{"name":"","discription":"......","validation":"String_3","tree_discription":["text","Size","Color"]},
+            "id_4":{"name":"","discription":"......","validation":"String_3","tree_discription":["text","Size","Color"]},
+            "id_5":{"name":"","discription":"......","validation":"List","tree_discription":["text","Size","Color"]}
+        }
+    }
+    
+}
