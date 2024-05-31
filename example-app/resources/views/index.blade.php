@@ -42,6 +42,29 @@
             direction: rtl;
         }
     </style>
+        <style>
+        .draggable-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .draggable-item {
+            padding: 10px;
+            margin: 5px 0;
+            background-color: #3498db;
+            color: white;
+            cursor: grab;
+            border-radius: 4px;
+        }
+
+        .over {
+            border: 2px dashed #2c3e50;
+        }
+
+        .nested-list {
+            padding-left: 20px;
+        }
+    </style>
     <body>
                 <!--====== Start Preloader ======-->
                 <div class="preloader">

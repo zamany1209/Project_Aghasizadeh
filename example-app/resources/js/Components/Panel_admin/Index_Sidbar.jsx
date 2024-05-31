@@ -1,5 +1,4 @@
 import { useState,useContext } from 'react';
-import UserContext from '../../Context/UserContext';
 export default function Index_Sidbar({ }) {
   const page_width = document.body.clientWidth;
 
@@ -13,12 +12,11 @@ export default function Index_Sidbar({ }) {
 }
 
 function Sidbar_1(){
-  const {user,setUser} = useContext(UserContext);
   return(
     <>
         <div className="col-11-5 mt-2">
           <div className="col-12 d-flex justify-content-center">
-          <h3>{`Hello ${user} again!`}</h3>
+          <h3></h3>
           </div>
           <div className="col-12 d-flex justify-content-center">
           <ul className="list-unstyled ps-0 text-center">

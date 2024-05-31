@@ -1,5 +1,8 @@
+import React, { useContext } from 'react';
+import { DataContext } from '@/Context/DataContext';
 
-export default function Header({data}) {
+export default function Header({index_Component}) {
+    const { edit_text,movement, setMovement,data, setData } = useContext(DataContext);
     return (
         <>
         <header className="header-area-one col-12" style={{position: "absolute", backgroundColor: "white", opacity: "0.9",zIndex: "999999"}}>
@@ -10,7 +13,7 @@ export default function Header({data}) {
                                                     <div className="row">
                                                         <div className="header-right-nav">
                                                             <div className="menu_avatar_group">
-                                                                <a className="btn_phone" href={'tel:'+data.id_3}><i className="far fa-phone"></i>{data.id_3}</a>
+                                                                <a className="btn_phone" href={'tel:'+data.landing.components[index_Component].id_3}><i className="far fa-phone"></i>{data.landing.components[index_Component].id_3}</a>
                                                             </div>
                                                             <div className="menu-icon-group">
                                                                 <ul>
@@ -40,8 +43,8 @@ export default function Header({data}) {
                                 </div>
                                 <nav className="main-menu text-right">
                                     <ul>
-                                        {data.id_1.map((list_header) =>
-                                            <li className="menu-item pr-1 pl-1"><a href={list_header[1]} className="active font-root">{list_header[0]}</a></li>
+                                        {data.landing.components[index_Component].id_1.map((list_header,index) =>
+                                            <li key={index} className="menu-item pr-1 pl-1"><a href={list_header[1]} className="active font-root">{list_header[0]}</a></li>
                                         )}
                                     </ul>
                                 </nav>
@@ -49,7 +52,7 @@ export default function Header({data}) {
                         </div>
                         <div className="col-lg-2 col-4">
                             <div className="brand-logo">
-                                <a href="#"><img src={data.id_2} className="img-fluid" alt=""/></a>
+                                <a href="#"><img src={data.landing.components[index_Component].id_2} className="img-fluid" alt=""/></a>
                             </div>
                         </div>
                     </div>
