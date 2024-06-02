@@ -4,7 +4,7 @@ import { contextMenu } from 'react-contexify';
 import { Modal, Button } from 'react-bootstrap';
 
 export default function single_slider({ index_Component, name_Component }) {
-    const { edit_text,movement, setMovement,data, setData,state_admin,image_list, setImage_list, openModal,add_Modal,function_11 } = useContext(DataContext);
+    const { edit_text, token,movement, setMovement,data, setData,state_admin,image_list, setImage_list, open_Modal,add_Modal,function_11 } = useContext(DataContext);
     const function1 = (event) => {
         console.log("drg");
         event.preventDefault();
@@ -39,13 +39,17 @@ export default function single_slider({ index_Component, name_Component }) {
                 </div>
             </div>
         </div>
-        <ModalComponent id_Modal={String(name_Component+"_"+index_Component)} index_Component={index_Component}></ModalComponent>
+        {token ? (
+          <ModalComponent id_Modal={String(name_Component+"_"+index_Component)} index_Component={index_Component}></ModalComponent>
+        ):(
+          <div></div>
+        )}
     </section>
         </>
     );
 }
 const ModalComponent = ({id_Modal,index_Component}) => {
-    const { data, setData, isModalOpen, closeModal,add_Modal,openModal,isSetImage, setImage } = useContext(DataContext);
+    const { data, setData, isModalOpen, close_Modal,add_Modal,open_Modal,isSetImage, setImage } = useContext(DataContext);
     useEffect(() => {
         add_Modal(id_Modal);
     }, []);
@@ -132,23 +136,31 @@ const ModalComponent = ({id_Modal,index_Component}) => {
       return newData;
     });
   }
+  // not is chancge scrolle
+  useEffect(() => {
+    if(isModalOpen[id_Modal]?.status == true){
+      window.scrollTo(0, isModalOpen[id_Modal]?.location);
+    }else{
+      window.scrollTo(0, isModalOpen[id_Modal]?.location);
+    }
+  }, [isModalOpen[id_Modal]?.status]);
     return (
         <>
-      <Modal show={isModalOpen[id_Modal]} onHide={()=>{closeModal(id_Modal)}} scrollable centered size="md">
+      <Modal show={isModalOpen[id_Modal]?.status} onHide={()=>{close_Modal(id_Modal)}} scrollable centered size="md">
         <Modal.Header closeButton>
           <Modal.Title>تنظیمات</Modal.Title>
         </Modal.Header>
         <Modal.Body>
         <div className="mb-3">
-          <label for="formGroupExampleInput" className="form-label">عنوان</label>
+          <label htmlFor="formGroupExampleInput" className="form-label">عنوان</label>
           <input type="text" style={{"fontSize":data.landing.components[index_Component].id_1[1]+"px"}} className="form-control" id="formGroupExampleInput" placeholder="..." value={data.landing.components[index_Component].id_1[0]} onChange={handleChange_Title}/>
-          <label for="customRange2" className="form-label" style={{"fontSize":"10px"}}>{data.landing.components[index_Component].id_1[1]}</label>
+          <label htmlFor="customRange2" className="form-label" style={{"fontSize":"10px"}}>{data.landing.components[index_Component].id_1[1]}</label>
           <input type="range" className="form-range col-12" min="0" max="50" step="1" id="customRange2" value={data.landing.components[index_Component].id_1[1]} onChange={handleChange_Title_Size}/>
         </div>
         <div className="mb-3">
           <label for="formGroupExampleInput2" className="form-label">متن</label>
           <input type="text" style={{"fontSize":data.landing.components[index_Component].id_2[1]+"px"}} className="form-control" id="formGroupExampleInput2" placeholder="..." value={data.landing.components[index_Component].id_2[0]} onChange={handleChange_Sub_Title}/>
-          <label for="customRange2" className="form-label" style={{"fontSize":"10px"}}>{data.landing.components[index_Component].id_2[1]}</label>
+          <label htmlFor="customRange2" className="form-label" style={{"fontSize":"10px"}}>{data.landing.components[index_Component].id_2[1]}</label>
           <input type="range" className="form-range col-12" min="0" max="50" step="1" id="customRange2" value={data.landing.components[index_Component].id_2[1]} onChange={handleChange_Sub_Title_Size}/>
         </div>
         <div className="col-12 p-0">
@@ -180,15 +192,15 @@ const ModalComponent = ({id_Modal,index_Component}) => {
           )}
         </div>
             <ul className="list-group list-group-horizontal">
-                <li className="list-group-item btn" onClick={()=> {setImage([id_Modal,null]);openModal("list_image")}}>تغییر عکس پس زمنیه</li>
+                <li className="list-group-item btn" onClick={()=> {setImage([id_Modal,null]);open_Modal("list_image",window.scrollY)}}>تغییر عکس پس زمنیه</li>
                 <li className="list-group-item btn" onClick={addItem_btn}>افزودن دکمه</li>
             </ul>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={()=>{closeModal(id_Modal)}}>
+          <Button variant="secondary" onClick={()=>{close_Modal(id_Modal)}}>
             Close
           </Button>
-          <Button variant="primary" onClick={()=>{closeModal(id_Modal)}}>
+          <Button variant="primary" onClick={()=>{close_Modal(id_Modal)}}>
             Save Changes
           </Button>
         </Modal.Footer>

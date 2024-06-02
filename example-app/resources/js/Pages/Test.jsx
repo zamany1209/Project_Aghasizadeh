@@ -1,102 +1,54 @@
-// import React from 'react';
-// import {
-//   Menu,
-//   Item,
-//   Separator,
-//   Submenu,
-//   useContextMenu
-// } from "react-contexify";
-// import "react-contexify/dist/ReactContexify.css";
+import React, { useState } from 'react';
 
+function MyComponent() {
+  const [state, setState] = useState({
+    a: {
+      b: {
+        c: {
+          k: 1
+        },
+        d: {
+          e: {
+            l: 5
+          },
+          f: {
+            g: {
+              z: 9
+            }
+          }
+        }
+      }
+    }
+  });
 
-// const MENU_ID = "menu-id";
+  const addValueToObject = (obj, path, value) => {
+    const newObj = { ...obj };
+    let current = newObj;
+    for (let i = 0; i < path.length - 1; i++) {
+      if (!current[path[i]]) {
+        current[path[i]] = {};
+      } else {
+        current[path[i]] = { ...current[path[i]] };
+      }
+      current = current[path[i]];
+    }
+    current[path[path.length - 1]] = value;
+    return newObj;
+  };
 
-// export default function App() {
-//   // 🔥 you can use this hook from everywhere. All you need is the menu id
-//   const { show } = useContextMenu({
-//     id: MENU_ID
-//   });
- 
-//   function handleItemClick({ event, props, triggerEvent, data }){
-//     console.log(event, props, triggerEvent, data );
-//   }
+  const handleClick = () => {
+    const newPath = ['a', 'b', 'd', 'f', 'g', 'newKey'];
+    const newValue = 10;
+    const newState = addValueToObject(state, newPath, newValue);
+    setState(newState);
+  };
 
-//   function displayMenu(e){
-//     // put whatever custom logic you need
-//     // you can even decide to not display the Menu
-//     console.log("hi");
-//     show({
-//       event: e,
-//     });
-//   }
-
-//   return (
-//     <div>
-//       {/* just display the menu on right click */}
-//       <div >
-//         Right click inside the box
-//       </div>
-//       {/* run custom logic then display the menu */}
-//       <div onContextMenu={displayMenu}>
-//         Right click inside the box
-//       </div>
-
-
-//       <Menu id={MENU_ID}>
-//         <Item onClick={handleItemClick}>
-//           Item 1
-//         </Item>
-//         <Item onClick={handleItemClick}>
-//           Item 2
-//         </Item>
-//         <Separator />
-//         <Item disabled>Disabled</Item>
-//         <Separator />
-//         <Submenu label="Submenu">
-//           <Item onClick={handleItemClick}>
-//             Sub Item 1
-//           </Item>
-//           <Item onClick={handleItemClick}>Sub Item 2</Item>
-//         </Submenu>
-//       </Menu>
-//     </div>
-//   );
-// }
-
-
-
-////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////
-import React from 'react';
-import * as functions  from '@/Components/UI/Component6';
-
-export default function App() {
-  function func_run({name}){
-    const functionNames = Object.keys(functions);
-    console.log(functionNames);
-    if (typeof functions[name] === 'function') {
-      functions[name]();
-  } else {
-      console.log(`Function ${name} not found`);
-  }
-  }
-//   React.useEffect(() => {
-//     // لیست نام‌های فانکشن‌ها
-//     const functionNames = Object.keys(functions);
-
-//     functionNames.forEach(fnName => {
-//         if (typeof functions[fnName] === 'function') {
-//             functions[fnName]();
-//         } else {
-//             console.log(`Function ${fnName} not found`);
-//         }
-//     });
-// }, []);
-  return(
-    <>
-    <button onClick={() => func_run({ name: "function2" })}>fvbg</button>
-    </>
+  return (
+    <div>
+      <pre>{JSON.stringify(state, null, 2)}</pre>
+      <button onClick={handleClick}>Add Value</button>
+    </div>
   );
 }
 
+export default MyComponent;

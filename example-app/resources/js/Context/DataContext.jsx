@@ -2,20 +2,6 @@ import React, { createContext, useState } from 'react';
 
 export const DataContext = createContext();
 
-export const function_11 = () =>{
-  let Management_modalInstance = null;
-  const openModal_List_Image = () => {
-    alert("seg");
-      Management_modalInstance = new window.bootstrap.Modal(document.getElementById('Core_Modal_List_Image'));
-      Management_modalInstance.show();
-  };
-  openModal_List_Image();
-  const closeModal = () => {
-    if (Management_modalInstance) {
-      Management_modalInstance.hide();
-    }
-  };
-}
 export const DataProvider = ({ children }) => {
   const [data, setData] = useState({});
   const [token, setToken] = useState(null);
@@ -25,9 +11,43 @@ export const DataProvider = ({ children }) => {
   const [image_list, setImage_list] = useState(null);
   const [isModalOpen, setModalOpen] = useState({});
   const [isSetImage, setImage] = useState([null,null]);
-  const openModal = (name) => setModalOpen(preState => ({...preState,[name]:true}));
-  const closeModal = (name) => setModalOpen(preState => ({...preState,[name]:false}));
-  const add_Modal = (name) => setModalOpen(preState => ({...preState,[name]:false}));
+
+
+  const open_Modal = (name,scrollY = 0) => setModalOpen(preState => ({...preState,[name]:{"status":true,"location":scrollY}}));
+  const close_Modal = (name,scrollY = 0) => setModalOpen(preState => ({...preState,[name]:{"status":false,"location":isModalOpen[name].location}}));
+  const add_Modal = (name,scrollY = 0) => setModalOpen(preState => ({...preState,[name]:{"status":false,"location":scrollY}}));
+  const changeValue_Data = (path, value,operation) => {
+    setData((prevData) => {
+    const newObj = { ...data };
+    let current = newObj;
+    for (let i = 0; i < path.length - 1; i++) {
+      if (!current[path[i]]) {
+        current[path[i]] = {};
+      } else {
+        current[path[i]] = { ...current[path[i]] };
+      }
+      current = current[path[i]];
+    }
+    switch(operation) {
+      case "change":
+        current[path[path.length - 1]] = value;
+        break;
+      case "add":
+        current[path[path.length - 1]] = [
+          ...current[path[path.length - 1]],
+          value
+        ];
+        break;
+      case "delete":
+        delete current[path[path.length - 1]][value];
+        break;
+      default:
+    }
+    console.log(newObj);
+    return newObj;
+  });
+    console.log(data);
+  };
   return (
     <DataContext.Provider value={{ 
       data, setData, 
@@ -36,9 +56,9 @@ export const DataProvider = ({ children }) => {
       movement, setMovement, 
       edit_text, setEdit_text, 
       image_list, setImage_list,
-      isModalOpen, closeModal, openModal, add_Modal,
+      isModalOpen, close_Modal, open_Modal, add_Modal,
       isSetImage, setImage,
-      function_11 }}>
+      changeValue_Data }}>
       {children}
     </DataContext.Provider>
   );

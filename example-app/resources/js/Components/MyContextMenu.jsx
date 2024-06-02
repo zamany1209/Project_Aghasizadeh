@@ -5,10 +5,10 @@ import "react-contexify/dist/ReactContexify.css";
   const MENU_ID = "menu";
   
   export default function App({props}) {
-    const { openModal } = useContext(DataContext);
+    const { open_Modal } = useContext(DataContext);
     function handleItemClick({ event, props, triggerEvent, data }){
       // console.log(event, props, triggerEvent, data );
-      openModal(props.function_name);
+      open_Modal(props.function_name,window.scrollY);
     }
   
     return (
