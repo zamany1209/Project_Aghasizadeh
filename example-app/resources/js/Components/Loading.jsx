@@ -1,10 +1,16 @@
-import { lazy,Suspense } from 'react';
-export default function Loading({ url, index_Components, name_Components, folder }) {
-    const MarkdownPreview = lazy(() => import(`./${folder}/${url}.jsx`));
-        // var MarkdownPreview = lazy(() => import(data.toString()));
+import { lazy,Suspense,useContext } from 'react';
+import { DataContext } from '@/Context/DataContext';
+function loadComponent(componentName,folder) {
+    return lazy(() => import(`./${folder}/${componentName}.jsx`));
+}
+export default function Loading({folder,active_component = false}) {
+    const { data } = useContext(DataContext);
     return (
         <Suspense fallback={<h2>Loading...</h2>}>
-            <MarkdownPreview index_Component={index_Components} name_Component={name_Components} />
+      {data.components?.map((component,index) => {
+        const Component = loadComponent(component.name,folder);
+        return <Component key={index} index_Component={index} name_Component={component.name}  />;
+      })}
         </Suspense>
     );
 }

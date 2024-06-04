@@ -3,7 +3,7 @@ import React, { useContext,useEffect } from 'react';
 import { DataContext } from '@/Context/DataContext';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 export default function Management_Modal(){
-    const { isModalOpen, close_Modal,add_Modal,open_Modal,image_list,isSetImage, setImage } = useContext(DataContext);
+    const { isModalOpen, close_Modal,add_Modal,open_Modal,image_list,isSetImage, setImage,changeValue_Data } = useContext(DataContext);
     const show_list_image = "list_image";
     useEffect(() => {
       if (isModalOpen[show_list_image]) {
@@ -24,7 +24,7 @@ export default function Management_Modal(){
             <div className="row">
                 {image_list?.Image.map((name,index) =>
                     <div key={index} className="col-2">
-                        <LazyLoadImage style={{height:"170px",width:"170px", objectFit:"cover",objectPosition:"center"}} src={"http://127.0.0.1:8000/asset/img/"+name} alt="" onClick={()=>{setImage([isSetImage[0],"http://127.0.0.1:8000/asset/img/"+name]);close_Modal(show_list_image);}} />
+                        <LazyLoadImage style={{height:"170px",width:"170px", objectFit:"cover",objectPosition:"center"}} src={"http://127.0.0.1:8000/asset/img/"+name} alt="" onClick={()=>{changeValue_Data(isModalOpen[show_list_image]?.value,"http://127.0.0.1:8000/asset/img/"+name,"change");close_Modal(show_list_image);}} />
                     </div>
                 )}
             </div>

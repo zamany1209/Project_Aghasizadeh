@@ -5,12 +5,14 @@ import "react-contexify/dist/ReactContexify.css";
   const MENU_ID = "menu";
   
   export default function App({props}) {
-    const { open_Modal } = useContext(DataContext);
+    const { open_Modal,changeValue_Data } = useContext(DataContext);
     function handleItemClick({ event, props, triggerEvent, data }){
       // console.log(event, props, triggerEvent, data );
       open_Modal(props.function_name,window.scrollY);
     }
-  
+    function delete_section({ event, props, triggerEvent, data }){
+      changeValue_Data(["components"],null,"delete-section",props.index);
+    }
     return (
       <div>
         <Menu id={MENU_ID}>
@@ -18,16 +20,17 @@ import "react-contexify/dist/ReactContexify.css";
             تنظیمات
           </Item>
           <Item onClick={handleItemClick}>
-            Item 2
+            انتقال به بالا
+          </Item>
+          <Item onClick={handleItemClick}>
+            انتقال به پایین
           </Item>
           <Separator />
           <Item disabled>Disabled</Item>
           <Separator />
-          <Submenu label="Submenu">
-            <Item onClick={handleItemClick}>
-              Sub Item 1
-            </Item>
-            <Item onClick={handleItemClick}>Sub Item 2</Item>
+          <Submenu label="مدیریت بخش ها">
+            <Item onClick={handleItemClick} className='bg-success m-1 rounded'>افزودن بخش</Item>
+            <Item onClick={delete_section} className='bg-danger  m-1 rounded'>حذف این بخش</Item>
           </Submenu>
         </Menu>
       </div>

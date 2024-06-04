@@ -7,6 +7,8 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
 
+use function Pest\Laravel\json;
+
 class PageController extends Controller
 {
     //
@@ -31,10 +33,11 @@ class PageController extends Controller
         
         $get = resource_path('data\list-page-components.json');
         $ffs = File::get($get);
+        $data = json_decode($ffs);
         Inertia::setRootView('index'); 
         return  Inertia::render('Index', [
             'name' => $request->page,
-            're_data' => $ffs,
+            're_data' => json_encode($data->landing),
             're_token' => $token,
             're_image_list' => $get_imagelist
         ]);

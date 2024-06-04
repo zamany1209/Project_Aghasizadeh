@@ -13,7 +13,7 @@ export default function Header({index_Component}) {
                                                     <div className="row">
                                                         <div className="header-right-nav">
                                                             <div className="menu_avatar_group">
-                                                                <a className="btn_phone" href={'tel:'+data.landing.components[index_Component].id_3}><i className="far fa-phone"></i>{data.landing.components[index_Component].id_3}</a>
+                                                                <a className="btn_phone" href={'tel:'+data.components[index_Component].id_3}><i className="far fa-phone"></i>{data.components[index_Component].id_3}</a>
                                                             </div>
                                                             <div className="menu-icon-group">
                                                                 <ul>
@@ -43,7 +43,7 @@ export default function Header({index_Component}) {
                                 </div>
                                 <nav className="main-menu text-right">
                                     <ul>
-                                        {data.landing.components[index_Component].id_1.map((list_header,index) =>
+                                        {data.components[index_Component].id_1.map((list_header,index) =>
                                             <li key={index} className="menu-item pr-1 pl-1"><a href={list_header[1]} className="active font-root">{list_header[0]}</a></li>
                                         )}
                                     </ul>
@@ -52,7 +52,7 @@ export default function Header({index_Component}) {
                         </div>
                         <div className="col-lg-2 col-4">
                             <div className="brand-logo">
-                                <a href="#"><img src={data.landing.components[index_Component].id_2} className="img-fluid" alt=""/></a>
+                                <a href="#"><img src={data.components[index_Component].id_2} className="img-fluid" alt=""/></a>
                             </div>
                         </div>
                     </div>
