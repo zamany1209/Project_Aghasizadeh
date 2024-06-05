@@ -4,8 +4,10 @@ import Loading from '@/Components/Loading';
 import { DataProvider,DataContext } from '@/Context/DataContext';
 import MyContextMenu from '@/Components/MyContextMenu';
 import Management_Modal from '@/Components/Management_Modal';
+import Index_Sidbar from '@/Components/Panel_admin/Index_Sidbar';
+import Index_Navbar from '@/Components/Panel_admin/Index_Navbar';
 
-function Constructor({ name , re_data, re_token, re_image_list }){
+function Constructor({ auth ,name , re_data, re_token, re_image_list }){
     const { setData, setToken, setState_admin, setEdit_text, setImage_list,add_Modal } = useContext(DataContext);
     var components =  JSON.parse(re_data);
     useEffect(() => {
@@ -20,25 +22,47 @@ function Constructor({ name , re_data, re_token, re_image_list }){
     }, []);
     return(
         <>
-        <div className="row col-12">
-            <div className="col-2 row">
-                <Loading folder="Panel_admin" />
+            {/* <!-- Page Wrapper --> */}
+    <div id="wrapper">
+
+        {/* <!-- Sidebar --> */}
+            <Index_Sidbar></Index_Sidbar>
+        {/* <!-- End of Sidebar --> */}
+
+        {/* <!-- Content Wrapper --> */}
+        <div id="content-wrapper" className="d-flex flex-column">
+
+            {/* <!-- Main Content --> */}
+            <div id="content">
+
+                {/* <!-- Topbar --> */}
+                    <Index_Navbar auth={auth}></Index_Navbar>
+                {/* <!-- End of Topbar --> */}
+
+
+                {/* <!-- Begin Page Content --> */}
+                    <Loading folder="Panel_admin"></Loading>
+                {/* <!-- /.container-fluid --> */}
+
             </div>
-            <div className="col-10-5 row">
-                <Loading folder="Panel_admin" active_component={true}/>
-            </div>
+            {/* <!-- End of Main Content --> */}
+
+
         </div>
-        <Loading folder="Panel_admin" />
+        {/* <!-- End of Content Wrapper --> */}
+
+    </div>
+    {/* <!-- End of Page Wrapper --> */}
         </>
     )
 }
 
-export default function Admin({ name ,re_data ,re_token, re_image_list }) {
+export default function Admin({ auth,name ,re_data ,re_token, re_image_list }) {
     return (
         <>
             <Head title={name}/>
             <DataProvider>
-                <Constructor name={name} re_data={re_data} re_token={re_token} re_image_list={re_image_list} />
+                <Constructor name={name} re_data={re_data} re_token={re_token} re_image_list={re_image_list} auth={auth} />
                 {re_token ? (
                     <div>
                         <MyContextMenu></MyContextMenu>
@@ -51,3 +75,14 @@ export default function Admin({ name ,re_data ,re_token, re_image_list }) {
         </>
     );
 }
+
+
+{/* <div className="row col-12">
+<div className="col-2 row">
+    <Loading folder="Panel_admin" />
+</div>
+<div className="col-10-5 row">
+    <Loading folder="Panel_admin" active_component={true}/>
+</div>
+</div>
+<Loading folder="Panel_admin" /> */}

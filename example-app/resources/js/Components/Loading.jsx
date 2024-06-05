@@ -3,7 +3,7 @@ import { DataContext } from '@/Context/DataContext';
 function loadComponent(componentName,folder) {
     return lazy(() => import(`./${folder}/${componentName}.jsx`));
 }
-export default function Loading({folder,active_component = false}) {
+export default function Loading({folder}) {
     const { data } = useContext(DataContext);
     return (
         <Suspense fallback={<h2>Loading...</h2>}>

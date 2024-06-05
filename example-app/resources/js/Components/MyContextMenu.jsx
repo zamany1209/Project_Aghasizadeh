@@ -26,7 +26,7 @@ import "react-contexify/dist/ReactContexify.css";
             انتقال به پایین
           </Item>
           <Separator />
-          <Item disabled>Disabled</Item>
+          <Item disabled>به‌روزرسانی</Item>
           <Separator />
           <Submenu label="مدیریت بخش ها">
             <Item onClick={handleItemClick} className='bg-success m-1 rounded'>افزودن بخش</Item>

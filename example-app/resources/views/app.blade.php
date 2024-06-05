@@ -5,6 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
+        <link href="http://127.0.0.1:8000/admin_panel_asset/assets/css/all.min.css" rel="stylesheet" type="text/css" async>
+        <link href="http://127.0.0.1:8000/admin_panel_asset/assets/css/sb-admin-2.min.css" rel="stylesheet" defer>
 
         <!-- Scripts -->
         @routes
@@ -17,7 +19,7 @@
             direction: rtl;
         }
     </style>
-    <body>
+    <body class="bg-gradient-primary">
         @inertia
 
     </body>

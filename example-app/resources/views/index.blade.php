@@ -8,7 +8,7 @@
         <!--====== Bootstrap  css ======-->
         <link rel="stylesheet" href="{{asset('assets/css/bootstrap.min.css')}}">
         <!--====== Fontaweome css ======-->
-        <link rel="stylesheet" href="{{asset('assets/fonts/fontawesome/css/all.css')}}">
+        <link rel="stylesheet" href="{{asset('assets/fonts/fontawesome/css/all.min.css')}}">
         <!--====== Flaticon css ======-->
         <link rel="stylesheet" href="{{asset('assets/fonts/flaticon/flaticon.css')}}">
         <!--====== pe7stroke css ======-->

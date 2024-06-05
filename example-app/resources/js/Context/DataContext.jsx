@@ -12,6 +12,7 @@ export const DataProvider = ({ children }) => {
   const [image_list, setImage_list] = useState(null);
   const [isModalOpen, setModalOpen] = useState({});
   const [isSetImage, setImage] = useState([null,null]);
+  const [active_component, setActive_component] = useState("Dashboard");
 
 
   const open_Modal = (name,scrollY = 0,value = null) => setModalOpen(preState => ({...preState,[name]:{"status":true,"location":scrollY,"value":value}}));

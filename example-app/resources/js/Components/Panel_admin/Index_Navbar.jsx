@@ -1,97 +1,195 @@
-
-export default function Index_Navbar({ }) {
-    const page_width = document.body.clientWidth;
-    if(page_width > 720){
-      return Header_1();
-    }
-    else{
-      return Header_2();
-    }
-  }
-  
-  function Header_1(){
-    return(
-      <>
-          <nav className="navbar bg-light col-12">
-            <div className="container-fluid">
-              <a className="navbar-brand">Navbar</a>
-              <div className="d-flex">
-                  <div className="btn-group dropstart">
-                    <button type="button" className="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                      <span className="visually-hidden">Toggle Dropstart</span>
-                    </button>
-                    <ul className="dropdown-menu">
-                      <li><a className="dropdown-item" href="#">Action</a></li>
-                      <li><a className="dropdown-item" href="#">Another action</a></li>
-                      <li><a className="dropdown-item" href="#">Something else here</a></li>
-                      <li><hr className="dropdown-divider"/></li>
-                      <li><a className="dropdown-item" href="#">Separated link</a></li>
-                    </ul>
-                    <button type="button" className="btn btn-secondary">
-                            <svg width="25px" height="25px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-  
-                          <g id="SVGRepo_bgCarrier" stroke-width="0"/>
-  
-                          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
-  
-                          <g id="SVGRepo_iconCarrier"> <path d="M5 21C5 17.134 8.13401 14 12 14C15.866 14 19 17.134 19 21M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/> </g>
-  
-                          </svg>
-                      
-                    </button>
-                  </div>
-              </div>
-            </div>
-          </nav>
-      </>
-    );
-  }
-  
-  function Header_2 () {
-    return (
-      <>
-  <nav className="navbar bg-body-tertiary fixed-top">
-    <div className="container-fluid">
-      <a className="navbar-brand" href="#">Offcanvas navbar</a>
-      <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-        <span className="navbar-toggler-icon"></span>
+import { Link } from '@inertiajs/react';
+export default function Index_Navbar({ auth }) {
+  return(
+    <>
+    <nav className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+      {/* <!-- Sidebar Toggle (Topbar) --> */}
+      <button id="sidebarToggleTop" className="btn btn-link d-md-none rounded-circle mr-3">
+          <i className="fa fa-bars"></i>
       </button>
-      <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-        <div className="offcanvas-header">
-          <h5 className="offcanvas-title" id="offcanvasNavbarLabel">Offcanvas</h5>
-          <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div className="offcanvas-body">
-          <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
-            <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="#">Home</a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">Link</a>
-            </li>
-            <li className="nav-item dropdown">
-              <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Dropdown
+
+
+      {/* <!-- Topbar Navbar --> */}
+      <ul className="navbar-nav ml-auto">
+
+          {/* <!-- Nav Item - Search Dropdown (Visible Only XS) --> */}
+          <li className="nav-item dropdown no-arrow d-sm-none">
+              <a className="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i className="fas fa-search fa-fw"></i>
               </a>
-              <ul className="dropdown-menu">
-                <li><a className="dropdown-item" href="#">Action</a></li>
-                <li><a className="dropdown-item" href="#">Another action</a></li>
-                <li>
-                  <hr className="dropdown-divider"/>
-                </li>
-                <li><a className="dropdown-item" href="#">Something else here</a></li>
-              </ul>
-            </li>
-          </ul>
-          <form className="d-flex mt-3" role="search">
-            <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-            <button className="btn btn-outline-success" type="submit">Search</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </nav>
-      </>
+              {/* <!-- Dropdown - Messages --> */}
+              <div className="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                  aria-labelledby="searchDropdown">
+                  <form className="form-inline mr-auto w-100 navbar-search">
+                      <div className="input-group">
+                          <input type="text" className="form-control bg-light border-0 small"
+                              placeholder="Search for..." aria-label="Search"
+                              aria-describedby="basic-addon2"/>
+                          <div className="input-group-append">
+                              <button className="btn btn-primary" type="button">
+                                  <i className="fas fa-search fa-sm"></i>
+                              </button>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+          </li>
+
+          {/* <!-- Nav Item - Alerts --> */}
+          <li className="nav-item dropdown no-arrow mx-1">
+              <a className="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i className="fas fa-bell fa-fw"></i>
+                  {/* <!-- Counter - Alerts --> */}
+                  <span className="badge badge-danger badge-counter">3+</span>
+              </a>
+              {/* <!-- Dropdown - Alerts --> */}
+              <div className="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                  aria-labelledby="alertsDropdown">
+                  <h6 className="dropdown-header">
+                      Alerts Center
+                  </h6>
+                  <a className="dropdown-item d-flex align-items-center" href="#">
+                      <div className="mr-3">
+                          <div className="icon-circle bg-primary">
+                              <i className="fas fa-file-alt text-white"></i>
+                          </div>
+                      </div>
+                      <div>
+                          <div className="small text-gray-500">December 12, 2019</div>
+                          <span className="font-weight-bold">A new monthly report is ready to download!</span>
+                      </div>
+                  </a>
+                  <a className="dropdown-item d-flex align-items-center" href="#">
+                      <div className="mr-3">
+                          <div className="icon-circle bg-success">
+                              <i className="fas fa-donate text-white"></i>
+                          </div>
+                      </div>
+                      <div>
+                          <div className="small text-gray-500">December 7, 2019</div>
+                          $290.29 has been deposited into your account!
+                      </div>
+                  </a>
+                  <a className="dropdown-item d-flex align-items-center" href="#">
+                      <div className="mr-3">
+                          <div className="icon-circle bg-warning">
+                              <i className="fas fa-exclamation-triangle text-white"></i>
+                          </div>
+                      </div>
+                      <div>
+                          <div className="small text-gray-500">December 2, 2019</div>
+                          Spending Alert: We've noticed unusually high spending for your account.
+                      </div>
+                  </a>
+                  <a className="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+              </div>
+          </li>
+
+          {/* <!-- Nav Item - Messages --> */}
+          <li className="nav-item dropdown no-arrow mx-1">
+              <a className="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i className="fas fa-envelope fa-fw"></i>
+                  {/* <!-- Counter - Messages --> */}
+                  <span className="badge badge-danger badge-counter">7</span>
+              </a>
+              {/* <!-- Dropdown - Messages --> */}
+              <div className="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                  aria-labelledby="messagesDropdown">
+                  <h6 className="dropdown-header">
+                      Message Center
+                  </h6>
+                  <a className="dropdown-item d-flex align-items-center" href="#">
+                      <div className="dropdown-list-image mr-3">
+                          <img className="rounded-circle" src="http://127.0.0.1:8000/admin_panel_asset/assets/image/user.svg"
+                              alt="..."/>
+                          <div className="status-indicator bg-success"></div>
+                      </div>
+                      <div className="font-weight-bold">
+                          <div className="text-truncate">Hi there! I am wondering if you can help me with a
+                              problem I've been having.</div>
+                          <div className="small text-gray-500">Emily Fowler · 58m</div>
+                      </div>
+                  </a>
+                  <a className="dropdown-item d-flex align-items-center" href="#">
+                      <div className="dropdown-list-image mr-3">
+                          <img className="rounded-circle" src="http://127.0.0.1:8000/admin_panel_asset/assets/image/user.svg"
+                              alt="..."/>
+                          <div className="status-indicator"></div>
+                      </div>
+                      <div>
+                          <div className="text-truncate">I have the photos that you ordered last month, how
+                              would you like them sent to you?</div>
+                          <div className="small text-gray-500">Jae Chun · 1d</div>
+                      </div>
+                  </a>
+                  <a className="dropdown-item d-flex align-items-center" href="#">
+                      <div className="dropdown-list-image mr-3">
+                          <img className="rounded-circle" src="http://127.0.0.1:8000/admin_panel_asset/assets/image/user.svg"
+                              alt="..."/>
+                          <div className="status-indicator bg-warning"></div>
+                      </div>
+                      <div>
+                          <div className="text-truncate">Last month's report looks great, I am very happy with
+                              the progress so far, keep up the good work!</div>
+                          <div className="small text-gray-500">Morgan Alvarez · 2d</div>
+                      </div>
+                  </a>
+                  <a className="dropdown-item d-flex align-items-center" href="#">
+                      <div className="dropdown-list-image mr-3">
+                          <img className="rounded-circle" src="http://127.0.0.1:8000/admin_panel_asset/assets/image/user.svg"
+                              alt="..."/>
+                          <div className="status-indicator bg-success"></div>
+                      </div>
+                      <div>
+                          <div className="text-truncate">Am I a good boy? The reason I ask is because someone
+                              told me that people say this to all dogs, even if they aren't good...</div>
+                          <div className="small text-gray-500">Chicken the Dog · 2w</div>
+                      </div>
+                  </a>
+                  <a className="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+              </div>
+          </li>
+
+          <div className="topbar-divider d-none d-sm-block"></div>
+
+          {/* <!-- Nav Item - User Information --> */}
+          <li className="nav-item dropdown no-arrow">
+              <a className="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span className="mr-2 d-none d-lg-inline text-gray-600 small">{auth.user.name}</span>
+                  <img className="img-profile rounded-circle"
+                      src="http://127.0.0.1:8000/admin_panel_asset/assets/image/user.svg"/>
+              </a>
+              {/* <!-- Dropdown - User Information --> */}
+              <div className="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                  aria-labelledby="userDropdown">
+                  <a className="dropdown-item" href="#">
+                      <i className="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                      پروفایل
+                  </a>
+                  <a className="dropdown-item" href="#">
+                      <i className="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                      Settings
+                  </a>
+                  <a className="dropdown-item" href="#">
+                      <i className="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                      Activity Log
+                  </a>
+                  <div className="dropdown-divider"></div>
+                  <Link href={route('logout')} method="post" className="dropdown-item" data-toggle="modal" data-target="#logoutModal">
+                      <i className="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                      Logout
+                  </Link>
+              </div>
+          </li>
+
+      </ul>
+
+      </nav>
+    </>
   );
-  }
+}
   

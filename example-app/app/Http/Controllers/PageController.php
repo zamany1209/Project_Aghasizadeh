@@ -14,6 +14,9 @@ class PageController extends Controller
     //
     public function Index(Request $request)
     {
+        $minutes = 1;
+        $response = new \Illuminate\Http\Response('Set Cookie');
+        $response->withCookie(cookie()->make('name', 'set', $minutes, null, null, true, true));
         $get_imagelist = null;
         $token = null;
         if(Auth::check()){
@@ -44,13 +47,16 @@ class PageController extends Controller
     }
     public function Admin(Request $request)
     {
-        $get = resource_path('data\Data.json');
-        $ffs = File::get($get);
-        Inertia::setRootView('admin'); 
-        return  Inertia::render('Admin', [
-            'name' => $request->page,
-            're_data' => $ffs
-        ]);
+        if (Auth::check()) {
+            $get = resource_path('data\Admin-Data.json');
+            $ffs = File::get($get);
+            Inertia::setRootView('admin'); 
+            return  Inertia::render('Admin', [
+                'name' => "Admin",
+                're_data' => $ffs
+            ]);
+        }
+        return redirect()->intended('register');
     }
     public function Test(Request $request)
     {
