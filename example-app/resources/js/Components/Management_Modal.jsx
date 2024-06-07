@@ -3,8 +3,9 @@ import React, { useContext,useEffect } from 'react';
 import { DataContext } from '@/Context/DataContext';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 export default function Management_Modal(){
-    const { isModalOpen, close_Modal,add_Modal,open_Modal,image_list,isSetImage, setImage,changeValue_Data } = useContext(DataContext);
+    const { data,isModalOpen, close_Modal,add_Modal,open_Modal,image_list,isSetImage, setImage,changeValue_Data } = useContext(DataContext);
     const show_list_image = "list_image";
+    const show_edit_title = "edit_title";
     useEffect(() => {
       if (isModalOpen[show_list_image]) {
         // Disable body scroll when modal is open
@@ -31,6 +32,23 @@ export default function Management_Modal(){
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={()=>{close_Modal(show_list_image)}}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal show={isModalOpen[show_edit_title]?.status} onHide={()=>{close_Modal(show_edit_title)}} centered size="md">
+        <Modal.Header closeButton>
+          <Modal.Title>تنظیمات</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        <div className="mb-3">
+                <label htmlFor="formGroupExampleInput2" className="form-label">عنوان سایت</label>
+                <input type="text" className="form-control" id="formGroupExampleInput2" placeholder="..." value={data.title} onChange={(event)=>{changeValue_Data(["title"],event.target.value,"change")}}/>
+              </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={()=>{close_Modal(show_edit_title)}}>
             Close
           </Button>
         </Modal.Footer>

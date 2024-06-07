@@ -893,7 +893,6 @@ header {
     color: #fff;
 }
 .hero-area-two .single-slider .hero-content ul.button li .main-btn:after {
-    content: '\f061';
     font-size: 14px;
     display: inline-block;
     font-family: 'Font Awesome 5 Pro';
@@ -931,7 +930,6 @@ header {
     border-radius: 0px;
 }
 .hero-area-three .hero-content ul.button .main-btn:after {
-    content: '\f061';
     font-size: 14px;
     display: inline-block;
     font-family: 'Font Awesome 5 Pro';

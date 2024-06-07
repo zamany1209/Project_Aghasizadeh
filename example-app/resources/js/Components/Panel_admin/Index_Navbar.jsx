@@ -181,7 +181,7 @@ export default function Index_Navbar({ auth }) {
                   <div className="dropdown-divider"></div>
                   <Link href={route('logout')} method="post" className="dropdown-item" data-toggle="modal" data-target="#logoutModal">
                       <i className="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                      Logout
+                      خروج از حساب
                   </Link>
               </div>
           </li>

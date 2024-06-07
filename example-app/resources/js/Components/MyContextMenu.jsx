@@ -7,11 +7,21 @@ import "react-contexify/dist/ReactContexify.css";
   export default function App({props}) {
     const { open_Modal,changeValue_Data } = useContext(DataContext);
     function handleItemClick({ event, props, triggerEvent, data }){
-      // console.log(event, props, triggerEvent, data );
+      console.log(event, props, triggerEvent, data );
       open_Modal(props.function_name,window.scrollY);
     }
     function delete_section({ event, props, triggerEvent, data }){
       changeValue_Data(["components"],null,"delete-section",props.index);
+    }
+    function handleEdit_Title({ event, props, triggerEvent, data }){
+      // console.log(event, props, triggerEvent, data );
+      open_Modal("edit_title",window.scrollY);
+    }
+    function handleMoveTO_UP({ event, props, triggerEvent, data }){
+      // console.log(event, props, triggerEvent, data );
+      if(props.index == 1){
+        alert("این بخش در بالاترین حد ممکن است");
+      }
     }
     return (
       <div>
@@ -19,11 +29,14 @@ import "react-contexify/dist/ReactContexify.css";
           <Item onClick={handleItemClick}>
             تنظیمات
           </Item>
-          <Item onClick={handleItemClick}>
+          <Item onClick={handleMoveTO_UP}>
             انتقال به بالا
           </Item>
           <Item onClick={handleItemClick}>
             انتقال به پایین
+          </Item>
+          <Item onClick={handleEdit_Title}>
+            ویرایش عنوان صفحه
           </Item>
           <Separator />
           <Item disabled>به‌روزرسانی</Item>

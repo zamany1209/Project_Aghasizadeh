@@ -1,21 +1,22 @@
-import { Link, Head } from '@inertiajs/react';
 import React, { useContext,useEffect } from 'react';
 import Loading from '@/Components/Loading';
 import { DataProvider,DataContext } from '@/Context/DataContext';
 import MyContextMenu from '@/Components/MyContextMenu';
 import Management_Modal from '@/Components/Management_Modal';
+import Save_changes from '@/Components/Save_changes';
+import Check_visit from '@/Components/Check_visit';
 
 function Constructor({ name , re_data, re_token, re_image_list }){
-    const { setData, setToken, setState_admin, setEdit_text, setImage_list,add_Modal } = useContext(DataContext);
+    const { data ,setData, setToken, setState_admin, setEdit_text, setImage_list,add_Modal } = useContext(DataContext);
     var components =  JSON.parse(re_data);
     useEffect(() => {
+        document.title = components.title;
         setData(components);
         if(re_token){
             setImage_list(JSON.parse(re_image_list));
             setToken(re_token);
             setState_admin(true);
             setEdit_text('true');
-            add_Modal("show_list_image");
         }
     }, []);
     return(
@@ -32,16 +33,16 @@ function Constructor({ name , re_data, re_token, re_image_list }){
 export default function Index({ name ,re_data ,re_token, re_image_list }) {
     return (
         <>
-            <Head title={name}/>
             <DataProvider>
                 <Constructor name={name} re_data={re_data} re_token={re_token} re_image_list={re_image_list} />
                 {re_token ? (
                     <div>
+                        <Save_changes></Save_changes>
                         <MyContextMenu></MyContextMenu>
                         <Management_Modal></Management_Modal>
                     </div>
                 ):(
-                    <div></div>
+                    <Check_visit></Check_visit>
                 )}
             </DataProvider>
         </>

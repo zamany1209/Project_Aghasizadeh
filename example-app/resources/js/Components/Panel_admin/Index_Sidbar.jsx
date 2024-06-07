@@ -4,11 +4,8 @@ export default function Index_Sidbar({ }) {
     <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       {/* <!-- Sidebar - Brand --> */}
-      <a className="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-          <div className="sidebar-brand-icon rotate-n-15">
-              <i className="fas fa-laugh-wink"></i>
-          </div>
-          <div className="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+      <a className="sidebar-brand d-flex align-items-center justify-content-center" href="/">
+          <div className="sidebar-brand-text mx-3">مرکز تحقیقاتی شهید آقاسی زاده</div>
       </a>
 
       {/* <!-- Divider --> */}
@@ -17,8 +14,8 @@ export default function Index_Sidbar({ }) {
       {/* <!-- Nav Item - Dashboard --> */}
       <li className="nav-item active">
           <a className="nav-link" href="index.html">
-              <i className="fas fa-fw fa-tachometer-alt"></i>
-              <span>Dashboard</span></a>
+              <img src="http://127.0.0.1:8000/admin_panel_asset/assets/image/dashboard.svg" className="fas fa-fw mr-2" style={{filter: "invert(1)"}} width="12px" alt="" />
+              <span>پیشخوان</span></a>
       </li>
 
       {/* <!-- Divider --> */}

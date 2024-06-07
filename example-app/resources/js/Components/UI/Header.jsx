@@ -5,7 +5,7 @@ export default function Header({index_Component}) {
     const { edit_text,movement, setMovement,data, setData } = useContext(DataContext);
     return (
         <>
-        <header className="header-area-one col-12" style={{position: "absolute", backgroundColor: "white", opacity: "0.9",zIndex: "999999"}}>
+        <header className="header-area-one col-12" style={{"position": "absolute", "backgroundColor": "white", "opacity": "0.9","zIndex": "999999"}}>
             <div className="header-navigation">
                 <div className="container-fluid">
                     <div className="row align-items-center">

@@ -11,6 +11,8 @@
         "laravel/framework": "^11.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
+        "morilog/jalali": "^3.4",
+        "stevebauman/location": "^7.2",
         "tightenco/ziggy": "^2.0"
     },
     "require-dev": {

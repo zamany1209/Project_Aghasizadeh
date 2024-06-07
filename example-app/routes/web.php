@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\Api_AdminController;
 //     ]);
 // });
 Route::get('/', [PageController::class, 'Index'])->name('home');
+Route::get('page/{name}', [PageController::class, 'Page']);
 Route::get('/login', [PageController::class, 'login'])->name('login');
 Route::get('/Admin_panel', [PageController::class, 'Admin'])->name('Admin_panel');
 Route::get('/index', [PageController::class, 'Index']);
@@ -25,7 +26,7 @@ Route::get('/dashboard', function () {
     return redirect(route('Admin_panel', absolute: false));
 });
 Route::get('/admin', function () {
-    return redirect(route('Admin_panel', absolute: false));
+    return redirect(route('Admin_panel'));
 });
 // Route::get('/dashboard', function () {
 //     return Inertia::render('Dashboard');
