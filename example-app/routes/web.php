@@ -16,7 +16,7 @@ use App\Http\Controllers\Formscontroller;
 //         'phpVersion' => PHP_VERSION,
 //     ]);
 // });
-Route::get('set', [Formscontroller::class, 'create_user']);
+// Route::get('set', [Formscontroller::class, 'create_form_name']);
 Route::get('/', [PageController::class, 'Index'])->name('home');
 Route::get('page/{name}', [PageController::class, 'Page']);
 Route::get('form/{name_url}', [Formscontroller::class, 'Forms_control']);

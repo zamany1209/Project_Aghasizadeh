@@ -31,7 +31,8 @@ class Formscontroller extends Controller
                 'name' => "Admin",
                 're_url' => $domain,
                 're_data' => $forms->json_data,
-                'id_form' => $forms->id
+                'id_form' => $forms->id,
+                'name_url' => $request->name_url
             ]);
         } else {
         }
@@ -39,33 +40,41 @@ class Formscontroller extends Controller
     }
     public function form_get(Request $request)
     {
-        $data = Forms::create([
-            'forms_name_id' => $request->input('id_form'),
-            'ip' => $request->ip(),
-            'json_data' => json_encode($request->input('data_forms'))
-        ]);
-        return $request->input('data_forms');
+        $check_cookie = $request->cookie('form_' . strval($request->input('name_url')));
+        if($check_cookie){
+            return 3;
+        }else{
+            $user = Forms::create([
+                'forms_name_id' => $request->input('id_form'),
+                'ip' => $request->ip(),
+                'json_data' => json_encode($request->input('data_forms'))
+            ]);
+            if($user->save()){
+                $cookie = cookie('form_' . strval($request->input('name_url')),true, 1440);
+                return response()->json(['data' => 1])->cookie($cookie);;
+            }
+        }
     }
-    public function create_form_name(Request $request)
-    {
-        $data = (object) [
-            'data' => [["get Email","email"],["name","text"],["phone","number"]]
-        ];
-        Forms_name::create([
-            'url' => "9e05-3dc6-4d5f-8eb8-d609514fe496",
-            'name' => "ثبت نام",
-            'title' => "عنوان",
-            'json_data' => json_encode($data)
-        ]);
-        return true;
-    }
-    public function create_user(Request $request)
-    {
-        User::create([
-            'name' => "Amir Hossen",
-            'email' => "zamany1209@gmail.com",
-            'password' => Hash::make("A2m0i0r3"),
-        ]);
-        return true;
-    }
+    // public function create_form_name(Request $request)
+    // {
+    //     $data = (object) [
+    //         'data' => [["get Email","email"],["name","text"],["phone","number"]]
+    //     ];
+    //     Forms_name::create([
+    //         'url' => "9e05-3dc6-4d5f-8eb8-d609514fe496",
+    //         'name' => "ثبت نام",
+    //         'title' => "عنوان",
+    //         'json_data' => json_encode($data)
+    //     ]);
+    //     return true;
+    // }
+    // public function create_user(Request $request)
+    // {
+    //     User::create([
+    //         'name' => "Amir Hossen",
+    //         'email' => "zamany1209@gmail.com",
+    //         'password' => Hash::make("A2m0i0r3"),
+    //     ]);
+    //     return true;
+    // }
 }

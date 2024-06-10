@@ -31,7 +31,7 @@ export default function Index_Sidbar({ }) {
           <a className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
               aria-expanded="true" aria-controls="collapseTwo">
               <i className="fas fa-fw fa-cog"></i>
-              <span>Components</span>
+              <span>صفحه ها</span>
           </a>
           <div id="collapseTwo" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
               <div className="bg-white py-2 collapse-inner rounded">
