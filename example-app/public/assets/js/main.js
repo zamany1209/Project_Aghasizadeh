@@ -11,16 +11,6 @@
             navMenu = $('.nav-menu'),
             navMenuLi = $('.nav-menu ul li ul li'),
             closeIcon = $('.navbar-close');
-        // navbar toggler
-        navbarToggler.on('click', function() {
-            navbarToggler.toggleClass('active');
-            navMenu.toggleClass('menu-on');
-        });
-        // close icon
-        closeIcon.on('click', function() {
-            navMenu.removeClass('menu-on');
-            navbarToggler.removeClass('active');
-        });
         // adds toggle button to li items that have children
         navMenu.find('li a').each(function() {
             if ($(this).next().length > 0) {
@@ -32,19 +22,6 @@
             e.preventDefault();
             $(this).parent('li').children('ul').stop(true, true).slideToggle(350);
             $(this).parent('li').toggleClass('active');
-        });
-        // check browser width in real-time
-        function breakpointCheck() {
-            var windoWidth = window.innerWidth;
-            if (windoWidth <= 1199) {
-                navContainer.addClass('breakpoint-on');
-            } else {
-                navContainer.removeClass('breakpoint-on');
-            }
-        }
-        breakpointCheck();
-        var_window.on('resize', function() {
-            breakpointCheck();
         });
     };
 

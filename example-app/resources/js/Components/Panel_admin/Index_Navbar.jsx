@@ -1,5 +1,9 @@
 import { Link } from '@inertiajs/react';
+import React, { useContext } from 'react';
+import { DataContext } from '@/Context/DataContext';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 export default function Index_Navbar({ auth }) {
+    const { url } = useContext(DataContext);
   return(
     <>
     <nav className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
@@ -103,7 +107,7 @@ export default function Index_Navbar({ auth }) {
                   </h6>
                   <a className="dropdown-item d-flex align-items-center" href="#">
                       <div className="dropdown-list-image mr-3">
-                          <img className="rounded-circle" src="http://127.0.0.1:8000/admin_panel_asset/assets/image/user.svg"
+                          <LazyLoadImage className="rounded-circle" src={url+"/admin_panel_asset/assets/image/user.svg"}
                               alt="..."/>
                           <div className="status-indicator bg-success"></div>
                       </div>
@@ -115,7 +119,7 @@ export default function Index_Navbar({ auth }) {
                   </a>
                   <a className="dropdown-item d-flex align-items-center" href="#">
                       <div className="dropdown-list-image mr-3">
-                          <img className="rounded-circle" src="http://127.0.0.1:8000/admin_panel_asset/assets/image/user.svg"
+                          <LazyLoadImage className="rounded-circle" src={url+"/admin_panel_asset/assets/image/user.svg"}
                               alt="..."/>
                           <div className="status-indicator"></div>
                       </div>
@@ -127,7 +131,7 @@ export default function Index_Navbar({ auth }) {
                   </a>
                   <a className="dropdown-item d-flex align-items-center" href="#">
                       <div className="dropdown-list-image mr-3">
-                          <img className="rounded-circle" src="http://127.0.0.1:8000/admin_panel_asset/assets/image/user.svg"
+                          <LazyLoadImage className="rounded-circle" src={url+"/admin_panel_asset/assets/image/user.svg"}
                               alt="..."/>
                           <div className="status-indicator bg-warning"></div>
                       </div>
@@ -139,7 +143,7 @@ export default function Index_Navbar({ auth }) {
                   </a>
                   <a className="dropdown-item d-flex align-items-center" href="#">
                       <div className="dropdown-list-image mr-3">
-                          <img className="rounded-circle" src="http://127.0.0.1:8000/admin_panel_asset/assets/image/user.svg"
+                          <LazyLoadImage className="rounded-circle" src={url+"/admin_panel_asset/assets/image/user.svg"}
                               alt="..."/>
                           <div className="status-indicator bg-success"></div>
                       </div>
@@ -160,8 +164,8 @@ export default function Index_Navbar({ auth }) {
               <a className="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <span className="mr-2 d-none d-lg-inline text-gray-600 small">{auth.user.name}</span>
-                  <img className="img-profile rounded-circle"
-                      src="http://127.0.0.1:8000/admin_panel_asset/assets/image/user.svg"/>
+                  <LazyLoadImage className="img-profile rounded-circle"
+                      src={url+"/admin_panel_asset/assets/image/user.svg"}/>
               </a>
               {/* <!-- Dropdown - User Information --> */}
               <div className="dropdown-menu dropdown-menu-right shadow animated--grow-in"

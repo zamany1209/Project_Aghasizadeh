@@ -10,8 +10,8 @@
         "name":"Header",
         "id_1":[["خانه","http://127.0.0.1:8000/"],["خانه","http://127.0.0.1:8000/index/list"],["خانه","http://127.0.0.1:8000/"]],
         "id_2":"http://127.0.0.1:8000/assets/img/logo_2.png",
-        "id_3":"987 56 43 56 7",
-        "id_4":[["url","url"],["url","url"],["url","url"]]
+        "id_3":["راه ارتباطی ما","info@webmail.com","mailto:info@webmail.com"],
+        "id_4":["#ffffff","#000000"]
     },
     "single_slider":{
         "id":"0e2f0db1-5457-46b0-949e-8032d2f9997artshdb",

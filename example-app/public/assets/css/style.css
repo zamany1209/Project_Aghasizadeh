@@ -448,6 +448,9 @@ header {
     border-color:#0574ff;
     color: #0574ff;
 }
+.header-area-two .header-navigation{
+    opacity: 0.6;
+}
 .header-navigation .main-menu ul li .sub-menu {
     position: absolute;
     left: 0;
@@ -681,7 +684,7 @@ header {
 }
 /* Header-area-two */
 .header-area-two.transparent-header{
-    top: 20px;
+    top: 0px;
 }
 .header-area-two .custom-container {
     max-width: 1430px;
@@ -761,7 +764,8 @@ header {
     left: 0;
     right: 0;
     z-index: 999;
-    background-color: #000;
+    background-color: #ffffff;
+    opacity: 1;
     -webkit-animation: sticky 1.2s;
             animation: sticky 1.2s;
 }

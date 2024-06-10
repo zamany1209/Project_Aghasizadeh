@@ -19,9 +19,15 @@ import "react-contexify/dist/ReactContexify.css";
     }
     function handleMoveTO_UP({ event, props, triggerEvent, data }){
       // console.log(event, props, triggerEvent, data );
-      if(props.index == 1){
+      if(props.index == 0){
         alert("این بخش در بالاترین حد ممکن است");
+      }else{
+        changeValue_Data(["components"],null,"move-up",props.index);
       }
+    }
+    function handleMoveTO_Down({ event, props, triggerEvent, data }){
+      // console.log(event, props, triggerEvent, data );
+      changeValue_Data(["components"],null,"move-down",props.index);
     }
     return (
       <div>
@@ -32,7 +38,7 @@ import "react-contexify/dist/ReactContexify.css";
           <Item onClick={handleMoveTO_UP}>
             انتقال به بالا
           </Item>
-          <Item onClick={handleItemClick}>
+          <Item onClick={handleMoveTO_Down}>
             انتقال به پایین
           </Item>
           <Item onClick={handleEdit_Title}>

@@ -1,7 +1,7 @@
 export default function Index_Sidbar({ }) {
   return(
     <>
-    <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+    <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion d-none d-sm-block" id="accordionSidebar">
 
       {/* <!-- Sidebar - Brand --> */}
       <a className="sidebar-brand d-flex align-items-center justify-content-center" href="/">

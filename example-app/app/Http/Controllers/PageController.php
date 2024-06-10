@@ -14,6 +14,13 @@ class PageController extends Controller
     //
     public function Index(Request $request)
     {
+        $url = $request->url();
+        $parsedUrl = parse_url($url);
+        $domain = $parsedUrl['scheme'] . '://' . $parsedUrl['host'];
+        if (isset($parsedUrl['port'])) {
+            $domain .= ':' . $parsedUrl['port'];
+        }
+
         $get_imagelist = null;
         $token = null;
         if(Auth::check()){
@@ -37,6 +44,7 @@ class PageController extends Controller
         Inertia::setRootView('index'); 
         return  Inertia::render('Index', [
             'name' => 'landing',
+            're_url' => $domain,
             're_data' => json_encode($data->landing),
             're_token' => $token,
             're_image_list' => $get_imagelist
@@ -44,6 +52,13 @@ class PageController extends Controller
     }
     public function Page(Request $request)
     {
+        $url = $request->url();
+        $parsedUrl = parse_url($url);
+        $domain = $parsedUrl['scheme'] . '://' . $parsedUrl['host'];
+        if (isset($parsedUrl['port'])) {
+            $domain .= ':' . $parsedUrl['port'];
+        }
+
         $minutes = 1;
         $response = new \Illuminate\Http\Response('Set Cookie');
         $response->withCookie(cookie()->make('name', 'set', $minutes, null, null, true, true));
@@ -70,6 +85,7 @@ class PageController extends Controller
         Inertia::setRootView('index'); 
         return  Inertia::render('Index', [
             'name' => 'landing',
+            're_url' => $domain,
             're_data' => json_encode($data->landing),
             're_token' => $token,
             're_image_list' => $get_imagelist
@@ -77,6 +93,13 @@ class PageController extends Controller
     }
     public function Admin(Request $request)
     {
+        $url = $request->url();
+        $parsedUrl = parse_url($url);
+        $domain = $parsedUrl['scheme'] . '://' . $parsedUrl['host'];
+        if (isset($parsedUrl['port'])) {
+            $domain .= ':' . $parsedUrl['port'];
+        }
+
         if (Auth::check()) {
             $ffs_1 = File::get(resource_path('data\Admin-Data.json'));
             $ffs_2 = File::get(resource_path('data\visit-web-site.json'));
@@ -87,23 +110,23 @@ class PageController extends Controller
             $data["visit_web_site"] = json_decode($ffs_2);
             $data["list_pages"] = json_decode($ffs_3);
             $data["list_img"] = json_decode($ffs_4);
-            return $request->ip();
-            // Inertia::setRootView('admin'); 
-            // return  Inertia::render('Admin', [
-            //     'name' => "Admin",
-            //     're_data' => json_encode($data)
-            // ]);
+            Inertia::setRootView('admin'); 
+            return  Inertia::render('Admin', [
+                'name' => "Admin",
+                're_url' => $domain,
+                're_data' => json_encode($data)
+            ]);
         }
         return redirect()->intended('login');
     }
-    public function Test(Request $request)
-    {
-        $get = resource_path('data\Data.json');
-        $ffs = File::get($get);
-        Inertia::setRootView('test'); 
-        return  Inertia::render('Test', [
-            'name' => $request->page,
-            're_data' => $ffs
-        ]);
-    }
+    // public function Test(Request $request)
+    // {
+    //     $get = resource_path('data\Data.json');
+    //     $ffs = File::get($get);
+    //     Inertia::setRootView('test'); 
+    //     return  Inertia::render('Test', [
+    //         'name' => $request->page,
+    //         're_data' => $ffs
+    //     ]);
+    // }
 }

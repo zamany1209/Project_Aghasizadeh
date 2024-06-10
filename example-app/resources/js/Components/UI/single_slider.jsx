@@ -3,14 +3,14 @@ import { DataContext } from '@/Context/DataContext';
 import { Modal, Button } from 'react-bootstrap';
 
 export default function single_Slider({ index_Component, name_Component }) {
-    const { edit_text, token, data, changeValue_Data,open_Context_Menu } = useContext(DataContext);
+    const { edit_text,url, token, data, changeValue_Data,open_Context_Menu } = useContext(DataContext);
     const id_Modal = String(name_Component+"_"+index_Component);
     return (
         <>
 
     <section id={data.components[index_Component]?.id}  className="hero-area-two" onContextMenu={(event)=>{open_Context_Menu(event,id_Modal,index_Component)}}>
         <div className="hero-slider-one">
-            <div className="single-slider bg-cover" style={{backgroundImage: 'url('+data.components[index_Component].id_4+')'}}>
+            <div className="single-slider bg-cover" style={{backgroundImage: 'url('+url+data.components[index_Component].id_4+')'}}>
                 <div className="container">
                     <div className="row">
                         <div className="col-lg-6">

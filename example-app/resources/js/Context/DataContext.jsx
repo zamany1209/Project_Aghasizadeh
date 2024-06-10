@@ -6,6 +6,7 @@ export const DataContext = createContext();
 export const DataProvider = ({ children }) => {
   const [data, setData] = useState({});
   const [token, setToken] = useState(null);
+  const [url, setUrl] = useState(null);
   const [state_admin, setState_admin] = useState(false);
   const [movement, setMovement] = useState(false);
   const [edit_text, setEdit_text] = useState(false);
@@ -19,15 +20,17 @@ export const DataProvider = ({ children }) => {
   const close_Modal = (name,scrollY = 0,value = null) => setModalOpen(preState => ({...preState,[name]:{"status":false,"location":isModalOpen[name].location,"value":value}}));
   const add_Modal = (name,scrollY = 0,value = null) => setModalOpen(preState => ({...preState,[name]:{"status":false,"location":scrollY,"value":value}}));
   const open_Context_Menu = (event,id_Modal,index_Component) => {
-    event.preventDefault();
-    contextMenu.show({
-      id: 'menu',
-      event: event,
-      props: {
-        function_name:id_Modal,
-        index:index_Component,
-      }
-    });
+    if(state_admin){
+      event.preventDefault();
+      contextMenu.show({
+        id: 'menu',
+        event: event,
+        props: {
+          function_name:id_Modal,
+          index:index_Component,
+        }
+      });
+    }
   };
   const changeValue_Data = (path, value, operation, index = null) => {
     setData((prevData) => {
@@ -61,15 +64,29 @@ export const DataProvider = ({ children }) => {
         case "delete-section":
           current.components = current.components.filter((_, i) => i !== index);
           break;
+        case "move-up":
+          if (index > 0) {
+            const list = current[path[path.length - 1]];
+            [list[index - 1], list[index]] = [list[index], list[index - 1]];
+          }
+          break;
+        case "move-down":
+          const list = current[path[path.length - 1]];
+          if (index < list.length - 1) {
+            [list[index + 1], list[index]] = [list[index], list[index + 1]];
+          }
+          break;
       default:
     }
     return newObj;
   });
+  return true;
   };
   return (
     <DataContext.Provider value={{ 
       data, setData, 
       token, setToken, 
+      url, setUrl,
       state_admin, setState_admin, 
       movement, setMovement, 
       edit_text, setEdit_text, 

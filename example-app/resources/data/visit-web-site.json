@@ -1,12 +1,17 @@
 {
     "data": {
-        "total_week": 18,
-        "total_month": 18,
+        "total_week": 20,
+        "total_month": 23,
         "week": [
+            {
+                "day": "\u0634\u0646\u0628\u0647",
+                "visit": 2,
+                "date": 19
+            },
             {
                 "day": "\u06cc\u06a9\u0634\u0646\u0628\u0647",
                 "visit": 0,
-                "date": 0
+                "date": 19
             },
             {
                 "day": "\u062f\u0648\u0634\u0646\u0628\u0647",
@@ -32,11 +37,6 @@
                 "day": "\u062c\u0645\u0639\u0647",
                 "visit": 10,
                 "date": 18
-            },
-            {
-                "day": "\u0634\u0646\u0628\u0647",
-                "visit": 0,
-                "date": 0
             }
         ],
         "month": [
@@ -52,7 +52,7 @@
             },
             {
                 "month": "\u062e\u0631\u062f\u0627\u062f",
-                "visit": 18,
+                "visit": 23,
                 "year": 1403
             },
             {
@@ -100,6 +100,43 @@
                 "visit": 0,
                 "year": 1403
             }
-        ]
+        ],
+        "Location_month": 2,
+        "country_name": [
+            "Default",
+            "Iran",
+            "Germany",
+            "United States"
+        ],
+        "country": {
+            "Default": {
+                "visit": 1
+            },
+            "Iran": {
+                "visit": 14
+            },
+            "Germany": {
+                "visit": 5
+            },
+            "United States": {
+                "visit": 3
+            }
+        },
+        "regionName": [
+            "Tehran",
+            "M\u0101zandar\u0101n",
+            "Lorestan Province"
+        ],
+        "region": {
+            "Tehran": {
+                "visit": 10
+            },
+            "M\u0101zandar\u0101n": {
+                "visit": 3
+            },
+            "Lorestan Province": {
+                "visit": 1
+            }
+        }
     }
 }

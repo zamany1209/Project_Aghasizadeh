@@ -4,7 +4,7 @@ import { Modal, Button } from 'react-bootstrap';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 export default function about_Wrapper({ index_Component, name_Component }) {
-    const { edit_text, token,data,open_Context_Menu} = useContext(DataContext);
+    const { edit_text,url, token,data,open_Context_Menu} = useContext(DataContext);
     const id_Modal = String(name_Component+"_"+index_Component);
     return (
         <>
@@ -29,7 +29,7 @@ export default function about_Wrapper({ index_Component, name_Component }) {
                     </div>
                 </div>
                 <div className="about_left pb-60 wow fadeInRight" data-wow-duration="1s">
-                    <LazyLoadImage src={data.components[index_Component].id_7} alt=""/>
+                    <LazyLoadImage src={url+data.components[index_Component].id_7} alt=""/>
                 </div>
               </div>
               {token ? (

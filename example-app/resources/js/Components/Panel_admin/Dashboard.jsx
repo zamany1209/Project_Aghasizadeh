@@ -2,14 +2,14 @@ import React, { useContext,useEffect,useState  } from 'react';
 import { DataContext } from '@/Context/DataContext';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,ResponsiveContainer } from 'recharts';
 export default function Dashboard() {
-    const { data } = useContext(DataContext);
+    const { data,url } = useContext(DataContext);
     return (
         <>
         <div className="container-fluid">
           {/* <!-- Page Heading --> */}
           <div className="d-sm-flex align-items-center justify-content-between mb-4">
               <h1 className="h3 mb-0 text-gray-800">Dashboard</h1>
-              <a href="http://127.0.0.1:8000/" className="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">مشاهده سایت</a>
+              <a href={url+"/"} className="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">مشاهده سایت</a>
           </div>
 
           {/* <!-- Content Row --> */}

@@ -7,8 +7,8 @@
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
 
         <!-- Fonts -->
-        <link href="http://127.0.0.1:8000/admin_panel_asset/assets/css/all.min.css" rel="stylesheet" type="text/css" defer>
-        <link href="http://127.0.0.1:8000/admin_panel_asset/assets/css/sb-admin-2.min.css" rel="stylesheet" async>
+        <link href="{{ config('app.url') }}/admin_panel_asset/assets/css/all.min.css" rel="stylesheet" type="text/css" defer>
+        <link href="{{ config('app.url') }}/admin_panel_asset/assets/css/sb-admin-2.min.css" rel="stylesheet" async>
         <!-- Scripts -->
         @routes
         @viteReactRefresh
@@ -19,11 +19,11 @@
 
 
         @inertia
-    <script src="http://127.0.0.1:8000/admin_panel_asset/assets/js/jquery.min.js" defer></script>
-    <script src="http://127.0.0.1:8000/admin_panel_asset/assets/js/bootstrap.bundle.min.js" defer></script>
+    <script src="{{ config('app.url') }}/admin_panel_asset/assets/js/jquery.min.js" defer></script>
+    <script src="{{ config('app.url') }}/admin_panel_asset/assets/js/bootstrap.bundle.min.js" defer></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="http://127.0.0.1:8000/admin_panel_asset/assets/js/jquery.easing.min.js" defer></script>
+    <script src="{{ config('app.url') }}/admin_panel_asset/assets/js/jquery.easing.min.js" defer></script>
     </body>
 
 

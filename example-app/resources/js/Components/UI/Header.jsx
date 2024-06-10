@@ -1,64 +1,165 @@
-import React, { useContext } from 'react';
+import React, { useContext,useState,useEffect } from 'react';
 import { DataContext } from '@/Context/DataContext';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { Modal, Button } from 'react-bootstrap';
 
-export default function Header({index_Component}) {
-    const { edit_text,movement, setMovement,data, setData } = useContext(DataContext);
+export default function Header({ index_Component, name_Component }) {
+    const { edit_text,url, token,data,open_Context_Menu} = useContext(DataContext);
+    const id_Modal = String(name_Component+"_"+index_Component);
+    const width = window.innerWidth
+    var isActive = false;
+    const [menu, setmenu] = useState(false);
+    if(width <= 1119){
+        isActive = true;
+    }
+    const navbarToggler = ()=>{
+        if(menu == true){
+            setmenu(false);
+        }
+        else if(menu == false){
+            setmenu(true);
+        }
+    }
+    const closeIcon = ()=>{
+        setmenu(false);
+    }
     return (
         <>
-        <header className="header-area-one col-12" style={{"position": "absolute", "backgroundColor": "white", "opacity": "0.9","zIndex": "999999"}}>
-            <div className="header-navigation">
-                <div className="container-fluid">
+    <header id={data.components[index_Component]?.id} className="header-area-two transparent-header mb-2" onContextMenu={(event)=>{open_Context_Menu(event,id_Modal,index_Component)}}>
+            <div className={`header-navigation ${isActive ? 'breakpoint-on' : ''}`} style={{"backgroundColor":data.components[index_Component].id_4[0]}}>
+                <div className="custom-container">
                     <div className="row align-items-center">
-                                                <div className="col-lg-4 col-6 pr-0">
-                                                    <div className="row">
-                                                        <div className="header-right-nav">
-                                                            <div className="menu_avatar_group">
-                                                                <a className="btn_phone" href={'tel:'+data.components[index_Component].id_3}><i className="far fa-phone"></i>{data.components[index_Component].id_3}</a>
-                                                            </div>
-                                                            <div className="menu-icon-group">
-                                                                <ul>
-                                                                    <li><div className="navbar-toggler">
-                                                                        <span></span><span></span><span></span>
-                                                                    </div></li>
-                                                                    <li><a href="#" data-toggle="modal" data-target="#search-modal" className="icon search-btn"><svg width="24px" height="24px" viewBox="0 0 24 24" role="img" ><path d="M5.968 23.942a6.624 6.624 0 0 1-2.332-.83c-1.62-.929-2.829-2.593-3.217-4.426-.151-.717-.17-1.623-.15-7.207C.288 5.47.274 5.78.56 4.79c.142-.493.537-1.34.823-1.767C2.438 1.453 3.99.445 5.913.08c.384-.073.94-.08 6.056-.08 6.251 0 6.045-.009 7.066.314a6.807 6.807 0 0 1 4.314 4.184c.33.937.346 1.087.369 3.555l.02 2.23-.391.268c-.558.381-1.29 1.06-2.316 2.15-1.182 1.256-2.376 2.42-2.982 2.907-1.309 1.051-2.508 1.651-3.726 1.864-.634.11-1.682.067-2.302-.095-.553-.144-.517-.168-.726.464a6.355 6.355 0 0 0-.318 1.546l-.031.407-.146-.03c-1.215-.241-2.419-1.285-2.884-2.5a3.583 3.583 0 0 1-.26-1.219l-.016-.34-.309-.284c-.644-.59-1.063-1.312-1.195-2.061-.212-1.193.34-2.542 1.538-3.756 1.264-1.283 3.127-2.29 4.953-2.68.658-.14 1.818-.177 2.403-.075 1.138.198 2.067.773 2.645 1.639.182.271.195.31.177.555a.812.812 0 0 1-.183.493c-.465.651-1.848 1.348-3.336 1.68-2.625.585-4.294-.142-4.033-1.759.026-.163.04-.304.031-.313-.032-.032-.293.104-.575.3-.479.334-.903.984-1.05 1.607-.036.156-.05.406-.034.65.02.331.053.454.192.736.092.186.275.45.408.589l.24.251-.096.122a4.845 4.845 0 0 0-.677 1.217 3.635 3.635 0 0 0-.105 1.815c.103.461.421 1.095.739 1.468.242.285.797.764.886.764.024 0 .044-.048.044-.106.001-.23.184-.973.326-1.327.423-1.058 1.351-1.96 2.82-2.74.245-.13.952-.47 1.572-.757 1.36-.63 2.103-1.015 2.511-1.305 1.176-.833 1.903-2.065 2.14-3.625.086-.57.086-1.634 0-2.207-.368-2.438-2.195-4.096-4.818-4.37-2.925-.307-6.648 1.953-8.942 5.427-1.116 1.69-1.87 3.565-2.187 5.443-.123.728-.169 2.08-.093 2.75.193 1.704.822 3.078 1.903 4.156a6.531 6.531 0 0 0 1.87 1.313c2.368 1.13 4.99 1.155 7.295.071.996-.469 1.974-1.196 3.023-2.25 1.02-1.025 1.71-1.88 3.592-4.458 1.04-1.423 1.864-2.368 2.272-2.605l.15-.086-.019 3.091c-.018 2.993-.022 3.107-.123 3.561-.6 2.678-2.54 4.636-5.195 5.242l-.468.107-5.775.01c-4.734.008-5.85-.002-6.19-.056z"/></svg></a></li>
-                                                                    <li><a href="#" className="icon cart-btn"><svg width="24px" height="24px" version="1.1" style={{fillRule:"evenodd",clipRule:"evenodd",strokeLinejoin:"round",strokeMiterlimit:"1.41421"}}><path id="telegram-3" d="M19,24l-14,0c-2.761,0 -5,-2.239 -5,-5l0,-14c0,-2.761 2.239,-5 5,-5l14,0c2.762,0 5,2.239 5,5l0,14c0,2.761 -2.238,5 -5,5Zm-2.744,-5.148c0.215,0.153 0.491,0.191 0.738,0.097c0.246,-0.093 0.428,-0.304 0.483,-0.56c0.579,-2.722 1.985,-9.614 2.512,-12.09c0.039,-0.187 -0.027,-0.381 -0.173,-0.506c-0.147,-0.124 -0.351,-0.16 -0.532,-0.093c-2.795,1.034 -11.404,4.264 -14.923,5.567c-0.223,0.082 -0.368,0.297 -0.361,0.533c0.008,0.235 0.167,0.44 0.395,0.509c1.578,0.471 3.65,1.128 3.65,1.128c0,0 0.967,2.924 1.472,4.41c0.063,0.187 0.21,0.334 0.402,0.384c0.193,0.05 0.397,-0.002 0.541,-0.138c0.811,-0.765 2.064,-1.948 2.064,-1.948c0,0 2.381,1.746 3.732,2.707Zm-7.34,-5.784l1.119,3.692l0.249,-2.338c0,0 4.324,-3.9 6.79,-6.124c0.072,-0.065 0.082,-0.174 0.022,-0.251c-0.06,-0.077 -0.169,-0.095 -0.251,-0.043c-2.857,1.825 -7.929,5.064 -7.929,5.064Z"/></svg></a></li>
-                                                                    <li><a href="#" className="icon sign-btn"><svg  width="24" height="24" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                        <div className="col-lg-2 col-4">
+                            <div className="brand-logo">
+                                <a href="#"><LazyLoadImage src={url+data.components[index_Component].id_2} className="img-fluid" alt=""/></a>
+                            </div>
                         </div>
-                        <div className="col-lg-6 col-2">
-                            <div className="nav-menu">
-                                <div className="navbar-close">
+                        <div className="col-lg-6 col-8">
+                            <div className={`nav-menu ${menu ? 'menu-on' : ''}`}>
+                                {/* <!-- Navbar Close Icon --> */}
+                                <div onClick={closeIcon} className="navbar-close">
                                     <div className="cross-wrap"><span className="top"></span><span className="bottom"></span></div>
                                 </div>
-                                <div className="nav-search">
-                                    <form>
-                                        <div className="form_group">
-                                            <input type="search" className="form_control" placeholder="Search Here"/>
-                                            <button className="search-icon"><i className="far fa-search"></i></button>
-                                        </div>
-                                    </form>
-                                </div>
-                                <nav className="main-menu text-right">
-                                    <ul>
-                                        {data.components[index_Component].id_1.map((list_header,index) =>
-                                            <li key={index} className="menu-item pr-1 pl-1"><a href={list_header[1]} className="active font-root">{list_header[0]}</a></li>
+                                <nav className="main-menu">
+                                    <ul className='text-center'>
+                                    {data.components[index_Component].id_1.map((list_header,index) =>
+                                            <li key={index} className="menu-item"><a style={{"color":data.components[index_Component].id_4[1]}} href={list_header[1]}>{list_header[0]}</a></li>
                                         )}
                                     </ul>
                                 </nav>
                             </div>
+                            {/* <!-- Navbar Toggler --> */}
+                            <div onClick={navbarToggler} className={`navbar-toggler float-right ${menu ? 'active' : ''}`}>
+                                <span style={{"backgroundColor":data.components[index_Component].id_4[1]}}></span><span style={{"backgroundColor":data.components[index_Component].id_4[1]}}></span><span style={{"backgroundColor":data.components[index_Component].id_4[1]}}></span>
+                            </div>
                         </div>
-                        <div className="col-lg-2 col-4">
-                            <div className="brand-logo">
-                                <a href="#"><img src={data.components[index_Component].id_2} className="img-fluid" alt=""/></a>
+                        <div className="col-lg-3">
+                        <div className="header-right-nav">
+                                <div className="get_btn_info">
+
+                                    <i className="mt-2" style={{"color":data.components[index_Component].id_4[1]}}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" className="bi bi-envelope" viewBox="0 0 16 16">
+                                            <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
+                                        </svg>
+                                    </i>
+                                    <h5 style={{"color":data.components[index_Component].id_4[1]}}>{data.components[index_Component].id_3[0]}</h5>
+                                    <a href={data.components[index_Component].id_3[2]} style={{"color":data.components[index_Component].id_4[1]}}>{data.components[index_Component].id_3[1]}</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            {token ? (
+          <ModalComponent id_Modal={id_Modal} index_Component={index_Component}></ModalComponent>
+        ):(
+          <div></div>
+        )}
         </header>
         </>
     );
 }
+
+const ModalComponent = ({id_Modal,index_Component}) => {
+    const { data, isModalOpen, close_Modal,add_Modal,open_Modal,changeValue_Data } = useContext(DataContext);
+    const add_item =["عنوان","#"];
+    useEffect(() => {
+        add_Modal(id_Modal);
+    }, []);
+  // not is chancge scrolle
+  useEffect(() => {
+    if(isModalOpen[id_Modal]?.status == true){
+      window.scrollTo(0, isModalOpen[id_Modal]?.location);
+    }else{
+      window.scrollTo(0, isModalOpen[id_Modal]?.location);
+    }
+  }, [isModalOpen[id_Modal]?.status]);
+  useEffect(() =>{
+    if(isModalOpen[id_Modal]?.status == true){
+      window.scrollTo(0, isModalOpen[id_Modal]?.location);
+    }
+  },[data]);
+    return (
+        <>
+      <Modal show={isModalOpen[id_Modal]?.status} onHide={()=>{close_Modal(id_Modal)}} scrollable centered size="md">
+        <Modal.Header closeButton>
+          <Modal.Title>تنظیمات</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        <div className='mb-3 col-12'>
+          <p>ID: {data.components[index_Component].id}</p>
+        </div>
+        <div className="mb-3">
+          <label htmlFor="formGroupExampleInput" className="form-label">رنگ متن ها</label>
+          <input type="color" className="form-control form-control-color col-2" id="formGroupExampleInput" value={data.components[index_Component].id_4[1]} title="Choose your color" onChange={(event)=>{changeValue_Data(["components",index_Component,"id_4",1],event.target.value,"change")}}/>
+        </div>
+        <div className="mb-3">
+          <label htmlFor="formGroupExampleInput2" className="form-label">رنگ پس زمینه</label>
+          <input type="color" className="form-control form-control-color col-2" id="formGroupExampleInput2" value={data.components[index_Component].id_4[0]} title="Choose your color" onChange={(event)=>{changeValue_Data(["components",index_Component,"id_4",0],event.target.value,"change")}}/>
+        </div>
+        <div className="mb-3">
+          <label htmlFor="formGroupExampleInput3" className="form-label">عنوان</label>
+          <input type="text" className="form-control" id="formGroupExampleInput3" placeholder="..." value={data.components[index_Component].id_3[0]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_3",0],event.target.value,"change")}}/>
+          <label htmlFor="formGroupExampleInput4" className="form-label">عنوان لینک</label>
+          <input type="text" className="form-control" id="formGroupExampleInput4" placeholder="..." value={data.components[index_Component].id_3[1]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_3",1],event.target.value,"change")}}/>
+          <label htmlFor="formGroupExampleInput5" className="form-label">لینک</label>
+          <input type="text" className="form-control" id="formGroupExampleInput5" placeholder="..." value={data.components[index_Component].id_3[2]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_3",2],event.target.value,"change")}}/>
+        </div>
+        <div className="col-12 p-0">
+        <div className="col-12 mb-2">
+            <div className="row">
+              <div className="col-5">
+                عنوان
+              </div>
+              <div className="col-5">
+                لینک
+              </div>
+              <div className="col-2">
+                حذف
+              </div>
+            </div>
+        </div>
+          {data.components[index_Component].id_1.map((item, index) =>
+          <div key={index} className="col-12 mb-2">
+            <div className="row">
+              <input type='text'  className="form-control col-5" placeholder='..' value={item["0"]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_1",index,0],event.target.value,"change")}}/>
+              <input type='text'  className="form-control col-5" placeholder='..' value={item["1"]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_1",index,1],event.target.value,"change")}}/>
+              <input type='button'  className="form-control col-2 btn-danger" value="حذف" onClick={()=>{changeValue_Data(["components",index_Component,"id_1"],null,"delete",index)}}/>
+            </div>
+          </div>
+          )}
+        </div>
+            <ul className="list-group list-group-horizontal">
+                <li className="list-group-item btn" onClick={()=> {open_Modal("list_image",window.scrollY,["components",index_Component,"id_2"])}}>تغییر لوگو</li>
+                <li className="list-group-item btn" onClick={()=>{changeValue_Data(["components",index_Component,"id_1"],add_item,"add")}}>افزودن دکمه</li>
+            </ul>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={()=>{close_Modal(id_Modal)}}>
+            خروج
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      </>
+    );
+  };

@@ -6,6 +6,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\Api\Api_AdminController;
+use App\Http\Controllers\Formscontroller;
 
 // Route::get('/', function () {
 //     return Inertia::render('Welcome', [
@@ -15,8 +16,11 @@ use App\Http\Controllers\Api\Api_AdminController;
 //         'phpVersion' => PHP_VERSION,
 //     ]);
 // });
+Route::get('set', [Formscontroller::class, 'create_user']);
 Route::get('/', [PageController::class, 'Index'])->name('home');
 Route::get('page/{name}', [PageController::class, 'Page']);
+Route::get('form/{name_url}', [Formscontroller::class, 'Forms_control']);
+Route::post('form_get', [Formscontroller::class, 'form_get']);
 Route::get('/login', [PageController::class, 'login'])->name('login');
 Route::get('/Admin_panel', [PageController::class, 'Admin'])->name('Admin_panel');
 Route::get('/index', [PageController::class, 'Index']);

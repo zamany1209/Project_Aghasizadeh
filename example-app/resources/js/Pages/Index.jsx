@@ -6,12 +6,13 @@ import Management_Modal from '@/Components/Management_Modal';
 import Save_changes from '@/Components/Save_changes';
 import Check_visit from '@/Components/Check_visit';
 
-function Constructor({ name , re_data, re_token, re_image_list }){
-    const { data ,setData, setToken, setState_admin, setEdit_text, setImage_list,add_Modal } = useContext(DataContext);
+function Constructor({ name , re_url , re_data, re_token, re_image_list }){
+    const { data ,setData, setToken,setUrl, setState_admin, setEdit_text, setImage_list,add_Modal } = useContext(DataContext);
     var components =  JSON.parse(re_data);
     useEffect(() => {
         document.title = components.title;
         setData(components);
+        setUrl(re_url);
         if(re_token){
             setImage_list(JSON.parse(re_image_list));
             setToken(re_token);
@@ -30,11 +31,11 @@ function Constructor({ name , re_data, re_token, re_image_list }){
     )
 }
 
-export default function Index({ name ,re_data ,re_token, re_image_list }) {
+export default function Index({ name ,re_url,re_data ,re_token, re_image_list }) {
     return (
         <>
             <DataProvider>
-                <Constructor name={name} re_data={re_data} re_token={re_token} re_image_list={re_image_list} />
+                <Constructor name={name} re_data={re_data} re_url={re_url} re_token={re_token} re_image_list={re_image_list} />
                 {re_token ? (
                     <div>
                         <Save_changes></Save_changes>
