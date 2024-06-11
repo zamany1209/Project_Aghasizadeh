@@ -3,9 +3,15 @@ import React, { useContext,useEffect } from 'react';
 import { DataContext } from '@/Context/DataContext';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 export default function Management_Modal(){
-    const { data,url,isModalOpen, close_Modal,add_Modal,open_Modal,image_list,isSetImage, setImage,changeValue_Data } = useContext(DataContext);
+    const { data,url,isModalOpen, close_Modal,add_Modal,open_Modal,image_list,component_list_img,component_list,isSetImage, setImage,changeValue_Data } = useContext(DataContext);
     const show_list_image = "list_image";
+    const show_list_component = "list_component";
     const show_edit_title = "edit_title";
+    const add_component = async (path,name)=>{
+      var new_data = [component_list[name]];
+      console.log(new_data);
+      await new Promise((resolve) => changeValue_Data(path,component_list[name],"add", null, resolve));
+    };
     useEffect(() => {
       if (isModalOpen[show_list_image]) {
         // Disable body scroll when modal is open
@@ -32,6 +38,27 @@ export default function Management_Modal(){
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={()=>{close_Modal(show_list_image)}}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal show={isModalOpen[show_list_component]?.status} onHide={()=>{close_Modal(show_list_component)}} centered size="xl">
+        <Modal.Header closeButton>
+          <Modal.Title>تنظیمات</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+            <div className="row">
+                {component_list_img?.Component.map((item,index) =>
+                    <div key={index} className="col-12">
+                        <LazyLoadImage className='col12' src={url+"/asset/img/component/"+item["img"]} alt="" onClick={()=>{add_component(["components"],item["name"]);close_Modal(show_list_component);}} />
+                        <hr className='m-3'/>
+                    </div>
+                )}
+            </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={()=>{close_Modal(show_list_component)}}>
             Close
           </Button>
         </Modal.Footer>

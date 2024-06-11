@@ -11,6 +11,8 @@ export const DataProvider = ({ children }) => {
   const [movement, setMovement] = useState(false);
   const [edit_text, setEdit_text] = useState(false);
   const [image_list, setImage_list] = useState(null);
+  const [component_list_img, setComponent_list_img] = useState(null);
+  const [component_list, setComponent_list] = useState(null);
   const [isModalOpen, setModalOpen] = useState({});
   const [isSetImage, setImage] = useState([null,null]);
   const [active_component, setActive_component] = useState("Dashboard");
@@ -32,55 +34,63 @@ export const DataProvider = ({ children }) => {
       });
     }
   };
-  const changeValue_Data = (path, value, operation, index = null) => {
+  const changeValue_Data = (path, value, operation, index = null, callback = () => {}) => {
     setData((prevData) => {
-    const newObj = { ...data };
-    let current = newObj;
-    for (let i = 0; i < path.length - 1; i++) {
-      if (!current[path[i]]) {
-        current[path[i]] = {};
-      } else if( Array.isArray(current[path[i]]) ) {
-        current[path[i]] = [...current[path[i]]];
+      const newObj = { ...prevData };
+      let current = newObj;
+      for (let i = 0; i < path.length - 1; i++) {
+        if (!current[path[i]]) {
+          current[path[i]] = {};
+        } else if (Array.isArray(current[path[i]])) {
+          current[path[i]] = [...current[path[i]]];
+        } else {
+          current[path[i]] = { ...current[path[i]] };
+        }
+        current = current[path[i]];
       }
-      else {
-        current[path[i]] = { ...current[path[i]] };
-      }
-      current = current[path[i]];
 
-    }
-    switch(operation) {
-      case "change":
-        current[path[path.length - 1]] = value;
-        break;
-      case "add":
-        current[path[path.length - 1]] = [
-          ...current[path[path.length - 1]],
-          value
-        ];
-        break;
-      case "delete":
-        current[path[path.length - 1]] = current[path[path.length - 1]].filter((_, i) => i !== index);
-        break;
-        case "delete-section":
-          current.components = current.components.filter((_, i) => i !== index);
+      switch (operation) {
+        case 'change':
+          current[path[path.length - 1]] = value;
           break;
-        case "move-up":
-          if (index > 0) {
+        case 'add':
+          if (Array.isArray(current[path[path.length - 1]])) {
+            current[path[path.length - 1]] = [...current[path[path.length - 1]], value];
+          } else {
+            current[path[path.length - 1]] = { ...current[path[path.length - 1]], ...value };
+          }
+          break;
+        case 'delete':
+          if (Array.isArray(current[path[path.length - 1]])) {
+            current[path[path.length - 1]] = current[path[path.length - 1]].filter((_, i) => i !== index);
+          } else {
+            delete current[path[path.length - 1]];
+          }
+          break;
+        case 'delete-section':
+          if (Array.isArray(current.components)) {
+            current.components = current.components.filter((_, i) => i !== index);
+          }
+          break;
+        case 'move-up':
+          if (index > 0 && Array.isArray(current[path[path.length - 1]])) {
             const list = current[path[path.length - 1]];
             [list[index - 1], list[index]] = [list[index], list[index - 1]];
           }
           break;
-        case "move-down":
-          const list = current[path[path.length - 1]];
-          if (index < list.length - 1) {
-            [list[index + 1], list[index]] = [list[index], list[index + 1]];
+        case 'move-down':
+          if (Array.isArray(current[path[path.length - 1]])) {
+            const list = current[path[path.length - 1]];
+            if (index < list.length - 1) {
+              [list[index + 1], list[index]] = [list[index], list[index + 1]];
+            }
           }
           break;
-      default:
-    }
-    return newObj;
-  });
-  return true;
+        default:
+      }
+      callback(newObj);
+      return newObj;
+    });
   };
   return (
     <DataContext.Provider value={{ 
@@ -93,7 +103,10 @@ export const DataProvider = ({ children }) => {
       image_list, setImage_list,
       isModalOpen, close_Modal, open_Modal, add_Modal,
       isSetImage, setImage,
-      changeValue_Data,open_Context_Menu }}>
+      changeValue_Data,open_Context_Menu,
+      active_component, setActive_component,
+      component_list_img, setComponent_list_img,
+      component_list, setComponent_list }}>
       {children}
     </DataContext.Provider>
   );

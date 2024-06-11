@@ -1,11 +1,11 @@
 import React, { useContext,useEffect,useState  } from 'react';
 import { DataContext } from '@/Context/DataContext';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,ResponsiveContainer } from 'recharts';
-export default function Dashboard() {
+function Constructor(){
     const { data,url } = useContext(DataContext);
     return (
         <>
-        <div className="container-fluid">
+                <div className="container-fluid">
           {/* <!-- Page Heading --> */}
           <div className="d-sm-flex align-items-center justify-content-between mb-4">
               <h1 className="h3 mb-0 text-gray-800">Dashboard</h1>
@@ -118,7 +118,7 @@ export default function Dashboard() {
                             <div style={{ width: '100%', height: '400px' }}>
                                 <ResponsiveContainer width="100%" height="100%">
                                     <LineChart data={data.visit_web_site.data.week}>
-                                        <XAxis dataKey="day" />
+                                        <XAxis dataKey="day"/>
                                         <YAxis />
                                         <CartesianGrid strokeDasharray="3 3" />
                                         <Tooltip />
@@ -218,6 +218,14 @@ export default function Dashboard() {
             </div>
 
           </div>
+        </>
+    );
+}
+export default function Dashboard() {
+    const { active_component } = useContext(DataContext);
+    return (
+        <>
+        {active_component === 'Dashboard' && <Constructor />}
         </>
     );
 }

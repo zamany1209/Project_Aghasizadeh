@@ -17,6 +17,10 @@ import "react-contexify/dist/ReactContexify.css";
       // console.log(event, props, triggerEvent, data );
       open_Modal("edit_title",window.scrollY);
     }
+    function handleAdd_Component({ event, props, triggerEvent, data }){
+      // console.log(event, props, triggerEvent, data );
+      open_Modal("list_component",window.scrollY);
+    }
     function handleMoveTO_UP({ event, props, triggerEvent, data }){
       // console.log(event, props, triggerEvent, data );
       if(props.index == 0){
@@ -48,7 +52,7 @@ import "react-contexify/dist/ReactContexify.css";
           <Item disabled>به‌روزرسانی</Item>
           <Separator />
           <Submenu label="مدیریت بخش ها">
-            <Item onClick={handleItemClick} className='bg-success m-1 rounded'>افزودن بخش</Item>
+            <Item onClick={handleAdd_Component} className='bg-success m-1 rounded'>افزودن بخش</Item>
             <Item onClick={delete_section} className='bg-danger  m-1 rounded'>حذف این بخش</Item>
           </Submenu>
         </Menu>

@@ -20,7 +20,8 @@ class PageController extends Controller
         if (isset($parsedUrl['port'])) {
             $domain .= ':' . $parsedUrl['port'];
         }
-
+        $get_component_list = null;
+        $get_component_list_img = null;
         $get_imagelist = null;
         $token = null;
         if(Auth::check()){
@@ -34,8 +35,9 @@ class PageController extends Controller
                 $create_token = $user->createToken('admin', ['*'], now()->addWeek());
                 $token = $create_token->plainTextToken;
             }
-            $get_img = resource_path('data\list-img.json');
-            $get_imagelist = File::get($get_img);
+            $get_imagelist = File::get(resource_path('data\list-img.json'));
+            $get_component_list_img = File::get(resource_path('data\list-component-img.json'));
+            $get_component_list = File::get(resource_path('data\list-components.json'));
         }
         
         $get = resource_path('data\list-page-components.json');
@@ -47,7 +49,9 @@ class PageController extends Controller
             're_url' => $domain,
             're_data' => json_encode($data->landing),
             're_token' => $token,
-            're_image_list' => $get_imagelist
+            're_image_list' => $get_imagelist,
+            're_component_img' => $get_component_list_img,
+            're_component' => $get_component_list
         ]);
     }
     public function Page(Request $request)
@@ -58,10 +62,56 @@ class PageController extends Controller
         if (isset($parsedUrl['port'])) {
             $domain .= ':' . $parsedUrl['port'];
         }
-
-        $minutes = 1;
-        $response = new \Illuminate\Http\Response('Set Cookie');
-        $response->withCookie(cookie()->make('name', 'set', $minutes, null, null, true, true));
+        $get_imagelist = null;
+        $get_component_list_img = null;
+        $get_component_list = null;
+        $token = null;
+        if(Auth::check()){
+            $user = $request->user();
+            $currentToken = $user->currentAccessToken();
+            if($currentToken){
+                $token = $currentToken->plainTextToken;
+            }
+            else{
+                $user->tokens()->delete();
+                $create_token = $user->createToken('admin', ['*'], now()->addWeek());
+                $token = $create_token->plainTextToken;
+            }
+            $get_imagelist = File::get(resource_path('data\list-img.json'));
+            $get_component_list_img = File::get(resource_path('data\list-component-img.json'));
+            $get_component_list = File::get(resource_path('data\list-components.json'));
+        }
+        
+        $url_name = json_decode(File::get(resource_path('data\list-pages.json')),true);
+        if(isset($url_name["data"]["page"][$request->name])){
+            $file_components = json_decode(File::get(resource_path('data\list-page-components.json')),true);
+            if(!isset($file_components[$request->name])){
+                $file_components[$request->name] = ["title"=> "","components"=>[]];
+                File::put(resource_path('data\list-page-components.json'),json_encode($file_components, JSON_PRETTY_PRINT));
+            }
+            Inertia::setRootView('index'); 
+            return  Inertia::render('Index', [
+                'name' => $request->name,
+                're_url' => $domain,
+                're_data' => json_encode($file_components[$request->name]),
+                're_token' => $token,
+                're_image_list' => $get_imagelist,
+                're_component_img' => $get_component_list_img,
+                're_component' => $get_component_list
+            ]);
+        }
+        else{
+            return redirect()->intended('404');
+        }
+    }
+    public function Blog(Request $request)
+    {
+        $url = $request->url();
+        $parsedUrl = parse_url($url);
+        $domain = $parsedUrl['scheme'] . '://' . $parsedUrl['host'];
+        if (isset($parsedUrl['port'])) {
+            $domain .= ':' . $parsedUrl['port'];
+        }
         $get_imagelist = null;
         $token = null;
         if(Auth::check()){
@@ -75,21 +125,28 @@ class PageController extends Controller
                 $create_token = $user->createToken('admin', ['*'], now()->addWeek());
                 $token = $create_token->plainTextToken;
             }
-            $get_img = resource_path('data\list-img.json');
-            $get_imagelist = File::get($get_img);
+            $get_imagelist = File::get(resource_path('data\list-img.json'));
         }
         
-        $get = resource_path('data\list-page-components.json');
-        $ffs = File::get($get);
-        $data = json_decode($ffs);
-        Inertia::setRootView('index'); 
-        return  Inertia::render('Index', [
-            'name' => 'landing',
-            're_url' => $domain,
-            're_data' => json_encode($data->landing),
-            're_token' => $token,
-            're_image_list' => $get_imagelist
-        ]);
+        $url_name = json_decode(File::get(resource_path('data\list-pages.json')),true);
+        if(isset($url_name["data"]["page"][$request->name])){
+            $file_components = json_decode(File::get(resource_path('data\list-page-components.json')),true);
+            if(!isset($file_components[$request->name])){
+                $file_components[$request->name] = ["title"=> "","components"=>[]];
+                File::put(resource_path('data\list-page-components.json'),json_encode($file_components, JSON_PRETTY_PRINT));
+            }
+            Inertia::setRootView('index'); 
+            return  Inertia::render('Index', [
+                'name' => 'landing',
+                're_url' => $domain,
+                're_data' => json_encode($file_components[$request->name]),
+                're_token' => $token,
+                're_image_list' => $get_imagelist
+            ]);
+        }
+        else{
+            return redirect()->intended('404');
+        }
     }
     public function Admin(Request $request)
     {
@@ -118,6 +175,23 @@ class PageController extends Controller
             ]);
         }
         return redirect()->intended('login');
+    }
+    public function Save_Components_Page(Request $request)
+    {
+        if (Auth::check()) {
+
+            $data_get = json_decode($request->input('components'));
+            $title_get = $request->input('title');
+            $path = resource_path('data\list-page-components.json');
+            $get_file = File::get($path);
+            $get_file = json_decode($get_file,true);
+            $get_file[$request->input('name')]['components'] = $data_get;
+            $get_file[$request->input('name')]['title'] = $title_get;
+            $get_file = json_encode($get_file, JSON_PRETTY_PRINT);
+            if(File::put($path,$get_file)){
+                return response()->json(["data"=>1]);
+            }
+        }
     }
     // public function Test(Request $request)
     // {

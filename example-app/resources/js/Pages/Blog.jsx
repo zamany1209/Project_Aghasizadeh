@@ -6,8 +6,8 @@ import Management_Modal from '@/Components/Management_Modal';
 import Save_changes from '@/Components/Save_changes';
 import Check_visit from '@/Components/Check_visit';
 
-function Constructor({ name , re_url , re_data, re_token, re_image_list,re_component_img,re_component }){
-    const { data ,setData, setToken,setUrl, setState_admin, setEdit_text, setImage_list,add_Modal,setComponent_list_img,setComponent_list } = useContext(DataContext);
+function Constructor({ name , re_url , re_data, re_token, re_image_list }){
+    const { data ,setData, setToken,setUrl, setState_admin, setEdit_text, setImage_list,add_Modal } = useContext(DataContext);
     var components =  JSON.parse(re_data);
     useEffect(() => {
         document.title = components.title;
@@ -18,8 +18,6 @@ function Constructor({ name , re_url , re_data, re_token, re_image_list,re_compo
             setToken(re_token);
             setState_admin(true);
             setEdit_text('true');
-            setComponent_list_img(JSON.parse(re_component_img));
-            setComponent_list(JSON.parse(re_component));
         }
     }, []);
     useEffect(() => {
@@ -36,16 +34,16 @@ function Constructor({ name , re_url , re_data, re_token, re_image_list,re_compo
     )
 }
 
-export default function Index({ name ,re_url,re_data ,re_token, re_image_list,re_component_img,re_component }) {
+export default function Blog({ name ,re_url,re_data ,re_token, re_image_list }) {
     return (
         <>
             <DataProvider>
-                <Constructor name={name} re_data={re_data} re_url={re_url} re_token={re_token} re_image_list={re_image_list} re_component_img={re_component_img} re_component={re_component} />
+                <Constructor name={name} re_data={re_data} re_url={re_url} re_token={re_token} re_image_list={re_image_list} />
                 {re_token ? (
                     <div>
+                        <Save_changes name={name} re_url={re_url}></Save_changes>
                         <MyContextMenu></MyContextMenu>
                         <Management_Modal></Management_Modal>
-                        <Save_changes name={name} re_url={re_url}></Save_changes>
                     </div>
                 ):(
                     <Check_visit></Check_visit>
