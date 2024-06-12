@@ -65,6 +65,14 @@
             "#758ca0",
             "#0574ff"
         ]
+    },
+    "Bredcumbs_section":{
+        "id": "0e2f0db1-5457-49b1-949e-8dfh6599799",
+        "name": "Bredcumbs_section",
+        "id_1":"/assets/images/bredcumb_bg.jpg",
+        "id_2":["عنوان",55],
+        "id_3":[["وبلاگ","#"],["خونه","#"]]
     }
+
     
 }

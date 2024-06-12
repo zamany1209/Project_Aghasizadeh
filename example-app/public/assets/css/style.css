@@ -4384,7 +4384,6 @@ ul.social-link li {
     border: none;
 }
 .sidebar-widget-area .widget.add_widget .add_widget_img {
-    background: url(../images/blog/add_img.jpg) no-repeat;
     background-size: cover;
     padding: 40px 38px 50px 50px;
     position: relative;

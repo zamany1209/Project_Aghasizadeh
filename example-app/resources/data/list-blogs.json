@@ -1,0 +1,15 @@
+{
+    "data": {
+        "list_blog": [
+            {
+                "name": "mod"
+            }
+        ],
+        "blog": {
+            "mod": {
+                "access": true,
+                "visit": 19
+            }
+        }
+    }
+}

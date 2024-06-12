@@ -128,18 +128,18 @@ class PageController extends Controller
             $get_imagelist = File::get(resource_path('data\list-img.json'));
         }
         
-        $url_name = json_decode(File::get(resource_path('data\list-pages.json')),true);
-        if(isset($url_name["data"]["page"][$request->name])){
-            $file_components = json_decode(File::get(resource_path('data\list-page-components.json')),true);
-            if(!isset($file_components[$request->name])){
-                $file_components[$request->name] = ["title"=> "","components"=>[]];
-                File::put(resource_path('data\list-page-components.json'),json_encode($file_components, JSON_PRETTY_PRINT));
-            }
-            Inertia::setRootView('index'); 
-            return  Inertia::render('Index', [
+        $url_name = json_decode(File::get(resource_path('data\list-blogs.json')),true);
+        if(isset($url_name["data"]["blog"][$request->name])){
+            $file_components = json_decode(File::get(resource_path('data\list-blog-components.json')),true);
+            // if(!isset($file_components[$request->name])){
+            //     $file_components[$request->name] = ["title"=> "","components"=>[]];
+            //     File::put(resource_path('data\list-page-components.json'),json_encode($file_components, JSON_PRETTY_PRINT));
+            // }
+            Inertia::setRootView('blog'); 
+            return  Inertia::render('Blog', [
                 'name' => 'landing',
                 're_url' => $domain,
-                're_data' => json_encode($file_components[$request->name]),
+                're_data' => json_encode($file_components),
                 're_token' => $token,
                 're_image_list' => $get_imagelist
             ]);

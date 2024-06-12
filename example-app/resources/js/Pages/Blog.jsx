@@ -5,13 +5,14 @@ import MyContextMenu from '@/Components/MyContextMenu';
 import Management_Modal from '@/Components/Management_Modal';
 import Save_changes from '@/Components/Save_changes';
 import Check_visit from '@/Components/Check_visit';
+import Header from '@/Components/UI/Header';
 
 function Constructor({ name , re_url , re_data, re_token, re_image_list }){
     const { data ,setData, setToken,setUrl, setState_admin, setEdit_text, setImage_list,add_Modal } = useContext(DataContext);
     var components =  JSON.parse(re_data);
     useEffect(() => {
         document.title = components.title;
-        setData(components);
+        setData(components.data);
         setUrl(re_url);
         if(re_token){
             setImage_list(JSON.parse(re_image_list));
@@ -25,10 +26,6 @@ function Constructor({ name , re_url , re_data, re_token, re_image_list }){
     }, [data.title]);
     return(
         <>
-        {/* {components.components.map((component, index) =>
-                <Loading key={component.name}  url={component.name} index_Components={index} name_Components={component.name} folder="UI"/>
-
-        )} */}
         <Loading folder="UI"/>
         </>
     )
