@@ -105,7 +105,7 @@ const ModalComponent = ({id_Modal,index_Component}) => {
           {data.components[index_Component].id_5.text.map((item, index) =>
           <div key={index} className="col-12 mb-2">
             <div className="row">
-            <textarea className="form-control col-9 m-3" id="exampleFormControlTextarea1" rows="3" onChange={(event)=>{changeValue_Data(["components",index_Component,"id_5",'text',index],event.target.value,"change")}} defaultValue={item}></textarea>
+            <textarea className="form-control col-9 m-3 rtl text-right" id="exampleFormControlTextarea1" rows="3" onChange={(event)=>{changeValue_Data(["components",index_Component,"id_5",'text',index],event.target.value,"change")}} defaultValue={item}></textarea>
               <input type='button'  className="form-control col-2 btn-danger" value="حذف" onClick={()=>{changeValue_Data(["components",index_Component,"id_5","text"],null,"delete",index)}}/>
             </div>
           </div>

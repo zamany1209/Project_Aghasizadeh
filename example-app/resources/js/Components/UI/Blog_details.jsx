@@ -4,17 +4,17 @@ import { Modal, Button } from 'react-bootstrap';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 export default function blog_Details({ index_Component, name_Component }) {
-    const { edit_text,url, token,data,open_Modal,open_Context_Menu} = useContext(DataContext);
+    const { edit_text,url, token,data,open_Modal,open_Context_Menu,changeValue_Data} = useContext(DataContext);
     const id_Modal = String(name_Component+"_"+index_Component);
     const content = (item,index) => {
         if(item.name == "Title"){
             return(
-                <h3 key={index} className="title" style={{"color":item["color"],"fontSize":item["size"]+"px"}}>{item["text"]}</h3>
+                <h3 key={index} className="title rtl" style={{"color":item["color"],"fontSize":item["size"]+"px"}}>{item["text"]}</h3>
             );
         }
         else if(item.name == "Text"){
             return(
-                <p key={index} style={{"color":item["color"]}}>{item["text"]}</p>
+                <p className='rtl' key={index} style={{"color":item["color"]}}>{item["text"]}</p>
             );
         }
         else if(item.name == "Tip"){
@@ -24,7 +24,7 @@ export default function blog_Details({ index_Component, name_Component }) {
                         <img src={url+"/assets/images/icon_1.png"} alt=""/>
                     </div>
                     <div className="info ml-0 mr-3">
-                        <p style={{"color":item["color"]}}>{item["text"]}</p>
+                        <p className='rtl' style={{"color":item["color"]}}>{item["text"]}</p>
                     </div>
                 </blockquote>
             );
@@ -32,7 +32,17 @@ export default function blog_Details({ index_Component, name_Component }) {
         else if(item.name == "Image"){
             return(
                 <div key={index} className="col-12 text-center mb-4">
-                    <img src={url+item["url"]} alt="" />
+                    <LazyLoadImage src={url+item["url"]} alt="" />
+                    {token ? (
+                            <>
+                                <div className="mb-3 mt-3  rtl text-right row">
+                                    <button className='col-3 btn btn-primary m-1' onClick={()=> {open_Modal("list_image",window.scrollY,["components",index_Component,"id_1",index,"url"])}}>تغییر عکس</button>
+                                    <input type='button'  className="form-control col-3 btn-danger m-1" value="حذف" onClick={()=>{changeValue_Data(["components",index_Component,"id_1",index],null,"delete",index)}}/>
+                                </div>
+                            </>
+                        ):(
+                            <></>
+                        )}
                 </div>
             );
         }
@@ -92,15 +102,21 @@ export default function blog_Details({ index_Component, name_Component }) {
                                     </div>
                                 </div>
                             </div>
+                            {data.components[index_Component].id_5[0] ? (
+                            <>
                             <div className="admin-area text-center mb-45">
                                 <div className="admin_img">
-                                    <img src={url+"/assets/images/blog/admin.png"} className="img-fluid" alt=""/>
+                                    <LazyLoadImage src={url+data.components[index_Component].id_5[1]} className="img-fluid" alt=""/>
                                 </div>
                                 <div className="admin_bio">
-                                    <h4>Rosalina William</h4>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrudexercitation ullamco laboris nisi ut aliquip ex ea commodo.</p>
+                                    <h4>{data.components[index_Component].id_5[2]}</h4>
+                                    <p className='rtl'>{data.components[index_Component].id_5[3]}</p>
                                 </div>
                             </div>
+                            </>
+                        ):(
+                            <></>
+                        )}
 
                             <Comments></Comments>
 
@@ -136,28 +152,35 @@ export default function blog_Details({ index_Component, name_Component }) {
     );
 }
 const Comments = () => {
-    const { url} = useContext(DataContext);
+    const { url,state_admin} = useContext(DataContext);
     return(
         <>
             <div className="comments-area mb-45">
-                <h4 className="comments-title mb-35">Comments</h4>
+                <h4 className="comments-title mb-35 text-right">نظرات</h4>
                 <ul className="comments-list">
                     <li className="comment">
-                        <div className="comment-avatar">
-                            <img className='p-2' src={url+"/asset/img/user.svg"} alt=""/>
-                        </div>
-                        <div className="comment-wrap">
-                            <div className="comment-author-content">
-                                <span className="author-name">John F. Medina<i className="far fa-bookmark"></i> <span className="reply"><a href="#"><i className="far fa-reply"></i>replay</a></span></span>
-                                <span className="date">22 Mar, 2021</span>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    <div className="comment-wrap">
+                        <div className="comment-author-content">
+                            <span className="author-name p-2">
+                            <span style={{float:"right"}}>John F. Medina</span>
+                                {state_admin ? (
+                                    <span className="reply"><a>پاسخ</a></span>
+                                ):(
+                                    <span className="reply"></span>
+                                )}
+                                </span>
+                                <p className="text-right">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
                             </div>
                         </div>
+                        <div className="comment-avatar">
+                            <LazyLoadImage className='p-2' src={url+"/asset/img/user.svg"} alt=""/>
+                        </div>
+
                     </li>
                 </ul>
             </div>
             <div className="comments-respond">
-                <h4 className="comments-heading mb-30">Post Comments</h4>
+                <h4 className="comments-heading mb-30 text-right">ارسال نظر</h4>
                 <form>
                     <div className="form_group">
                         <textarea className="form_control" name="message" placeholder="Type your comments...."></textarea>
@@ -380,6 +403,33 @@ const ModalComponent = ({id_Modal,index_Component}) => {
           <Modal.Title>تنظیمات</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+        <div className="mb-3 row">
+            <div className="col-6 text-center">
+                <input type="checkbox" className="form-control" placeholder="..." checked={data.components[index_Component].id_5[0]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_5",0],event.target.checked,"change")}}/>
+            </div>
+            <div className="col-6 text-right">
+                <p className='pt-2 rtl'>درباره نویسنده:</p>
+            </div>
+        </div>
+
+            {data.components[index_Component].id_5[0] ? (
+                <>
+                    <div className="mb-3 text-right">
+                        <button className='btn btn-primary mt-4' onClick={()=> {open_Modal("list_image",window.scrollY,["components",index_Component,"id_5",1])}}>تغییر آواتار</button>
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="formGroupExampleInput" className="form-label">عنوان</label>
+                        <input type="text" className="form-control" id="formGroupExampleInput" placeholder="..." value={data.components[index_Component].id_5[2]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_5",2],event.target.value,"change")}}/>
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="formGroupExampleInput_1" className="form-label">توضیحات</label>
+                        <textarea className="form-control col-11 m-3 rtl text-right" id="formGroupExampleInput_1" rows="6" onChange={(event)=>{changeValue_Data(["components",index_Component,"id_5",3],event.target.value,"change")}} defaultValue={data.components[index_Component].id_5[3]}></textarea>
+                    </div>
+                </>
+            ):(
+                <></>
+            )}
+
         {/* <div className="mb-3">
           <label htmlFor="formGroupExampleInput" className="form-label">عنوان</label>
           <input type="text" className="form-control" id="formGroupExampleInput" placeholder="..." value={data.components[index_Component].id_2[0]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_2",0],event.target.value,"change")}}/>
