@@ -9,5 +9,10 @@ export default defineConfig({
             refresh: true,
         }),
         react(),
-    ],
+    ]
+    // ,
+    // server: {
+    //     port: 80,
+    //     https: true,
+    //   }
 });

@@ -2,11 +2,9 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PageController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
-use App\Http\Controllers\Api\Api_AdminController;
 use App\Http\Controllers\Formscontroller;
+use App\Http\Controllers\AdminController;
 
 // Route::get('/', function () {
 //     return Inertia::render('Welcome', [
@@ -22,11 +20,9 @@ Route::get('page/{name}', [PageController::class, 'Page']);
 Route::get('blog/{name}', [PageController::class, 'Blog']);
 Route::get('form/{name_url}', [Formscontroller::class, 'Forms_control']);
 Route::post('form_get', [Formscontroller::class, 'form_get']);
-Route::post('save_components', [PageController::class, 'Save_Components_Page']);
 Route::get('/login', [PageController::class, 'login'])->name('login');
 Route::get('/Admin_panel', [PageController::class, 'Admin'])->name('Admin_panel');
 Route::get('/index', [PageController::class, 'Index']);
-Route::get('/test/{page}', [PageController::class, 'Test']);
 
 Route::get('/dashboard', function () {
     return redirect(route('Admin_panel', absolute: false));
@@ -43,7 +39,11 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
-Route::get('/users', [Api_AdminController::class, 'Test']);
+////Admin/////
+Route::post('save_components', [AdminController::class, 'Save_Components_Page']);
+Route::post('create_page', [AdminController::class, 'Create_Page']);
+Route::post('access_page', [AdminController::class, 'Access_Page']);
+Route::post('delete_page', [AdminController::class, 'Delete_Page']);
+Route::post('edit_data_search', [AdminController::class, 'Edit_Data_Search']);
 
 require __DIR__.'/auth.php';

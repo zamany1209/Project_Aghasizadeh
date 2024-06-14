@@ -3,7 +3,7 @@ import { DataContext } from '@/Context/DataContext';
 import { Modal, Button } from 'react-bootstrap';
 
 export default function Page() {
-    const { active_component } = useContext(DataContext);
+    const { active_component,url } = useContext(DataContext);
     return(
         <>
             {active_component === 'Pages' && <Constructor />}
@@ -12,36 +12,32 @@ export default function Page() {
 }
 const Constructor =() =>{
     const { data, url,open_Modal,add_Modal,changeValue_Data} = useContext(DataContext);
-      const change_url = async (event,item,index)=>{
-        var old_data_name = item;
-        var old_data = data.list_pages.data.page[item];
-        var new_data_name = event.target.innerText;
-        var new_data = {
-            [new_data_name]: {
-                "access": old_data.access,
-                "visit": old_data.visit
+      const delete_url = async (index,id,url,event)=>{
+        event.preventDefault();
+        try {
+            const response = await axios.post(url+'/delete_page', {
+                id,url
+            });
+            changeValue_Data(["list_pages"],null,"delete", index);
+        } catch(error) {
+            if (error.response && error.response.status === 409) {
+                alert(error.response.data.message);
             }
-        };
-        if(event.target.innerText == ""){
-            alert("آدرس نمی تواند خالی باشد");
-            event.target.innerText = old_data_name;
-        }else{
-            if(event.target.innerText != old_data_name){
-                if(data.list_pages.data.page[event.target.innerText]){
-                    alert("آدرس نمی تواند تکراری باشد");
-                    event.target.innerText = old_data_name;
-                }
-                else{
-                        await new Promise((resolve) => changeValue_Data(["list_pages","data","page"],new_data,"add", null, resolve));
-                        await new Promise((resolve) => changeValue_Data(["list_pages","data","page",old_data_name],null,"delete", null, resolve));
-                        await new Promise((resolve) => changeValue_Data(["list_pages","data","list_page",index,"name"],event.target.innerText,"change", null, resolve));
-                }
-            }
-        }
+          }
       }
-      const delete_url = async (index,name)=>{
-            await new Promise((resolve) => changeValue_Data(["list_pages","data","page",name],null,"delete", null, resolve));
-            await new Promise((resolve) => changeValue_Data(["list_pages","data","list_page"],null,"delete", index, resolve));
+      const access_page = async (id,index,event) => {
+        event.preventDefault();
+        var data_checked = event.target.checked;
+        try {
+            const response = await axios.post(url+'/access_page', {
+                id,data_checked
+            });
+            changeValue_Data(["list_pages",index,"access"],data_checked,"change");
+        } catch(error) {
+            if (error.response && error.response.status === 409) {
+                alert(error.response.data.message);
+            }
+          }
       }
       const id_Modal = "add_url";
 
@@ -73,23 +69,23 @@ const Constructor =() =>{
                         </div>
                     </div>
                 </li>
-            {data.list_pages.data.list_page.map((item,index) =>
+            {data.list_pages.map((item,index) =>
                 <li key={index} className="list-group-item col-12">
                     <div className="row">
                         <div className="col-3 text-center">
-                        <p className='mt-2' suppressContentEditableWarning={true} contentEditable={true} onBlur={(event)=>{change_url(event,item["name"],index)}}>{item["name"]}</p>
+                        <p className='mt-2'>{item["url"]}</p>
                         </div>
                         <div className="col-3 text-center">
-                        <p className='mt-2'><a href={url+"/page/"+item["name"]}>{url+"/page/"+item["name"]}</a></p>
+                        <p className='mt-2'><a href={url+"/page/"+item["url"]}>{url+"/page/"+item["url"]}</a></p>
                         </div>
                         <div className="col-2 text-center">
-                        <p className='mt-2'>{data.list_pages.data.page[item["name"]].visit}</p>
+                        <p className='mt-2'>{item["visit"]}</p>
                         </div>
                         <div className="col-2 text-center">
-                        <input type="checkbox" className="form-check-input ml-1 mt-3" checked={data.list_pages.data.page[item["name"]].access} id={"exampleCheck"+index} onChange={(event)=>{changeValue_Data(["list_pages","data","page",item["name"],"access"],event.target.checked,"change");}}/>
+                        <input type="checkbox" className="form-check-input ml-1 mt-3" checked={item["access"]} id={"exampleCheck"+index} onChange={(event)=>{access_page(item["id"],index,event)}}/>
                         </div>
                         <div className="col-2 text-center">
-                            <button onClick={()=>{delete_url(index,item["name"])}} className="btn btn-danger mt-1">حذف</button>
+                            <button onClick={(event)=>{delete_url(index,item["id"],item["url"],event)}} className="btn btn-danger mt-1">حذف</button>
                         </div>
                     </div>
                 </li>
@@ -101,35 +97,29 @@ const Constructor =() =>{
     );
 }
 const ModalComponent = ({id_Modal}) => {
-    const { data, isModalOpen, close_Modal,add_Modal,open_Modal,changeValue_Data } = useContext(DataContext);
-    const [url, seturl] = useState("");
+    const { data,url, isModalOpen, close_Modal,add_Modal,open_Modal,changeValue_Data } = useContext(DataContext);
+    const [url_page, setUrl_page] = useState("");
     useEffect(() => {
         add_Modal(id_Modal);
     }, []);
-    const add_url = async (event)=>{
-        var new_data = {
-            [url]: {
-                "access": true,
-                "visit": 0
-            }
-        };
-        var new_data_name = {
-            "name":url
-        };
-        if(url == ""){
-            alert("آدرس نمی تواند خالی باشد");
-        }else{
-            if(data.list_pages.data.page[url]){
-                alert("آدرس نمی تواند تکراری باشد");
-            }
-            else{
-                    await new Promise((resolve) => changeValue_Data(["list_pages","data","page"],new_data,"add", null, resolve));
-                    await new Promise((resolve) => changeValue_Data(["list_pages","data","list_page"],new_data_name,"add", null, resolve));
 
+    const add_url = async (e) => {
+        e.preventDefault();
+        const new_data_name = {"access": 1, "url": url_page, "visit": 0};
+        try {
+            const response = await axios.post(url+'/create_page', {
+                url_page
+            });
+            alert(response.data.message);
+            await new Promise((resolve) => changeValue_Data(["list_pages"],new_data_name,"add", null, resolve));
+            setUrl_page("");
+        } catch(error) {
+            if (error.response && error.response.status === 409) {
+                alert(error.response.data.message);
             }
-        }
-        seturl("");
-      }
+            setUrl_page("");
+          }
+    };
     return (
         <>
       <Modal show={isModalOpen[id_Modal]?.status} onHide={()=>{close_Modal(id_Modal)}} scrollable centered size="md">
@@ -137,7 +127,7 @@ const ModalComponent = ({id_Modal}) => {
           <Modal.Title>لطفا آدرس خود را وارد کنید</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <input type="text" className='col-12 form-control' value={url} onChange={()=>{seturl(event.target.value)}}/>
+            <input type="text" className='col-12 form-control' value={url_page} onChange={(event)=>{setUrl_page(event.target.value)}}/>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={()=>{close_Modal(id_Modal)}}>

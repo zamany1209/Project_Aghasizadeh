@@ -4,10 +4,10 @@ import { DataContext } from '@/Context/DataContext';
 import "react-contexify/dist/ReactContexify.css";
   const MENU_ID = "menu";
   
-  export default function App({props}) {
+  export default function App({name}) {
     const { open_Modal,changeValue_Data } = useContext(DataContext);
     function handleItemClick({ event, props, triggerEvent, data }){
-      console.log(event, props, triggerEvent, data );
+      // console.log(event, props, triggerEvent, data );
       open_Modal(props.function_name,window.scrollY);
     }
     function delete_section({ event, props, triggerEvent, data }){
@@ -46,7 +46,13 @@ import "react-contexify/dist/ReactContexify.css";
             انتقال به پایین
           </Item>
           <Item onClick={handleEdit_Title}>
-            ویرایش عنوان صفحه
+          {name === "landing" ? (
+            <>ویرایش عنوان سایت</>
+          ):(
+            <>
+            ویرایش اطلاعات جستجو
+          </>
+          )}
           </Item>
           <Separator />
           <Item disabled>به‌روزرسانی</Item>

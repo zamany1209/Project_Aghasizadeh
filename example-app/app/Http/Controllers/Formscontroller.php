@@ -55,26 +55,4 @@ class Formscontroller extends Controller
             }
         }
     }
-    // public function create_form_name(Request $request)
-    // {
-    //     $data = (object) [
-    //         'data' => [["get Email","email"],["name","text"],["phone","number"]]
-    //     ];
-    //     Forms_name::create([
-    //         'url' => "9e05-3dc6-4d5f-8eb8-d609514fe496",
-    //         'name' => "ثبت نام",
-    //         'title' => "عنوان",
-    //         'json_data' => json_encode($data)
-    //     ]);
-    //     return true;
-    // }
-    // public function create_user(Request $request)
-    // {
-    //     User::create([
-    //         'name' => "Amir Hossen",
-    //         'email' => "zamany1209@gmail.com",
-    //         'password' => Hash::make("A2m0i0r3"),
-    //     ]);
-    //     return true;
-    // }
 }
