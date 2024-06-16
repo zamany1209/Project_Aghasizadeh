@@ -1,10 +1,11 @@
 import React, { useContext  } from 'react';
 import { DataContext } from '@/Context/DataContext';
 export default function Index_Sidbar() {
-    const { setActive_component } = useContext(DataContext);
+    const { setActive_component,active_sidbar } = useContext(DataContext);
+    var is_active_sidbar = active_sidbar === true ?(""):("d-none d-sm-block");
   return(
     <>
-    <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion d-none d-sm-block" id="accordionSidebar">
+    <ul className={"navbar-nav bg-gradient-primary sidebar sidebar-dark accordion "+is_active_sidbar} id="accordionSidebar">
 
       {/* <!-- Sidebar - Brand --> */}
       <a className="sidebar-brand d-flex align-items-center justify-content-center" href="/">
@@ -33,6 +34,10 @@ export default function Index_Sidbar() {
       <li className="nav-item">
           <a onClick={()=>{setActive_component("Pages")}} type="button" className="nav-link ml-lg-4">
               <span>صفحه ها</span></a>
+      </li>
+      <li className="nav-item">
+          <a onClick={()=>{setActive_component("Froms")}} type="button" className="nav-link ml-lg-4">
+              <span>فرم ها</span></a>
       </li>
 
   </ul>

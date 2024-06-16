@@ -9,6 +9,15 @@
         <!-- Fonts -->
         <link href="{{ config('app.url') }}/admin_panel_asset/assets/css/all.min.css" rel="stylesheet" type="text/css" defer>
         <link href="{{ config('app.url') }}/admin_panel_asset/assets/css/sb-admin-2.min.css" rel="stylesheet" async>
+        <style>
+        .table-responsive {
+            max-height: 400px; /* تنظیم حداکثر ارتفاع جدول */
+            overflow: auto; /* اسکرول افقی و عمودی */
+        }
+        .table td, .table th {
+            white-space: nowrap; /* جلوگیری از شکستن خطوط درون سلول‌ها */
+        }
+        </style>
         <!-- Scripts -->
         @routes
         @viteReactRefresh

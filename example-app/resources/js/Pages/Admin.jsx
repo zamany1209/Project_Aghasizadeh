@@ -8,13 +8,14 @@ import Index_Sidbar from '@/Components/Panel_admin/Index_Sidbar';
 import Index_Navbar from '@/Components/Panel_admin/Index_Navbar';
 
 function Constructor({ auth ,name ,re_url , re_data, re_token, re_image_list }){
-    const { setData, setToken, setUrl, setState_admin, setEdit_text, setImage_list,add_Modal } = useContext(DataContext);
+    const { data,setData, setToken, setUrl, setState_admin, setEdit_text, setImage_list,add_Modal } = useContext(DataContext);
     var components =  JSON.parse(re_data);
+    components['auth'] = auth; 
     useEffect(() => {
         setData(components);
         setUrl(re_url);
         if(re_token){
-            setImage_list(JSON.parse(re_image_list));
+            // setImage_list(JSON.parse(re_image_list));
             setToken(re_token);
             setState_admin(true);
             setEdit_text('true');
@@ -37,7 +38,7 @@ function Constructor({ auth ,name ,re_url , re_data, re_token, re_image_list }){
             <div id="content">
 
                 {/* <!-- Topbar --> */}
-                    <Index_Navbar auth={auth}></Index_Navbar>
+                    <Index_Navbar></Index_Navbar>
                 {/* <!-- End of Topbar --> */}
 
 

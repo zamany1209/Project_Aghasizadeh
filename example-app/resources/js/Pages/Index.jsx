@@ -7,16 +7,15 @@ import Save_changes from '@/Components/Save_changes';
 import Check_visit from '@/Components/Check_visit';
 
 function Constructor({ name , re_url , re_data,re_data_search, re_token, re_image_list,re_component_img,re_component }){
-    const { data ,setData, setToken,setUrl, setState_admin, setEdit_text, setImage_list,add_Modal,setComponent_list_img,setComponent_list, data_search,setData_search } = useContext(DataContext);
+    const { data ,setData, setToken,setUrl, setState_admin, setEdit_text, setImage_list,add_Modal,setComponent_list_img,setComponent_list, data_search } = useContext(DataContext);
     var components =  JSON.parse(re_data);
-    var response_data_search = re_data_search;
+    components["data_search"] = re_data_search;
     useEffect(() => {
         if(name == "landing"){
             document.title = data.title;
         }
         else{
-            document.title = response_data_search.name;
-            setData_search(response_data_search);
+            document.title = re_data_search.name;
         }
 
         setData(components);
@@ -37,9 +36,9 @@ function Constructor({ name , re_url , re_data,re_data_search, re_token, re_imag
         }, [data.title]);
     }
     else{
-        useEffect(() => {
-            document.title = data_search.name;
-        }, [data_search.name]);
+        // useEffect(() => {
+        //     document.title = data.data_search.name;
+        // }, [data.data_search.name]);
     }
     return(
         <>

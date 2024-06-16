@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Page;
+use App\Models\User;
 
 class AdminController extends Controller
 {
@@ -15,7 +16,7 @@ class AdminController extends Controller
     {
         if (Auth::check()) {
             $jsonData = '{"components": []}';
-            $name = $request->input('url');
+            $name = $request->input('url_page');
             $filePath = resource_path("data\pages\ $name.json");
     
             // اطمینان از وجود پوشه 'files' در مسیر 'resources'
@@ -25,7 +26,7 @@ class AdminController extends Controller
             if(!File::exists($filePath)){
                 File::put($filePath, $jsonData);
             }
-            $existingPage = Page::where('url', $request->input('url'))->first();
+            $existingPage = Page::where('url', $request->input('url_page'))->first();
             if ($existingPage) {
                     return response()->json(['message' => 'شما قبلاً این صفحه را ایجاد کرده‌اید.'], 409);
                 
@@ -33,7 +34,7 @@ class AdminController extends Controller
 
         
             $page = Page::create([
-                'url' => $request->input('url'),
+                'url' => $request->input('url_page'),
                 'name' => "index",
                 'image' => "/assets/images/head_1.jpg",
                 'keywords' => "test",
@@ -70,7 +71,7 @@ class AdminController extends Controller
     public function Delete_Page(Request $request)
     {
         if (Auth::check()) {
-            $name = $request->input('url');
+            $name = $request->input('url_page');
             $filePath = resource_path("data\pages\ $name.json");
     
             // اطمینان از وجود پوشه 'files' در مسیر 'resources'
@@ -108,4 +109,38 @@ class AdminController extends Controller
             }
         }
     }
+    public function Edit_Data_Profile(Request $request)
+    {
+        $request->validate([
+            'id' => 'required',
+            'name' => 'required',
+            'family' => 'required',
+            'email' => 'required|email',
+        ]);
+        if (Auth::check()) {
+            $find_user = User::where('email', $request->input('email'))->first();
+            if(!$find_user){
+                $existingPage = User::where('id', $request->input('id'))->update(['name' => $request->input('name'),'family' => $request->input('family'),'email' => $request->input('email')]);
+                if ($existingPage) {
+                    return response()->json(['message' => 'تغییرات اعمال شد'], 201);
+                }
+                else{
+                    return response()->json(['message' => 'متاسفانه تغییر اعمال نشد'], 409);
+                }
+            }
+            else if($find_user->id == $request->input('id')){
+                $existingPage = User::where('id', $request->input('id'))->update(['name' => $request->input('name'),'family' => $request->input('family'),'email' => $request->input('email')]);
+                if ($existingPage) {
+                    return response()->json(['message' => 'تغییرات اعمال شد'], 201);
+                }
+                else{
+                    return response()->json(['message' => 'متاسفانه تغییر اعمال نشد'], 409);
+                }
+            }
+            else{
+                return response()->json(['message' => 'این ایمیل تکراری است '], 408);
+            }
+        }
+    }
+
 }

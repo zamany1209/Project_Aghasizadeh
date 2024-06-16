@@ -3,7 +3,7 @@ import React, { useContext,useEffect } from 'react';
 import { DataContext } from '@/Context/DataContext';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 export default function Management_Modal({name}){
-    const { data,url,isModalOpen, close_Modal,add_Modal,open_Modal,image_list,component_list_img,component_list,isSetImage, setImage,changeValue_Data,data_search,changeValue_Data_Search } = useContext(DataContext);
+    const { data,url,isModalOpen, close_Modal,add_Modal,open_Modal,image_list,component_list_img,component_list,isSetImage, setImage,changeValue_Data } = useContext(DataContext);
     const show_list_image = "list_image";
     const show_list_image_data_search = "list_image_data_search";
     const show_list_component = "list_component";
@@ -14,10 +14,10 @@ export default function Management_Modal({name}){
       await new Promise((resolve) => changeValue_Data(path,component_list[name],"add", null, resolve));
     };
     const save_data_search = async () => {
-      var id = data_search.id;
-      var name = data_search.name;
-      var image = data_search.image;
-      var keywords = data_search.keywords;
+      var id = data.data_search.id;
+      var name = data.data_search.name;
+      var image = data.data_search.image;
+      var keywords = data.data_search.keywords;
           try {
             const response = await axios.post(url+'/edit_data_search', {
                 id,name,image,keywords
@@ -56,27 +56,6 @@ export default function Management_Modal({name}){
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={()=>{close_Modal(show_list_image)}}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
-
-
-      <Modal show={isModalOpen[show_list_image_data_search]?.status} onHide={()=>{close_Modal(show_list_image_data_search)}} centered size="xl">
-        <Modal.Header closeButton>
-          <Modal.Title>تنظیمات</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-            <div className="row">
-                {image_list?.Image.map((name,index) =>
-                    <div key={index} className="col-2">
-                        <LazyLoadImage style={{height:"170px",width:"170px", objectFit:"cover",objectPosition:"center"}} src={url+"/asset/img/"+name} alt="" onClick={()=>{changeValue_Data_Search(isModalOpen[show_list_image_data_search]?.value,"/asset/img/"+name,"change");close_Modal(show_list_image_data_search);}} />
-                    </div>
-                )}
-            </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={()=>{close_Modal(show_list_image_data_search)}}>
             Close
           </Button>
         </Modal.Footer>
@@ -128,17 +107,17 @@ export default function Management_Modal({name}){
           <Modal.Body>
           <div className="mb-3 rtl text-right">
               <label htmlFor="formGroupExampleInput2" className="form-label">عنوان سایت</label>
-              <input type="text" className="form-control" id="formGroupExampleInput2" placeholder="..." value={data_search.name} onChange={(event)=>{changeValue_Data_Search(["name"],event.target.value,"change")}}/>
+              <input type="text" className="form-control" id="formGroupExampleInput2" placeholder="..." value={data.data_search?.name} onChange={(event)=>{changeValue_Data(["data_search","name"],event.target.value,"change")}}/>
             </div>
             <div className="mb-3 rtl text-right">
               <label htmlFor="formGroupExampleInput2" className="form-label">عنوان سایت</label>
-              <textarea type="text" className="form-control " id="formGroupExampleInput2" placeholder="..." value={data_search.keywords} onChange={(event)=>{changeValue_Data_Search(["keywords"],event.target.value,"change")}}></textarea>
+              <textarea type="text" className="form-control " id="formGroupExampleInput2" placeholder="..." value={data.data_search?.keywords} onChange={(event)=>{changeValue_Data(["data_search","keywords"],event.target.value,"change")}}></textarea>
             </div>
             <div className="col-12">
-              <LazyLoadImage className="col-12" style={{objectFit:"cover",objectPosition:"center"}} src={url+data_search.image}/>
+              <LazyLoadImage className="col-12" style={{objectFit:"cover",objectPosition:"center"}} src={url+data.data_search?.image}/>
             </div>
               <ul className="list-group list-group-horizontal">
-                  <li className="list-group-item col-12 btn" onClick={()=> {open_Modal(show_list_image_data_search,window.scrollY,["image"])}}>تغییر عکس پس زمنیه</li>
+                  <li className="list-group-item col-12 btn" onClick={()=> {open_Modal(show_list_image,window.scrollY,["data_search","image"])}}>تغییر عکس پس زمنیه</li>
               </ul>
           </Modal.Body>
           <Modal.Footer>

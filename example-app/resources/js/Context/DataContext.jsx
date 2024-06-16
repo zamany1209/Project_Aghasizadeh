@@ -5,11 +5,10 @@ export const DataContext = createContext();
 
 export const DataProvider = ({ children }) => {
   const [data, setData] = useState({});
-  const [data_search, setData_search] = useState({});
   const [token, setToken] = useState(null);
   const [url, setUrl] = useState(null);
   const [state_admin, setState_admin] = useState(false);
-  const [movement, setMovement] = useState(false);
+  const [active_sidbar, setActive_Sidbar] = useState(false);
   const [edit_text, setEdit_text] = useState(false);
   const [image_list, setImage_list] = useState(null);
   const [component_list_img, setComponent_list_img] = useState(null);
@@ -92,45 +91,20 @@ export const DataProvider = ({ children }) => {
       callback(newObj);
       return newObj;
     });
-  };
-  const changeValue_Data_Search = (path, value, operation, callback = () => {}) => {
-    setData_search((prevData) => {
-      const newObj = { ...prevData };
-      let current = newObj;
-      for (let i = 0; i < path.length - 1; i++) {
-        if (!current[path[i]]) {
-          current[path[i]] = {};
-        } else if (Array.isArray(current[path[i]])) {
-          current[path[i]] = [...current[path[i]]];
-        } else {
-          current[path[i]] = { ...current[path[i]] };
-        }
-        current = current[path[i]];
-      }
-
-      switch (operation) {
-        case 'change':
-          current[path[path.length - 1]] = value;
-          break;
-        default:
-      }
-      callback(newObj);
-      return newObj;
-    });
+    return true;
   };
   return (
     <DataContext.Provider value={{ 
       data, setData,
-      data_search, setData_search, 
       token, setToken, 
       url, setUrl,
       state_admin, setState_admin, 
-      movement, setMovement, 
+      active_sidbar, setActive_Sidbar, 
       edit_text, setEdit_text, 
       image_list, setImage_list,
       isModalOpen, close_Modal, open_Modal, add_Modal,
       isSetImage, setImage,
-      changeValue_Data,open_Context_Menu,changeValue_Data_Search,
+      changeValue_Data,open_Context_Menu,
       active_component, setActive_component,
       component_list_img, setComponent_list_img,
       component_list, setComponent_list }}>

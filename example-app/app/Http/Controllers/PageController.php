@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Forms_name;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\File;
@@ -110,19 +111,33 @@ class PageController extends Controller
         }
 
         if (Auth::check()) {
+            $user = $request->user();
+            $currentToken = $user->currentAccessToken();
+            if($currentToken){
+                $token = $currentToken->plainTextToken;
+            }
+            else{
+                $user->tokens()->delete();
+                $create_token = $user->createToken('admin', ['*'], now()->addWeek());
+                $token = $create_token->plainTextToken;
+            }
+
             $ffs_1 = File::get(resource_path('data\Admin-Data.json'));
             $ffs_2 = File::get(resource_path('data\visit-web-site.json'));
             $ffs_3 = File::get(resource_path('data\list-img.json'));
             $page_list = Page::select('id','url','access', 'visit')->get();
+            $form_list = Forms_name::select('id','url','name', 'title','description','json_data','duplicate','status')->get();
             $change_data = json_decode($ffs_1);
             $data["components"] = $change_data->components;
             $data["visit_web_site"] = json_decode($ffs_2);
             $data["list_pages"] = json_decode($page_list);
+            $data['list_forms'] = json_decode($form_list);
             $data["list_img"] = json_decode($ffs_3);
             Inertia::setRootView('admin'); 
             return  Inertia::render('Admin', [
                 'name' => "Admin",
                 're_url' => $domain,
+                're_token' => $token,
                 're_data' => json_encode($data)
             ]);
         }

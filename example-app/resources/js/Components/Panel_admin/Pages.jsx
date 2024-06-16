@@ -1,6 +1,7 @@
 import React, { useContext,useEffect,useState  } from 'react';
 import { DataContext } from '@/Context/DataContext';
 import { Modal, Button } from 'react-bootstrap';
+import Swal from 'sweetalert2';
 
 export default function Page() {
     const { active_component,url } = useContext(DataContext);
@@ -12,18 +13,42 @@ export default function Page() {
 }
 const Constructor =() =>{
     const { data, url,open_Modal,add_Modal,changeValue_Data} = useContext(DataContext);
-      const delete_url = async (index,id,url,event)=>{
+      const delete_url = async (index,id,url_page,event)=>{
         event.preventDefault();
         try {
-            const response = await axios.post(url+'/delete_page', {
-                id,url
-            });
-            changeValue_Data(["list_pages"],null,"delete", index);
-        } catch(error) {
-            if (error.response && error.response.status === 409) {
-                alert(error.response.data.message);
-            }
+          const result = await Swal.fire({
+            title: '('+url_page+')'+'این صفحه حذف شود؟',
+            text: 'بعد از حذف صفحه امکان بازیابی وجود ندارد',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
+          });
+    
+          if (result.isConfirmed) {
+              try {
+                const response = await axios.post(url+'/delete_page', {
+                    id,url_page
+                });
+                changeValue_Data(["list_pages"],null,"delete", index);
+                Swal.fire({
+                  position: "top-end",
+                  icon: "success",
+                  title: "تغییرات اعمال شد",
+                  showConfirmButton: false,
+                  timer: 1500
+                });
+            } catch(error) {
+                if (error.response && error.response.status === 409) {
+                    alert(error.response.data.message);
+                }
+              }
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+            console.log('User did not agree.');
           }
+        } catch (error) {
+          console.error('Error showing dialog:', error);
+        }
       }
       const access_page = async (id,index,event) => {
         event.preventDefault();
@@ -33,6 +58,13 @@ const Constructor =() =>{
                 id,data_checked
             });
             changeValue_Data(["list_pages",index,"access"],data_checked,"change");
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "تغییرات اعمال شد",
+              showConfirmButton: false,
+              timer: 1500
+            });
         } catch(error) {
             if (error.response && error.response.status === 409) {
                 alert(error.response.data.message);
@@ -46,13 +78,13 @@ const Constructor =() =>{
         <div className="container-fluid m-lg-3">
 
         <div className="d-sm-flex align-items-center justify-content-between mb-4">
-              <h1 className="h3 mb-0 text-gray-800">Pages</h1>
-              <button type="button" onClick={()=>{open_Modal(id_Modal)}} className="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm m-2">افزودن صفحه</button>
+              <h1 className="h3 mb-0 text-gray-800">صفحه ها</h1>
+              <button type="button" onClick={()=>{open_Modal(id_Modal)}} className="btn btn-sm btn-success shadow-sm m-2">افزودن صفحه</button>
           </div>
         <ul className="list-group shadow">
                 <li className="list-group-item col-12">
                     <div className="row">
-                        <div className="col-3 text-center">
+                        <div className="col-2 text-center">
                         نام
                         </div>
                         <div className="col-3 text-center">
@@ -64,7 +96,7 @@ const Constructor =() =>{
                         <div className="col-2 text-center">
                         نمایش
                         </div>
-                        <div className="col-2 text-center">
+                        <div className="col-3 text-center">
                         حذف
                         </div>
                     </div>
@@ -72,11 +104,11 @@ const Constructor =() =>{
             {data.list_pages.map((item,index) =>
                 <li key={index} className="list-group-item col-12">
                     <div className="row">
-                        <div className="col-3 text-center">
-                        <p className='mt-2'>{item["url"]}</p>
+                        <div className="col-2 text-center">
+                        <p className='mt-2 text-truncate'>{item["url"]}</p>
                         </div>
                         <div className="col-3 text-center">
-                        <p className='mt-2'><a href={url+"/page/"+item["url"]}>{url+"/page/"+item["url"]}</a></p>
+                        <p className='mt-2 text-truncate'><a href={url+"/page/"+item["url"]}>{url+"/page/"+item["url"]}</a></p>
                         </div>
                         <div className="col-2 text-center">
                         <p className='mt-2'>{item["visit"]}</p>
@@ -84,7 +116,7 @@ const Constructor =() =>{
                         <div className="col-2 text-center">
                         <input type="checkbox" className="form-check-input ml-1 mt-3" checked={item["access"]} id={"exampleCheck"+index} onChange={(event)=>{access_page(item["id"],index,event)}}/>
                         </div>
-                        <div className="col-2 text-center">
+                        <div className="col-3 text-center">
                             <button onClick={(event)=>{delete_url(index,item["id"],item["url"],event)}} className="btn btn-danger mt-1">حذف</button>
                         </div>
                     </div>
@@ -92,11 +124,11 @@ const Constructor =() =>{
             )}
         </ul>
           </div>
-          <ModalComponent id_Modal={id_Modal}></ModalComponent>
+          <ModalComponentPage id_Modal={id_Modal}></ModalComponentPage>
         </>
     );
 }
-const ModalComponent = ({id_Modal}) => {
+const ModalComponentPage = ({id_Modal}) => {
     const { data,url, isModalOpen, close_Modal,add_Modal,open_Modal,changeValue_Data } = useContext(DataContext);
     const [url_page, setUrl_page] = useState("");
     useEffect(() => {
@@ -110,7 +142,13 @@ const ModalComponent = ({id_Modal}) => {
             const response = await axios.post(url+'/create_page', {
                 url_page
             });
-            alert(response.data.message);
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "صفحه جدید ایجاد شد",
+              showConfirmButton: false,
+              timer: 1500
+            });
             await new Promise((resolve) => changeValue_Data(["list_pages"],new_data_name,"add", null, resolve));
             setUrl_page("");
         } catch(error) {

@@ -3,10 +3,15 @@ import { DataContext } from '@/Context/DataContext';
 import { Modal, Button } from 'react-bootstrap';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
-export default function blog_Details({ index_Component, name_Component }) {
+export default function blog_Details({ index_Component, name_Component,inputPlaceholder = "تاریخ را انتخاب کنید" }) {
     const { edit_text,url, token,data,open_Modal,open_Context_Menu,changeValue_Data} = useContext(DataContext);
     const id_Modal_1 = String(name_Component+"_"+index_Component);
     const id_Modal_2 = String(name_Component+"_SidebarWidget"+"_"+index_Component);
+    const [selectedDate, setSelectedDate] = useState(null);
+
+  const handleChange = (date) => {
+    setSelectedDate(date);
+  };
     const ContentPage = ({item,index}) => {
         if(item.name == "Title"){
             return(
@@ -142,16 +147,33 @@ export default function blog_Details({ index_Component, name_Component }) {
                     </div>
                     <div className="col-lg-4" onContextMenu={(event)=>{open_Context_Menu(event,id_Modal_2,index_Component)}}>
                         <div className="sidebar-widget-area">
+                        {data.components[index_Component].id_9? (
+                            <Search></Search>
+                        ):(<></>)}
+                        {data.components[index_Component].id_10.id_1? (
+                            <Instagram index_Component={index_Component}></Instagram>
+                        ):(<></>)}
+                        {data.components[index_Component].id_11.id_1? (
+                            <Follow_us index_Component={index_Component}></Follow_us>
+                        ):(<></>)}
+                        {data.components[index_Component].id_12.id_1? (
+                            <Feeds index_Component={index_Component}></Feeds>
+                        ):(<></>)}
+                        {data.components[index_Component].id_13.id_1? (
+                            <Tags index_Component={index_Component}></Tags>
+                        ):(<></>)}
+                        {data.components[index_Component].id_14.id_1? (
+                            <Banner index_Component={index_Component}></Banner>
+                        ):(<></>)}
                         {token ? (
                             <>
                                 <div className="col-12 mt-5">
-                                    <a onClick={()=>{open_Modal("Comment_Modal",window.scrollY)}} className="col btn btn-success btn-circle p-3 m-1 mt-3">افزودن</a>
+                                    <a onClick={()=>{open_Modal(name_Component+"_SidebarWidget"+"_"+index_Component,window.scrollY)}} className="col btn btn-primary btn-circle p-3 m-1 mt-3">ویرایش</a>
                                 </div>
                             </>
                         ):(
                             <div></div>
                         )}
-
 
 
                         </div>
@@ -177,8 +199,8 @@ const Comments = () => {
             <div className="comments-area mb-45">
                 <h4 className="comments-title mb-35 text-right">نظرات</h4>
                 <ul className="comments-list">
-                    <li className="comment">
-                    <div className="comment-wrap">
+                    <li className="comment row">
+                    <div className="comment-wrap col-8">
                         <div className="comment-author-content">
                             <span className="author-name p-2">
                             <span style={{float:"right"}}>John F. Medina</span>
@@ -191,7 +213,7 @@ const Comments = () => {
                                 <p className="text-right">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
                             </div>
                         </div>
-                        <div className="comment-avatar">
+                        <div className="comment-avatar m-0 p-0 col-lg-2 col-md-2 col-sm-1">
                             <LazyLoadImage className='p-2' src={url+"/asset/img/user.svg"} alt=""/>
                         </div>
 
@@ -225,7 +247,8 @@ const Comments = () => {
         </>
     );
 };
-const Banner = () => {
+const Banner = ({index_Component}) => {
+    const { url,data } = useContext(DataContext);
     return(
         <div className="widget add_widget mb-40">
             <div className="add_widget_img" style={{"background":"url("+url+"/assets/images/blog/add_img.jpg) no-repeat"}}>
@@ -238,147 +261,100 @@ const Banner = () => {
         </div>
     );
 };
-const Tags = () => {
+const Tags = ({index_Component}) => {
+    const { url,data } = useContext(DataContext);
     return(
-        <div className="widget tag-cloud-widget mb-40">
-            <h4 className="widget-title">Tags</h4>
-            <a href="#" className="tag_1">Travel</a>
-            <a href="#" className="tag_2">Lifestyle</a>
-            <a href="#" className="tag_3">Photo</a>
-            <a href="#" className="tag_2">Adventures</a>
-            <a href="#" className="tag_2">Musician</a>
-            <a href="#" className="tag_5">08</a>
-            <a href="#" className="tag_1">Travel</a>
-            <a href="#" className="tag_2">Lifestyle</a>
-            <a href="#" className="tag_3">Photo</a>
-            <a href="#" className="tag_2">Adventures</a>
-            <a href="#" className="tag_2">Musician</a>
-            <a href="#" className="tag_5">08</a>
+        <div className="widget tag-cloud-widget mb-40 text-right">
+            <h4 className="widget-title text-left">برچسب ها</h4>
+            {data.components[index_Component].id_13.id_2.map((item, index) =>
+            <a key={index} href="#" className="tag_1">{item}</a>
+            )}
         </div>
     );
 };
-const Feeds = () => {
+const Feeds = ({index_Component}) => {
+    const { url,data } = useContext(DataContext);
     return(
         <div className="widget recent-post-widget mb-40">
-            <h4 className="widget-title">Feeds</h4>
+            <h4 className="widget-title">{data.components[index_Component].id_12.name}</h4>
             <ul className="recent-post-list">
-                <li className="post-thumbnail-content">
-                    <img src={url+"/assets/images/blog/feed_3.jpg"} className="img-fluid" alt=""/>
+            {data.components[index_Component].id_12.id_2.map((item, index) =>
+                <li key={index} className="post-thumbnail-content rtl text-right">
+                    <img src={url+item[2]} className="img-fluid m-0 ml-3 rounded " alt=""/>
                     <div className="post-title-date">
-                        <h6><a href="#">Alonso Kelina Falao Asiano Pero</a></h6>
-                        <span className="posted-on"><i className="far fa-clock"></i><a href="#">6 Hours ago</a></span>
+                        <h6><a href={item[3]}>{item[0]}</a></h6>
+                        <span className="posted-on"><a href={item[3]}>{item[1]}</a></span>
                     </div>
                 </li>
-                <li className="post-thumbnail-content">
-                    <img src={url+"/assets/images/blog/feed_4.jpg"} className="img-fluid" alt=""/>
-                    <div className="post-title-date">
-                        <h6><a href="#">It is a long established fact that a reader</a></h6>
-                        <span className="posted-on"><i className="far fa-clock"></i><a href="#">6 Hours ago</a></span>
-                    </div>
-                </li>
-                <li className="post-thumbnail-content">
-                    <img src={url+"/assets/images/blog/feed_5.jpg"} className="img-fluid" alt=""/>
-                    <div className="post-title-date">
-                        <h6><a href="#">Many desktop publish packages and web</a></h6>
-                        <span className="posted-on"><i className="far fa-clock"></i><a href="#">6 Hours ago</a></span>
-                    </div>
-                </li>
-                <li className="post-thumbnail-content">
-                    <img src={url+"/assets/images/blog/feed_6.jpg"} className="img-fluid" alt=""/>
-                    <div className="post-title-date">
-                        <h6><a href="#">Various versions have evolved over the years</a></h6>
-                        <span className="posted-on"><i className="far fa-clock"></i><a href="#">6 Hours ago</a></span>
-                    </div>
-                </li>
-                <li className="post-thumbnail-content">
-                    <img src={url+"/assets/images/blog/feed_7.jpg"} className="img-fluid" alt=""/>
-                    <div className="post-title-date">
-                        <h6><a href="#">Photo booth anim 8-bit PBR 3 wolf moon.</a></h6>
-                        <span className="posted-on"><i className="far fa-clock"></i><a href="#">6 Hours ago</a></span>
-                    </div>
-                </li>
+            )}
             </ul>
         </div>
     );
 };
-const Categories = () => {
-    return(
-        <div className="widget categories-widget mb-40">
-            <h4 className="widget-title">Categories</h4>
-            <ul className="widget-link">
-                <li><a href="#">Lifestyle </a></li>
-                <li><a href="#">Travel <span>(34)</span></a></li>
-                <li><a href="#">Fashion <span>(89)</span></a></li>
-                <li><a href="#">Music <span>(96)</span></a></li>
-                <li><a href="#">Branding <span>(78)</span></a></li>
-            </ul>
-        </div>
-    );
-};
-const Follow_us = () => {
+const Follow_us = ({index_Component}) => {
+    const { url,data } = useContext(DataContext);
     return(
         <div className="widget social-widget mb-40">
-            <h4 className="widget-title">Follow Us</h4>
-            <ul className="social-link">
-                <li><a href="#"><i className="fab fa-twitter"></i></a></li>
-                <li><a href="#"><i className="fab fa-pinterest-p"></i></a></li>
-                <li><a href="#"><i className="fab fa-facebook-f"></i></a></li>
-                <li><a href="#"><i className="fab fa-pinterest"></i></a></li>
-                <li><a href="#"><i className="fab fa-wordpress"></i></a></li>
+            <h4 className="widget-title">{data.components[index_Component].id_11.name}</h4>
+            <ul className="social-link text-center">
+                {data.components[index_Component].id_11.id_2[0]? (
+                    <li>
+                        <a style={{"border":"0px","fill":data.components[index_Component].id_11.id_7}} href={data.components[index_Component].id_11.id_2[2]}>
+                            <svg  viewBox="0 0 3584.55 3673.6">
+                            <g id="Isolation_Mode" data-name="Isolation Mode">
+                                <path d="M1071.43,2.75H2607.66C3171,2.75,3631.82,462.91,3631.82,1026.2v493.93c-505,227-1014.43,1348.12-1756.93,1104.51-61.16,43.46-202.11,222.55-212,358.43-257.11-34.24-553.52-328.88-517.95-646.62C717,2026.91,1070.39,1455.5,1409.74,1225.51c727.32-492.94,1737.05-69,1175.39,283.45-341.52,214.31-1071.84,355.88-995.91-170.24-200.34,57.78-328.58,431.34-87.37,626-223.45,219.53-180.49,623.07,58.36,755.57,241.56-625.87,1082.31-544.08,1422-1291.2,255.57-562-123.34-1202.37-880.91-1104C1529.56,399.34,993.64,881.63,725.62,1453.64,453.68,2034,494.15,2811.15,1052.55,3202.82c657.15,460.92,1356.78,34.13,1780.52-523.68,249.77-328.78,468-693,798.75-903.37v875.72c0,563.28-460.88,1024.86-1024.16,1024.86H1071.43c-563.29,0-1024.16-460.87-1024.16-1024.16V1026.9C47.27,463.61,508.14,2.74,1071.43,2.74Z" transform="translate(-47.27 -2.74)" fillRule="evenodd"/>
+                            </g>
+                            </svg>
+                        </a>
+                    </li>
+                ):(<></>)}
+                {data.components[index_Component].id_11.id_3[0]? (
+                    <li>
+                        <a style={{"border":"0px","fill":data.components[index_Component].id_11.id_7}} href={data.components[index_Component].id_11.id_3[2]}>
+                        <svg  viewBox="0 0 448 512"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg>
+                        </a>
+                    </li>
+                ):(<></>)}
+                {data.components[index_Component].id_11.id_4[0]? (
+                    <li>
+                        <a style={{"border":"0px","fill":data.components[index_Component].id_11.id_7}} href={data.components[index_Component].id_11.id_4[2]}>
+                        <svg  viewBox="0 0 448 512"><path d="M400 32H48A48 48 0 0 0 0 80v352a48 48 0 0 0 48 48h137.25V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.27c-30.81 0-40.42 19.12-40.42 38.73V256h68.78l-11 71.69h-57.78V480H400a48 48 0 0 0 48-48V80a48 48 0 0 0-48-48z"/></svg>
+                        </a>
+                    </li>
+                ):(<></>)}
+                {data.components[index_Component].id_11.id_5[0]? (
+                    <li>
+                        <a style={{"border":"0px","fill":data.components[index_Component].id_11.id_7}} href={data.components[index_Component].id_11.id_5[2]}>
+                        <svg viewBox="0 0 32 32"><path clipRule="evenodd" d="m5 0h22c2.7614 0 5 2.23858 5 5v22c0 2.7614-2.2386 5-5 5h-22c-2.76142 0-5-2.2386-5-5v-22c0-2.76142 2.23858-5 5-5zm11.6919 12.0074c-1.433.596-4.297 1.8297-8.59198 3.7009-.69744.2773-1.06278.5487-1.09604.814-.05621.4483.50527.6249 1.26986.8653.104.0327.21176.0666.32224.1025.75224.2445 1.76412.5306 2.29022.542.4771.0103 1.0097-.1864 1.5977-.5902 4.0129-2.7088 6.0844-4.078 6.2144-4.1075.0918-.0208.2189-.047.3051.0295.0861.0766.0777.2216.0685.2605-.0556.2371-2.2596 2.2862-3.4002 3.3466-.3556.3305-.6078.565-.6593.6186-.1155.12-.2333.2334-.3464.3425-.6988.6737-1.2229 1.1789.029 2.0039.6017.3965 1.0831.7243 1.5634 1.0514.5245.3572 1.0476.7135 1.7245 1.1572.1725.113.3372.2304.4976.3448.6104.4352 1.1588.8261 1.8363.7638.3937-.0362.8004-.4064 1.0069-1.5105.4881-2.6092 1.4475-8.2626 1.6692-10.5922.0194-.2041-.005-.4654-.0246-.58-.0197-.1147-.0607-.2781-.2097-.399-.1766-.1432-.4491-.17345-.5709-.1714-.5542.0099-1.4043.3055-5.4958 2.0073z" fillRule="evenodd"/></svg>
+                        </a>
+                    </li>
+                ):(<></>)}
+                {data.components[index_Component].id_11.id_6[0]? (
+                    <li>
+                        <a style={{"border":"0px","fill":data.components[index_Component].id_11.id_7}} href={data.components[index_Component].id_11.id_6[2]}>
+                        <svg shapeRendering="geometricPrecision" textRendering="geometricPrecision" imageRendering="optimizeQuality" fillRule="evenodd" clipRule="evenodd" viewBox="0 0 512 509.64"><rect width="512" height="509.64" rx="115.61" ry="115.61"/><path fill="#fff" fillRule="nonzero" d="M323.74 148.35h36.12l-78.91 90.2 92.83 122.73h-72.69l-56.93-74.43-65.15 74.43h-36.14l84.4-96.47-89.05-116.46h74.53l51.46 68.04 59.53-68.04zm-12.68 191.31h20.02l-129.2-170.82H180.4l130.66 170.82z"/></svg>
+                        </a>
+                    </li>
+                ):(<></>)}
             </ul>
         </div>
     );
 };
-const Instagram = () => {
+const Instagram = ({index_Component}) => {
+    const { url,data } = useContext(DataContext);
     return(
         <div className="widget instagram-widget mb-40">
-            <h4 className="widget-title">Instagram</h4>
+            <h4 className="widget-title">{data.components[index_Component].id_10.name}</h4>
             <div className="row">
-                <div className="col-lg-4 col-md-4 col-sm-4 col-6 ins_pa">
-                    <div className="insta_img">
-                        <img src={url+"/assets/images/blog/insta_1.jpg"} className="img-fluid" alt=""/>
+                {data.components[index_Component].id_10.id_2.map((item, index) =>
+                    <div key={index} className="col-lg-4 col-md-4 col-sm-4 col-6 ins_pa">
+                        <div className="insta_img d-flex justify-content-center">
+                            <a href={url+item[1]}>
+                                <img src={url+item[0]} className="img-fluid" alt=""/>
+                            </a>
+                        </div>
                     </div>
-                </div>
-                <div className="col-lg-4 col-md-4 col-sm-4 col-6 ins_pa">
-                    <div className="insta_img">
-                        <img src={url+"/assets/images/blog/insta_2.jpg"} className="img-fluid" alt=""/>
-                    </div>
-                </div>
-                <div className="col-lg-4 col-md-4 col-sm-4 col-6 ins_pa">
-                    <div className="insta_img">
-                        <img src={url+"/assets/images/blog/insta_3.jpg"} className="img-fluid" alt=""/>
-                    </div>
-                </div>
-                <div className="col-lg-4 col-md-4 col-sm-4 col-6 ins_pa">
-                    <div className="insta_img">
-                        <img src={url+"/assets/images/blog/insta_4.jpg"} className="img-fluid" alt=""/>
-                    </div>
-                </div>
-                <div className="col-lg-4 col-md-4 col-sm-4 col-6 ins_pa">
-                    <div className="insta_img">
-                        <img src={url+"/assets/images/blog/insta_5.jpg"} className="img-fluid" alt=""/>
-                    </div>
-                </div>
-                <div className="col-lg-4 col-md-4 col-sm-4 col-6 ins_pa">
-                    <div className="insta_img">
-                        <img src={url+"/assets/images//blog/insta_6.jpg"} className="img-fluid" alt=""/>
-                    </div>
-                </div>
-                <div className="col-lg-4 col-md-4 col-sm-4 col-6 ins_pa">
-                    <div className="insta_img">
-                        <img src={url+"/assets/images//blog/insta_7.jpg"} className="img-fluid" alt=""/>
-                    </div>
-                </div>
-                <div className="col-lg-4 col-md-4 col-sm-4 col-6 ins_pa">
-                    <div className="insta_img">
-                        <img src={"/assets/images//blog/insta_8.jpg"} className="img-fluid" alt=""/>
-                    </div>
-                </div>
-                <div className="col-lg-4 col-md-4 col-sm-4 col-6 ins_pa">
-                    <div className="insta_img">
-                        <img src={url+"/assets/images//blog/insta_9.jpg"} className="img-fluid" alt=""/>
-                    </div>
-                </div>
+                )}
             </div>
         </div>
     );
@@ -386,11 +362,15 @@ const Instagram = () => {
 const Search = () => {
     return(
         <div className="widget search-widget mb-40">
-        <h4 className="widget-title">Search</h4>
+        <h4 className="widget-title">جستجو</h4>
         <form>
             <div className="form_group">
-                <input type="search" className="form_control" placeholder="Search your keyword..."/>
-                <button className="search_btn"><i className="fas fa-search"></i></button>
+                <input type="search" className="form_control" placeholder="متن خود را وارد کنید...."/>
+                <button className="search_btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-search" viewBox="0 0 16 16">
+  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+</svg>
+                </button>
             </div>
         </form>
     </div>
@@ -631,9 +611,14 @@ const AddContent = ({index_Component}) => {
       </>
     );
 };
+
+
+
+
 const SidebarWidget = ({id_Modal,index_Component}) => {
     const { data, isModalOpen, close_Modal,add_Modal,open_Modal,changeValue_Data } = useContext(DataContext);
-    const add_item =["عنوان","#"];
+    const add_item_instagram =["/assets/images/blog/insta_1.jpg","#"];
+    const add_item_feeds = ["عنوان پیش فرض خبر شما","1403/2/1","/assets/images/blog/feed_3.jpg","#"];
     useEffect(() => {
         add_Modal(id_Modal);
     }, []);
@@ -661,146 +646,197 @@ const SidebarWidget = ({id_Modal,index_Component}) => {
                 <div className="col-6 text-center">
                 </div>
                 <div className="col-6 text-right row">
-                <input type="checkbox" className="form-control col" placeholder="..." checked={data.components[index_Component].id_8} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_8"],event.target.checked,"change")}}/>
+                <input type="checkbox" className="form-control col" placeholder="..." checked={data.components[index_Component].id_9} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_9"],event.target.checked,"change")}}/>
                     <p className='col-8 pt-2 rtl font-weight-bold text-dark'>جستجو:</p>
                 </div>
-            </div>
-            <div className='mb-3'>
-                <div className="row mb-3">
-                    <div className="col-6">
-                        <a onClick={()=>{open_Modal("Add_Content",window.scrollY)}} className="col btn btn-success btn-circle">افزودن</a>
-                    </div>
-                    <h4 className='rtl text-right col mt-1'>محتوای بلاگ:</h4>
-                </div>
-            <ul className="list-group list-group-horizontal">
-                <li className="list-group-item col-2 btn">نوع</li>
-                <li className="list-group-item col-6 btn">محتوا</li>
-                <li className="list-group-item col-2 btn">رنگ</li>
-                <li className="list-group-item col-2 btn">حذف</li>
-            </ul>
-                {data.components[index_Component].id_1.map((item, index) =>
-                    {if(item.name == "Title"){
-                        return(
-                            <ul key={index} className="list-group list-group-horizontal m-1">
-                                <li className="list-group-item col-2 btn">تیتر</li>
-                                <li className="list-group-item col-6 btn p-0"><input type="text"className='p-0 mt-2 m-0 text-right col-12' style={{"border":"0px"}} value={item["text"]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_1",index,"text"],event.target.value,"change")}}/></li>
-                                <li className="list-group-item col-2 btn p-0"><input type="color" className="form-control form-control-color col-12 mt-1" style={{"border":"0px"}} id="exampleColorInput" value={item["color"]} title="Choose your color" onChange={(event)=>{changeValue_Data(["components",index_Component,"id_1",index,"color"],event.target.value,"change")}}/></li>
-                                <li className="list-group-item col-2 btn text-white bg-danger" onClick={(event)=>{changeValue_Data(["components",index_Component,"id_1"],null,"delete",index)}}>حذف</li>
-                            </ul> 
-                        );
-                    }else if(item.name == "Text"){
-                        return(
-                            <ul key={index} className="list-group list-group-horizontal m-1">
-                                <li className="list-group-item col-2 btn">متن</li>
-                                <li className="list-group-item col-6 btn p-0"><input type="text"className='p-0 mt-2 m-0 text-right col-12' style={{"border":"0px"}} value={item["text"]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_1",index,"text"],event.target.value,"change")}}/></li>
-                                <li className="list-group-item col-2 btn p-0"><input type="color" className="form-control form-control-color col-12 mt-1" style={{"border":"0px"}} id="exampleColorInput" value={item["color"]} title="Choose your color" onChange={(event)=>{changeValue_Data(["components",index_Component,"id_1",index,"color"],event.target.value,"change")}}/></li>
-                                <li className="list-group-item col-2 btn text-white bg-danger" onClick={(event)=>{changeValue_Data(["components",index_Component,"id_1"],null,"delete",index)}}>حذف</li>
-                            </ul> 
-                        );
-                    }
-                    else if(item.name == "Tip"){
-                        return(
-                            <ul key={index} className="list-group list-group-horizontal m-1">
-                                <li className="list-group-item col-2 btn">نکته</li>
-                                <li className="list-group-item col-6 btn p-0"><input type="text"className='p-0 mt-2 m-0 text-right col-12' style={{"border":"0px"}} value={item["text"]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_1",index,"text"],event.target.value,"change")}}/></li>
-                                <li className="list-group-item col-2 btn p-0"><input type="color" className="form-control form-control-color col-12 mt-1" style={{"border":"0px"}} id="exampleColorInput" value={item["color"]} title="Choose your color" onChange={(event)=>{changeValue_Data(["components",index_Component,"id_1",index,"color"],event.target.value,"change")}}/></li>
-                                <li className="list-group-item col-2 btn text-white bg-danger" onClick={(event)=>{changeValue_Data(["components",index_Component,"id_1"],null,"delete",index)}}>حذف</li>
-                            </ul>  
-                        );
-                    }
-                    else if(item.name == "Image"){
-                        return(
-                            <ul key={index} className="list-group list-group-horizontal m-1">
-                                <li className="list-group-item col-2 btn">عکس</li>
-                                <li className="list-group-item col-6 btn"onClick={()=> {open_Modal("list_image",window.scrollY,["components",index_Component,"id_1",index,"url"])}}>تغییر عکس</li>
-                                <li className="list-group-item col-2 btn p-0"></li>
-                                <li className="list-group-item col-2 btn text-white bg-danger" onClick={(event)=>{changeValue_Data(["components",index_Component,"id_1"],null,"delete",index)}}>حذف</li>
-                            </ul>  
-                        );
-                    }
-                }
-                )}
-                <hr />
-                <div className="mb-3">
-                    <div className="row mb-3">
-                        <div className="col-6">
-                            <a onClick={(event)=>{changeValue_Data(["components",index_Component,"id_2"],"تگ","add")}} className="col btn btn-success btn-circle">افزودن</a>
-                        </div>
-                        <h4 className='rtl text-right col mt-1'>تگ های مرتبط:</h4>
-                    </div>
-                        <ul className="list-group list-group-horizontal">
-                            <li className="list-group-item col-2 btn">#</li>
-                            <li className="list-group-item col-8 btn">متن</li>
-                            <li className="list-group-item col-2 btn">حذف</li>
-                        </ul> 
-                    {data.components[index_Component].id_2.map((item, index) =>
-                        <ul key={index} className="list-group list-group-horizontal m-1">
-                            <li className="list-group-item col-2 btn">{index + 1}</li>
-                            <li className="list-group-item col-8 btn p-0"><input type="text"className='p-0 mt-2 m-0 text-right col-12' style={{"border":"0px"}} value={item} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_2",index],event.target.value,"change")}}/></li>
-                            <li className="list-group-item col-2 btn text-white bg-danger" onClick={(event)=>{changeValue_Data(["components",index_Component,"id_2"],null,"delete",index)}}>حذف</li>
-                        </ul> 
-                    )}
-                </div>
-            </div>
-            <hr />
-            <div className="mb-3">
-                <ul className="list-group list-group-horizontal m-1">
-                    <li className="list-group-item col-6 btn">متن صفحه بعد</li>
-                    <li className="list-group-item col-6 btn">لینک صفحه بعد</li>
-                </ul> 
-                <ul className="list-group list-group-horizontal m-1">
-                    <li className="list-group-item col-6 btn p-0"><input type="text"className='p-0 mt-2 m-0 text-center col-12' style={{"border":"0px"}} value={data.components[index_Component].id_3[0]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_3",0],event.target.value,"change")}}/></li>
-                    <li className="list-group-item col-6 btn p-0"><input type="text"className='p-0 mt-2 m-0 text-center col-12' style={{"border":"0px"}} value={data.components[index_Component].id_3[1]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_3",1],event.target.value,"change")}}/></li>
-                </ul> 
-            </div>
-            <div className="mb-3">
-                <ul className="list-group list-group-horizontal m-1">
-                    <li className="list-group-item col-6 btn">متن صفحه قبل</li>
-                    <li className="list-group-item col-6 btn">لینک صفحه قبل</li>
-                </ul>
-                <ul className="list-group list-group-horizontal m-1">
-                    <li className="list-group-item col-6 btn p-0"><input type="text"className='p-0 mt-2 m-0 text-center col-12' style={{"border":"0px"}} value={data.components[index_Component].id_4[0]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_4",0],event.target.value,"change")}}/></li>
-                    <li className="list-group-item col-6 btn p-0"><input type="text"className='p-0 mt-2 m-0 text-center col-12' style={{"border":"0px"}} value={data.components[index_Component].id_4[1]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_4",1],event.target.value,"change")}}/></li>
-                </ul> 
-            </div>
-            <hr />
-        <div className="mb-3 row">
-            <div className="col-6">
-            {data.components[index_Component].id_5[0] ? (
-            <button className='btn btn-primary' onClick={()=> {open_Modal("list_image",window.scrollY,["components",index_Component,"id_5",1])}}>تغییر آواتار</button>
-            ):(
-                <></>
-            )}
-            </div>
-            <div className="col-6 text-right row">
-            <input type="checkbox" className="form-control col" placeholder="..." checked={data.components[index_Component].id_5[0]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_5",0],event.target.checked,"change")}}/>
-                <p className='col-8 pt-2 rtl font-weight-bold text-dark'>درباره نویسنده:</p>
-            </div>
         </div>
-
-            {data.components[index_Component].id_5[0] ? (
-                <>
-                    <div className="mb-3">
-                        <label htmlFor="formGroupExampleInput" className="form-label">عنوان</label>
-                        <input type="text" className="form-control" id="formGroupExampleInput" placeholder="..." value={data.components[index_Component].id_5[2]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_5",2],event.target.value,"change")}}/>
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor="formGroupExampleInput_1" className="form-label">توضیحات</label>
-                        <textarea className="form-control col-11 m-3 rtl text-right" id="formGroupExampleInput_1" rows="6" onChange={(event)=>{changeValue_Data(["components",index_Component,"id_5",3],event.target.value,"change")}} defaultValue={data.components[index_Component].id_5[3]}></textarea>
-                    </div>
-                </>
-            ):(
-                <></>
-            )}
-            <hr />
-            <div className="mb-3 row">
-                <div className="col-6 text-center">
+        <hr />
+        <div className="mb-3 row">
+                <div className="col-4 text-center">
+                {data.components[index_Component].id_10.id_1? (
+                    <input type='text'  className="form-control col-12 rtl text-right" placeholder='..' value={data.components[index_Component].id_10.name} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_10","name"],event.target.value,"change")}}/>
+                ):(<></>)}
                 </div>
-                <div className="col-6 text-right row">
-                <input type="checkbox" className="form-control col" placeholder="..." checked={data.components[index_Component].id_8} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_8"],event.target.checked,"change")}}/>
-                    <p className='col-8 pt-2 rtl font-weight-bold text-dark'>کامنت:</p>
+                <div className="col-8 text-right row">
+                <input type="checkbox" className="form-control col" placeholder="..." checked={data.components[index_Component].id_10.id_1} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_10","id_1"],event.target.checked,"change")}}/>
+                    <p className='col-8 pt-2 rtl font-weight-bold text-dark'>ویجت تبلیغاتی یک:</p>
                 </div>
             </div>
+            {data.components[index_Component].id_10.id_1? (
+                    <div className="col-12 p-0">
+                    <div className="col-12 mb-2">
+                        <div className="row">
+                          <div className="col-8">
+                            لینک
+                          </div>
+                          <div className="col-2">
+                            عکس
+                          </div>
+                          <div className="col-2">
+                            خذف
+                          </div>
+                        </div>
+                    </div>
+                      {data.components[index_Component].id_10.id_2.map((item, index) =>
+                      <div key={index} className="col-12 mb-2">
+                        <div className="row">
+                          <input type='text'  className="form-control col-8" placeholder='..' value={item[1]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_10","id_2",index,1],event.target.value,"change")}}/>
+                          <input type='button'  className="form-control col-2 btn-primary" value="تغییر" onClick={()=>{open_Modal("list_image",window.scrollY,["components",index_Component,"id_10","id_2",index,0])}}/>
+                          <input type='button'  className="form-control col-2 btn-danger" value="حذف" onClick={()=>{changeValue_Data(["components",index_Component,"id_10","id_2"],null,"delete",index)}}/>
+                        </div>
+                      </div>
+                      )}
+                      <div className="col-4">
+                      <input type='button'  className="form-control col-12 btn-success" value="افزودن" onClick={()=>{changeValue_Data(["components",index_Component,"id_10","id_2"],add_item_instagram,"add",null)}}/>
+                      </div>
+                    </div>
+            ):(<></>)}
+            <hr />
+            <div className='mb-3 row'>
+                <div className="col-4 text-center">
+                </div>
+                <div className="col-8 text-right row">
+                <input type="checkbox" className="form-control col" placeholder="..." checked={data.components[index_Component].id_11.id_1} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_11","id_1"],event.target.checked,"change")}}/>
+                    <p className='col-8 pt-2 rtl font-weight-bold text-dark'>شبکه های اجتماعی:</p>
+                </div>
+            </div>
+            {data.components[index_Component].id_11.id_1? (
+                    <div className="col-12 p-0">
+                    <div className="col-12 mb-2">
+                        <div className="row">
+                          <div className="col-6">
+                            لینک
+                          </div>
+                          <div className="col-2">
+                            نمایش
+                          </div>
+                          <div className="col-4">
+                            شبکه اجتماعی
+                          </div>
+                        </div>
+                    </div>
+                      <div className="col-12 mb-2">
+                        <div className="row">
+                          <input type='text'  className="form-control col-6" placeholder='..' value={data.components[index_Component].id_11.id_2[2]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_11","id_2",2],event.target.value,"change")}}/>
+                          <input type="checkbox" className="form-control col-2" placeholder="..." checked={data.components[index_Component].id_11.id_2[0]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_11","id_2",0],event.target.checked,"change")}}/>
+                          <p className='col-4 text-center'>{data.components[index_Component].id_11.id_2[1]}</p>
+                        </div>
+                      </div>
+
+                      <div className="col-12 mb-2">
+                        <div className="row">
+                          <input type='text'  className="form-control col-6" placeholder='..' value={data.components[index_Component].id_11.id_3[2]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_11","id_3",2],event.target.value,"change")}}/>
+                          <input type="checkbox" className="form-control col-2" placeholder="..." checked={data.components[index_Component].id_11.id_3[0]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_11","id_3",0],event.target.checked,"change")}}/>
+                          <p className='col-4 text-center'>{data.components[index_Component].id_11.id_3[1]}</p>
+                        </div>
+                      </div>
+
+                      <div className="col-12 mb-2">
+                        <div className="row">
+                          <input type='text'  className="form-control col-6" placeholder='..' value={data.components[index_Component].id_11.id_4[2]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_11","id_4",2],event.target.value,"change")}}/>
+                          <input type="checkbox" className="form-control col-2" placeholder="..." checked={data.components[index_Component].id_11.id_4[0]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_11","id_4",0],event.target.checked,"change")}}/>
+                          <p className='col-4 text-center'>{data.components[index_Component].id_11.id_4[1]}</p>
+                        </div>
+                      </div>
+
+                      <div className="col-12 mb-2">
+                        <div className="row">
+                          <input type='text'  className="form-control col-6" placeholder='..' value={data.components[index_Component].id_11.id_5[2]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_11","id_5",2],event.target.value,"change")}}/>
+                          <input type="checkbox" className="form-control col-2" placeholder="..." checked={data.components[index_Component].id_11.id_5[0]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_11","id_5",0],event.target.checked,"change")}}/>
+                          <p className='col-4 text-center'>{data.components[index_Component].id_11.id_5[1]}</p>
+                        </div>
+                      </div>
+
+                      <div className="col-12 mb-2">
+                        <div className="row">
+                          <input type='text'  className="form-control col-6" placeholder='..' value={data.components[index_Component].id_11.id_6[2]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_11","id_6",2],event.target.value,"change")}}/>
+                          <input type="checkbox" className="form-control col-2" placeholder="..." checked={data.components[index_Component].id_11.id_6[0]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_11","id_6",0],event.target.checked,"change")}}/>
+                          <p className='col-4 text-center'>{data.components[index_Component].id_11.id_6[1]}</p>
+                        </div>
+                      </div>
+
+                    </div>
+            ):(<></>)}
+            <hr />
+            <div className='mb-3 row'>
+                <div className="col-4 text-center">
+                </div>
+                <div className="col-8 text-right row">
+                <input type="checkbox" className="form-control col" placeholder="..." checked={data.components[index_Component].id_12.id_1} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_12","id_1"],event.target.checked,"change")}}/>
+                    <p className='col-8 pt-2 rtl font-weight-bold text-dark'>اخبار:</p>
+                </div>
+            </div>
+            {data.components[index_Component].id_12.id_1? (
+                    <div className="col-12 p-0">
+                    <div className="col-12 mb-2">
+                        <div className="row">
+                          <div className="col-3">
+                            لینک
+                          </div>
+                          <div className="col-3">
+                            عنوان
+                          </div>
+                          <div className="col-2">
+                            تاریخ         
+                          </div>
+                          <div className="col-2">
+                            عکس         
+                          </div>
+                          <div className="col-2">
+                            خذف
+                          </div>
+                        </div>
+                    </div>
+                      {data.components[index_Component].id_12.id_2.map((item, index) =>
+                      <div key={index} className="col-12 mb-2">
+                        <div className="row">
+                          <input type='text'  className="form-control col-3" placeholder='..' value={item[3]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_12","id_2",index,3],event.target.value,"change")}}/>
+                          <input type='text'  className="form-control col-3" placeholder='..' value={item[0]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_12","id_2",index,0],event.target.value,"change")}}/>
+                          <input type='text'  className="form-control col-2" placeholder='..' value={item[1]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_12","id_2",index,1],event.target.value,"change")}}/>
+                          <input type='button'  className="form-control col-2 btn-primary" value="تغییر" onClick={()=>{open_Modal("list_image",window.scrollY,["components",index_Component,"id_12","id_2",index,2])}}/>
+                          <input type='button'  className="form-control col-2 btn-danger" value="حذف" onClick={()=>{changeValue_Data(["components",index_Component,"id_12","id_2"],null,"delete",index)}}/>
+                        </div>
+                      </div>
+                      )}
+                      <div className="col-4">
+                      <input type='button'  className="form-control col-12 btn-success" value="افزودن" onClick={()=>{changeValue_Data(["components",index_Component,"id_12","id_2"],add_item_feeds,"add",null)}}/>
+                      </div>
+                    </div>
+            ):(<></>)}
+            <hr />
+            <div className='mb-3 row'>
+                <div className="col-4 text-center">
+                </div>
+                <div className="col-8 text-right row">
+                <input type="checkbox" className="form-control col" placeholder="..." checked={data.components[index_Component].id_13.id_1} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_13","id_1"],event.target.checked,"change")}}/>
+                    <p className='col-8 pt-2 rtl font-weight-bold text-dark'>برچسب ها:</p>
+                </div>
+            </div>
+            {data.components[index_Component].id_13.id_1? (
+                    <div className="col-12 p-0">
+                    <div className="col-12 mb-2">
+                        <div className="row">
+                          <div className="col-10">
+                            برچسب
+                          </div>
+                          <div className="col-2">
+                            خذف
+                          </div>
+                        </div>
+                    </div>
+                      {data.components[index_Component].id_13.id_2.map((item, index) =>
+                      <div key={index} className="col-12 mb-2">
+                        <div className="row">
+                          <input type='text'  className="form-control col-10" placeholder='..' value={item} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_13","id_2",index],event.target.value,"change")}}/>
+                          <input type='button'  className="form-control col-2 btn-danger" value="حذف" onClick={()=>{changeValue_Data(["components",index_Component,"id_13","id_2"],null,"delete",index)}}/>
+                        </div>
+                      </div>
+                      )}
+                      <div className="col-4">
+                      <input type='button'  className="form-control col-12 btn-success" value="افزودن" onClick={()=>{changeValue_Data(["components",index_Component,"id_13","id_2"],"تگ","add",null)}}/>
+                      </div>
+                    </div>
+            ):(<></>)}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={()=>{close_Modal(id_Modal)}}>
