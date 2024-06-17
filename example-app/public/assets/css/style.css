@@ -4412,9 +4412,9 @@ ul.social-link li {
     height: 100%;
     width: 100%;
     content: '';
-    opacity: .9;
+    opacity: .7;
     z-index: -1;
-    background: rgb(5, 116, 255);
+    background: var(--overlay-color, #0574ff);
     border-radius: 6px;
 }
 /*---=================================

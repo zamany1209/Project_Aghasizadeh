@@ -5,7 +5,7 @@ use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Formscontroller;
 use App\Http\Controllers\AdminController;
-
+use App\Http\Controllers\CommentsController;
 // Route::get('/', function () {
 //     return Inertia::render('Welcome', [
 //         'canLogin' => Route::has('login'),
@@ -53,4 +53,9 @@ Route::post('create_form', [Formscontroller::class, 'Create_Form']);
 Route::post('delete_form', [Formscontroller::class, 'Delete_Form']);
 Route::post('list_form', [Formscontroller::class, 'List_Form']);
 Route::post('access_form', [Formscontroller::class, 'Access_Form']);
+/////Comments///////
+Route::post('get_comment', [CommentsController::class, 'Get_Comments']);
+Route::post('edit_reply', [CommentsController::class, 'Edit_Reply']);
+Route::post('send_comment', [CommentsController::class, 'Send_Comment']);
+Route::post('delete_comment', [CommentsController::class, 'Delete_Comment']);
 require __DIR__.'/auth.php';

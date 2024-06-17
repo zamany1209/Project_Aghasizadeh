@@ -7,7 +7,7 @@ import Save_changes from '@/Components/Save_changes';
 import Check_visit from '@/Components/Check_visit';
 
 function Constructor({ name , re_url , re_data,re_data_search, re_token, re_image_list,re_component_img,re_component }){
-    const { data ,setData, setToken,setUrl, setState_admin, setEdit_text, setImage_list,add_Modal,setComponent_list_img,setComponent_list, data_search } = useContext(DataContext);
+    const { data,setPage_name,setData, setToken,setUrl, setState_admin, setEdit_text, setImage_list,add_Modal,setComponent_list_img,setComponent_list, data_search } = useContext(DataContext);
     var components =  JSON.parse(re_data);
     components["data_search"] = re_data_search;
     useEffect(() => {
@@ -19,7 +19,7 @@ function Constructor({ name , re_url , re_data,re_data_search, re_token, re_imag
         }
 
         setData(components);
-
+        setPage_name(name);
         setUrl(re_url);
         if(re_token){
             setImage_list(JSON.parse(re_image_list));

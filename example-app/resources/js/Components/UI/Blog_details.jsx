@@ -2,6 +2,7 @@ import React, { Component, useContext,useEffect,useState  } from 'react';
 import { DataContext } from '@/Context/DataContext';
 import { Modal, Button } from 'react-bootstrap';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
+import Swal from 'sweetalert2';
 
 export default function blog_Details({ index_Component, name_Component,inputPlaceholder = "تاریخ را انتخاب کنید" }) {
     const { edit_text,url, token,data,open_Modal,open_Context_Menu,changeValue_Data} = useContext(DataContext);
@@ -27,7 +28,7 @@ export default function blog_Details({ index_Component, name_Component,inputPlac
             return(
                 <blockquote key={index} className="blockquote rtl p-3 pt-4">
                     <div className="icon">
-                        <img src={url+"/assets/images/icon_1.png"} alt=""/>
+                        <LazyLoadImage src={url+"/assets/images/icon_1.png"} alt=""/>
                     </div>
                     <div className="info ml-0 mr-3">
                         <p suppressContentEditableWarning={true} contentEditable={edit_text} onBlur={(event)=>{changeValue_Data(["components",index_Component,"id_1",index,"text"],event.target.innerText,"change")}} className='rtl' style={{"color":item["color"]}}>{item["text"]}</p>
@@ -42,8 +43,8 @@ export default function blog_Details({ index_Component, name_Component,inputPlac
                     {token ? (
                             <>
                                 <div className="mb-3 mt-3  rtl text-right row">
-                                    <button className='col-3 btn btn-primary m-1' onClick={()=> {open_Modal("list_image",window.scrollY,["components",index_Component,"id_1",index,"url"])}}>تغییر عکس</button>
-                                    <input type='button'  className="form-control col-3 btn-danger m-1" value="حذف" onClick={()=>{changeValue_Data(["components",index_Component,"id_1",index],null,"delete",index)}}/>
+                                    <button className='col-4 btn btn-primary m-1' onClick={()=> {open_Modal("list_image",window.scrollY,["components",index_Component,"id_1",index,"url"])}}>تغییر عکس</button>
+                                    <input type='button'  className="form-control col-4 btn-danger m-1" value="حذف" onClick={()=>{changeValue_Data(["components",index_Component,"id_1",index],null,"delete",index)}}/>
                                 </div>
                             </>
                         ):(
@@ -63,8 +64,17 @@ export default function blog_Details({ index_Component, name_Component,inputPlac
                             <div className="post-entry-content text-right">
                                 <div className="post-meta text-right">
                                     <ul>
-                                        <li className='m-0 ml-1'><span><a href="#">{data.components[index_Component].id_7} </a> <i className="far fa-user"></i></span></li>
-                                        <li className='m-0 ml-3'><span><a href="#">{data.components[index_Component].id_6} </a>  <i className="far fa-user"></i></span></li>
+                                        <li className='m-0 ml-1'><span><a className='p-1'>{data.components[index_Component].id_7} </a>
+                                        <svg width="16" height="16" fill="currentColor" class="bi bi-calendar-week" viewBox="0 0 16 16">
+                                            <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/>
+                                            <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+                                        </svg>
+                                        </span></li>
+                                        <li className='m-0 ml-3'><span><a className='p-1'>{data.components[index_Component].id_6} </a>
+                                        <svg  width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                                            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+                                        </svg>
+                                        </span></li>
                                     </ul>
                                 </div>
                                 {data.components[index_Component].id_1.map((item, index) =>
@@ -136,7 +146,7 @@ export default function blog_Details({ index_Component, name_Component,inputPlac
 
                             {data.components[index_Component].id_8 ? (
                                 <>
-                                    <Comments></Comments>
+                                    <Comments index_Component={index_Component} name_Component={name_Component}></Comments>
                                 </>
                             ):(
                                 <></>
@@ -192,70 +202,284 @@ export default function blog_Details({ index_Component, name_Component,inputPlac
         </>
     );
 }
-const Comments = () => {
-    const { url,state_admin} = useContext(DataContext);
+const Comments = ({name_Component,index_Component}) => {
+    const { data,url,state_admin,page_name,changeValue_Data,open_Modal} = useContext(DataContext);
+    const id_Modal_Comments = String(name_Component+"_"+index_Component+"_comments");
+    const [name,setName] = useState(null);
+    const [email,setEmail] = useState(null);
+    const [comment,setComment] = useState(null);
+    const delete_comment = async (event,index,id)=>{
+        event.preventDefault();
+        try {
+          const result = await Swal.fire({
+            title: 'آیا این پیام حذف شود؟',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
+          });
+    
+          if (result.isConfirmed) {
+            
+              try {
+                const response = await axios.post(url+'/delete_comment', {
+                    id
+                });
+                Swal.fire({
+                  position: "top-end",
+                  icon: "success",
+                  title: "پیام با موفقیت حذف شد",
+                  showConfirmButton: false,
+                  timer: 1500
+                });
+                await new Promise((resolve) => changeValue_Data(["comments"],null,"delete", index, resolve));
+            } catch(error) {
+                if (error.response && error.response.status === 409) {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "error",
+                        title: "متاسفانه پیام ارسال نشد",
+                        showConfirmButton: false,
+                        timer: 1800
+                      });
+                }
+                if (error.response && error.response.status === 408) {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "error",
+                        title: "لطفا بعد از چند دقیقده دوباره تلاش کنید",
+                        showConfirmButton: false,
+                        timer: 1800
+                      });
+                }
+              }
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+            console.log('User did not agree.');
+          }
+        } catch (error) {
+          console.error('Error showing dialog:', error);
+        }
+    }
+    const Send_Comment = async (event)=>{
+        event.preventDefault();
+        try {
+          const result = await Swal.fire({
+            title: 'آیا این پیام ارسال شود؟',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
+          });
+    
+          if (result.isConfirmed) {
+            
+              try {
+                const response = await axios.post(url+'/send_comment', {
+                    page_name,name,email,comment
+                });
+                Swal.fire({
+                  position: "top-end",
+                  icon: "success",
+                  title: "پیام ارسال شد",
+                  showConfirmButton: false,
+                  timer: 1500
+                });
+                close_Modal(id_Modal);
+            } catch(error) {
+                if (error.response && error.response.status === 409) {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "error",
+                        title: "متاسفانه پیام ارسال نشد",
+                        showConfirmButton: false,
+                        timer: 1800
+                      });
+                }
+                if (error.response && error.response.status === 408) {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "error",
+                        title: "لطفا بعد از چند دقیقده دوباره تلاش کنید",
+                        showConfirmButton: false,
+                        timer: 1800
+                      });
+                }
+              }
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+            console.log('User did not agree.');
+          }
+        } catch (error) {
+          console.error('Error showing dialog:', error);
+        }
+      }
+    useEffect(() => {
+    axios.post(url+'/get_comment',{page_name})
+  .then(function (response) {
+    changeValue_Data(["comments"],response.data.comments,"change");
+  })
+  .catch(function (error) {
+  }); 
+    }, []);
     return(
         <>
             <div className="comments-area mb-45">
                 <h4 className="comments-title mb-35 text-right">نظرات</h4>
                 <ul className="comments-list">
-                    <li className="comment row">
+                {data.comments.map((item, index) =>
+                    <li key={index} className="comment row">
                     <div className="comment-wrap col-8">
                         <div className="comment-author-content">
                             <span className="author-name p-2">
-                            <span style={{float:"right"}}>John F. Medina</span>
+                            <span style={{float:"right"}}>{item.name}</span>
                                 {state_admin ? (
-                                    <span className="reply"><a>پاسخ</a></span>
+                                    <span className="reply">
+                                        <button className='m-1 p-1 rounded' onClick={()=>{open_Modal(id_Modal_Comments,window.scrollY,[index,item.id])}}> پاسخ </button>
+                                        <button className='m-1 p-1 rounded text-danger' onClick={(event)=>{delete_comment(event,index,item.id)}}>حذف</button>
+                                    </span>
                                 ):(
                                     <span className="reply"></span>
                                 )}
                                 </span>
-                                <p className="text-right">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                <p className="text-right">{item.comment}</p>
                             </div>
                         </div>
                         <div className="comment-avatar m-0 p-0 col-lg-2 col-md-2 col-sm-1">
                             <LazyLoadImage className='p-2' src={url+"/asset/img/user.svg"} alt=""/>
                         </div>
-
+                {item.reply ?(
+                    <>
+                    <div className="comment-wrap col-7">
+                        <div className="comment-author-content">
+                        <span className="author-name p-2">
+                        <span style={{float:"right"}}>ادمین</span>
+                        <span className="reply"></span>
+                            </span>
+                            <p className="text-right">{item.reply}</p>
+                        </div>
+                    </div>
+                    <div className="comment-avatar m-0 p-0 col-lg-2 col-md-2 col-sm-1">
+                        <LazyLoadImage className='p-2 col-9' src={url+"/asset/img/admin.svg"} alt=""/>
+                    </div>
+                    </>
+                ):(<></>)}
                     </li>
+                )}
                 </ul>
             </div>
             <div className="comments-respond">
                 <h4 className="comments-heading mb-30 text-right">ارسال نظر</h4>
                 <form>
                     <div className="form_group">
-                        <textarea className="form_control" name="message" placeholder="Type your comments...."></textarea>
-                        <i className="fal fa-pencil-alt"></i>
+                        <textarea className="form_control text-right rtl" name="message" placeholder="لطفا متن خود را وارد کنید..." defaultValue={comment} onChange={(event)=>{setComment(event.target.value)}}></textarea>
                     </div>
                     <div className="form_group">
-                        <input type="text" className="form_control" placeholder="Type your name" name="name"/>
-                        <i className="fal fa-user"></i>
+                        <input type="text" className="form_control text-right rtl" placeholder="لطفا نام خود را وارد کنید" name="name" value={name} onChange={(event)=>{setName(event.target.value)}}/>
                     </div>
                     <div className="form_group">
-                        <input type="email" className="form_control" placeholder="Type your email" name="email"/>
-                        <i className="fal fa-envelope"></i>
+                        <input type="email" className="form_control text-right rtl" placeholder="لطفا ایمیل خود را وارد کنید" name="email" value={email} onChange={(event)=>{setEmail(event.target.value)}}/>
                     </div>
                     <div className="form_group">
-                        <input type="text" className="form_control" placeholder="Type your website" name="website"/>
-                        <i className="fal fa-globe"></i>
-                    </div>
-                    <div className="form_group">
-                        <button className="main-btn">post comment</button>
+                        <button className="main-btn" onClick={(event)=>{Send_Comment(event)}}>ارسال </button>
                     </div>
                 </form>
             </div>
+            <CommentWidget id_Modal={id_Modal_Comments} index_Component={index_Component}></CommentWidget>
         </>
+    );
+};
+const CommentWidget = ({id_Modal,index_Component}) => {
+    const { data,url, isModalOpen, close_Modal,add_Modal,open_Modal,changeValue_Data } = useContext(DataContext);
+    const Edit_Reply_Comment = async (event)=>{
+        event.preventDefault();
+        try {
+          const result = await Swal.fire({
+            title: 'آیا این پیام ارسال شود؟',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
+          });
+    
+          if (result.isConfirmed) {
+            var id = data.comments[isModalOpen[id_Modal]?.value[0]]?.id;
+            var reply = data.comments[isModalOpen[id_Modal]?.value[0]]?.reply;
+            
+              try {
+                const response = await axios.post(url+'/edit_reply', {
+                    id,reply
+                });
+                Swal.fire({
+                  position: "top-end",
+                  icon: "success",
+                  title: "پیام ارسال شد",
+                  showConfirmButton: false,
+                  timer: 1500
+                });
+                close_Modal(id_Modal);
+            } catch(error) {
+                if (error.response && error.response.status === 409) {
+                    alert(error.response.data.message);
+                }
+              }
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+            console.log('User did not agree.');
+          }
+        } catch (error) {
+          console.error('Error showing dialog:', error);
+        }
+      }
+    useEffect(() => {
+        add_Modal(id_Modal);
+    }, []);
+    // not is chancge scrolle
+    useEffect(() => {
+        if(isModalOpen[id_Modal]?.status == true){
+        window.scrollTo(0, isModalOpen[id_Modal]?.location);
+        }else{
+        window.scrollTo(0, isModalOpen[id_Modal]?.location);
+        }
+    }, [isModalOpen[id_Modal]?.status]);
+    useEffect(() =>{
+        if(isModalOpen[id_Modal]?.status == true){
+        window.scrollTo(0, isModalOpen[id_Modal]?.location);
+        }
+    },[data]);
+    return (
+        <>
+      <Modal show={isModalOpen[id_Modal]?.status} onHide={()=>{close_Modal(id_Modal)}} scrollable centered size="md">
+        <Modal.Header closeButton>
+          <Modal.Title>ارسال پاسخ</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+            {isModalOpen && isModalOpen[id_Modal] && isModalOpen[id_Modal].value && isModalOpen[id_Modal].value[1] && data.comments[isModalOpen[id_Modal].value[0]] && (
+                <div className="mb-3 rtl text-right">
+                    <label htmlFor="formGroupExampleInput2">پیام شما</label>
+                    <input type='text' id='formGroupExampleInput2'  className="form-control col-9 rtl text-right mr-3" placeholder='..' value={data.comments[isModalOpen[id_Modal]?.value[0]]?.reply} onChange={(event)=>{changeValue_Data(["comments",isModalOpen[id_Modal]?.value[0],"reply"],event.target.value,"change")}}/>
+                </div>
+            )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={()=>{close_Modal(id_Modal)}}>
+            خروج
+          </Button>
+          <Button variant="success" onClick={(event)=>{Edit_Reply_Comment(event)}}>
+            ذخیره
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      </>
     );
 };
 const Banner = ({index_Component}) => {
     const { url,data } = useContext(DataContext);
     return(
         <div className="widget add_widget mb-40">
-            <div className="add_widget_img" style={{"background":"url("+url+"/assets/images/blog/add_img.jpg) no-repeat"}}>
+            <div className="add_widget_img " style={{"background":"url("+url+data.components[index_Component].id_14.id_6+") no-repeat",'--overlay-color':data.components[index_Component].id_14.id_8}}>
                 <div className="add_widget_text">
-                    <span>Add Banner</span>
-                    <h2>Get 50% off <strong>With Halim</strong></h2>
-                    <a href="#" className="main-btn">Get Started Now</a>
+                    <span></span>
+                    <h2 className='m-0' style={{"color":data.components[index_Component].id_14.id_9}}>{data.components[index_Component].id_14.id_2}</h2>
+                    <h2 style={{"color":data.components[index_Component].id_14.id_9}}>{data.components[index_Component].id_14.id_3}</h2>
+                    <a href={data.components[index_Component].id_14.id_5} className="main-btn" style={{"backgroundColor":data.components[index_Component].id_14.id_7,"color":data.components[index_Component].id_14.id_9}}>{data.components[index_Component].id_14.id_4}</a>
                 </div>
             </div>
         </div>
@@ -280,7 +504,7 @@ const Feeds = ({index_Component}) => {
             <ul className="recent-post-list">
             {data.components[index_Component].id_12.id_2.map((item, index) =>
                 <li key={index} className="post-thumbnail-content rtl text-right">
-                    <img src={url+item[2]} className="img-fluid m-0 ml-3 rounded " alt=""/>
+                    <LazyLoadImage src={url+item[2]} className="img-fluid m-0 ml-3 rounded " alt=""/>
                     <div className="post-title-date">
                         <h6><a href={item[3]}>{item[0]}</a></h6>
                         <span className="posted-on"><a href={item[3]}>{item[1]}</a></span>
@@ -350,7 +574,7 @@ const Instagram = ({index_Component}) => {
                     <div key={index} className="col-lg-4 col-md-4 col-sm-4 col-6 ins_pa">
                         <div className="insta_img d-flex justify-content-center">
                             <a href={url+item[1]}>
-                                <img src={url+item[0]} className="img-fluid" alt=""/>
+                                <LazyLoadImage src={url+item[0]} className="img-fluid" alt=""/>
                             </a>
                         </div>
                     </div>
@@ -402,6 +626,16 @@ const ModalComponent = ({id_Modal,index_Component}) => {
           <Modal.Title>تنظیمات</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+        <div className='mb-3 rtl text-right row'>
+            <div className="col-6">
+                <label htmlFor="formGroupExampleInput2">نویسنده</label>
+                <input type="text" id='formGroupExampleInput2' className="form-control col" placeholder="..." value={data.components[index_Component].id_6} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_6"],event.target.value,"change")}}/>
+            </div>
+            <div className="col-6">
+                <label htmlFor="formGroupExampleInput2">تاریخ</label>
+                <input type="text" id='formGroupExampleInput2' className="form-control col" placeholder="..." value={data.components[index_Component].id_7} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_7"],event.target.value,"change")}}/>
+            </div>
+        </div>
             <div className='mb-3'>
                 <div className="row mb-3">
                     <div className="col-6">
@@ -827,7 +1061,7 @@ const SidebarWidget = ({id_Modal,index_Component}) => {
                       {data.components[index_Component].id_13.id_2.map((item, index) =>
                       <div key={index} className="col-12 mb-2">
                         <div className="row">
-                          <input type='text'  className="form-control col-10" placeholder='..' value={item} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_13","id_2",index],event.target.value,"change")}}/>
+                          <input type='text'  className="form-control col-9 rtl text-right mr-3" placeholder='..' value={item} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_13","id_2",index],event.target.value,"change")}}/>
                           <input type='button'  className="form-control col-2 btn-danger" value="حذف" onClick={()=>{changeValue_Data(["components",index_Component,"id_13","id_2"],null,"delete",index)}}/>
                         </div>
                       </div>
@@ -837,6 +1071,51 @@ const SidebarWidget = ({id_Modal,index_Component}) => {
                       </div>
                     </div>
             ):(<></>)}
+            <hr />
+            <div className='mb-3 row'>
+                <div className="col-4 text-center">
+                </div>
+                <div className="col-8 text-right row">
+                <input type="checkbox" className="form-control col" placeholder="..." checked={data.components[index_Component].id_14.id_1} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_14","id_1"],event.target.checked,"change")}}/>
+                    <p className='col-8 pt-2 rtl font-weight-bold text-dark'>بنر تبلیغات:</p>
+                </div>
+            </div>
+            {data.components[index_Component].id_14.id_1? (
+                <>
+                    <div className='mb-3 rtl text-right row'>
+                        <div className="col-2">
+                            <label htmlFor="formGroupExampleInput2">رنگ</label>
+                            <input type="color" className="form-control form-control-color col-12" id="exampleColorInput" value={data.components[index_Component].id_14.id_9} title="Choose your color" onChange={(event)=>{changeValue_Data(["components",index_Component,"id_14","id_9"],event.target.value,"change")}}/>
+                        </div>
+                        <div className="col-10">
+                            <label htmlFor="formGroupExampleInput2">عنوان</label>
+                            <input type="text" id='formGroupExampleInput2' className="form-control col" placeholder="..." value={data.components[index_Component].id_14.id_2} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_14","id_2"],event.target.value,"change")}}/>
+                        </div>
+                    </div>
+                    <div className='mb-3 rtl text-right'>
+                        <label htmlFor="formGroupExampleInput2">عنوان دوم</label>
+                        <input type="text" id='formGroupExampleInput2' className="form-control col" placeholder="..." value={data.components[index_Component].id_14.id_3} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_14","id_3"],event.target.value,"change")}}/>
+                    </div>
+                    <div className='mb-3 row'>
+                        <div className="col-5 rtl text-right">
+                            <label htmlFor="formGroupExampleInput2">متن دکمه</label>
+                            <input type="text" id='formGroupExampleInput2' className="form-control col" placeholder="..." value={data.components[index_Component].id_14.id_4} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_14","id_4"],event.target.value,"change")}}/>
+                        </div>
+                        <div className="col-5 rtl text-right">
+                            <label htmlFor="formGroupExampleInput2">لینک</label>
+                            <input type="text" id='formGroupExampleInput2' className="form-control col" placeholder="..." value={data.components[index_Component].id_14.id_5} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_14","id_5"],event.target.value,"change")}}/>
+                        </div>
+                        <div className="col-2 text-center">
+                            <label htmlFor="formGroupExampleInput2">رنگ</label>
+                            <input type="color" className="form-control form-control-color col-12" id="exampleColorInput" value={data.components[index_Component].id_14.id_7} title="Choose your color" onChange={(event)=>{changeValue_Data(["components",index_Component,"id_14","id_7"],event.target.value,"change")}}/>
+                        </div>
+                    </div>
+                </>
+            ):(<></>)}
+            <ul className="list-group list-group-horizontal">
+                <li className="list-group-item btn col-6 pt-3" onClick={()=> {open_Modal("list_image",window.scrollY,["components",index_Component,"id_14","id_6"])}}>تغییر عکس بنر</li>
+                <li className="list-group-item btn col-6"><input type="color" className="form-control form-control-color p-0 m-0" style={{"border":"0px"}} id="exampleColorInput" value={data.components[index_Component].id_14.id_8} title="Choose your color" onChange={(event)=>{changeValue_Data(["components",index_Component,"id_14","id_8"],event.target.value,"change")}}/></li>
+            </ul>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={()=>{close_Modal(id_Modal)}}>

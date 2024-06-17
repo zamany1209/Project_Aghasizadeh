@@ -15,7 +15,7 @@ class AdminController extends Controller
     public function Create_Page(Request $request)
     {
         if (Auth::check()) {
-            $jsonData = '{"components": []}';
+            $jsonData = '{"components": [],"title":null,"comments":[]}';
             $name = $request->input('url_page');
             $filePath = resource_path("data\pages\ $name.json");
     

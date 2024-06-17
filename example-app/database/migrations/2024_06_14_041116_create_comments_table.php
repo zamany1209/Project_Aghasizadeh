@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('comment');
             $table->string('reply');
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }

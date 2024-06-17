@@ -4,6 +4,7 @@ import { contextMenu } from 'react-contexify';
 export const DataContext = createContext();
 
 export const DataProvider = ({ children }) => {
+  const [page_name, setPage_name] = useState(null);
   const [data, setData] = useState({});
   const [token, setToken] = useState(null);
   const [url, setUrl] = useState(null);
@@ -95,6 +96,7 @@ export const DataProvider = ({ children }) => {
   };
   return (
     <DataContext.Provider value={{ 
+      page_name, setPage_name,
       data, setData,
       token, setToken, 
       url, setUrl,

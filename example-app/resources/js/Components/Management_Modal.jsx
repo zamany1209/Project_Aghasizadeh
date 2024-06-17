@@ -69,6 +69,7 @@ export default function Management_Modal({name}){
             <div className="row">
                 {component_list_img?.Component.map((item,index) =>
                     <div key={index} className="col-12">
+                      <h3 className='p-2'>#{item["name"]}</h3>
                         <LazyLoadImage className='col12' src={url+"/asset/img/component/"+item["img"]} alt="" onClick={()=>{add_component(["components"],item["name"]);close_Modal(show_list_component);}} />
                         <hr className='m-3'/>
                     </div>

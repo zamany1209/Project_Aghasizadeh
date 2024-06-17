@@ -5,6 +5,7 @@
         {"img":"Banner_section.jpg","name":"Banner_section"},
         {"img":"About_wrapper.jpg","name":"About_wrapper"},
         {"img":"single_slider.jpg","name":"single_slider"},
-        {"img":"Bredcumbs_section.jpg","name":"Bredcumbs_section"}
+        {"img":"Bredcumbs_section.jpg","name":"Bredcumbs_section"},
+        {"img":"Blog_details.jpg","name":"Blog_details"}
     ]
 }
