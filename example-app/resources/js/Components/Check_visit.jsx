@@ -58,7 +58,7 @@ export default function Check_visit(){
   
     return (
       <div>
-        <h1>روزهای هفته</h1>
+        {/* <h1>روزهای هفته</h1>
         <table border="1">
           <thead>
             <tr>
@@ -67,7 +67,7 @@ export default function Check_visit(){
               ))}
             </tr>
           </thead>
-        </table>
+        </table> */}
       </div>
     );
 }

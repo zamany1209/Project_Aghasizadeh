@@ -39,6 +39,10 @@ export default function Index_Sidbar() {
           <a onClick={()=>{setActive_component("Froms")}} type="button" className="nav-link ml-lg-4">
               <span>فرم ها</span></a>
       </li>
+      <li className="nav-item">
+          <a onClick={()=>{setActive_component("upload_files")}} type="button" className="nav-link ml-lg-4">
+              <span>آپلود فایل</span></a>
+      </li>
 
   </ul>
     </>

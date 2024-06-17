@@ -88,7 +88,7 @@ class cookiecontroller extends Controller
 
                 File::put($filePath_list_page, json_encode($list_pages, JSON_PRETTY_PRINT));
                 File::put($filePath_visit_website, json_encode($visit_web_site, JSON_PRETTY_PRINT));
-                return response()->json(['result' => $s])->cookie($cookie);
+                return response()->json(['result' => true],201)->cookie($cookie);
             }
             else{
                 return response()->json(['result' => false]);

@@ -9,10 +9,6 @@ export default function blog_Details({ index_Component, name_Component,inputPlac
     const id_Modal_1 = String(name_Component+"_"+index_Component);
     const id_Modal_2 = String(name_Component+"_SidebarWidget"+"_"+index_Component);
     const [selectedDate, setSelectedDate] = useState(null);
-
-  const handleChange = (date) => {
-    setSelectedDate(date);
-  };
     const ContentPage = ({item,index}) => {
         if(item.name == "Title"){
             return(
@@ -845,10 +841,6 @@ const AddContent = ({index_Component}) => {
       </>
     );
 };
-
-
-
-
 const SidebarWidget = ({id_Modal,index_Component}) => {
     const { data, isModalOpen, close_Modal,add_Modal,open_Modal,changeValue_Data } = useContext(DataContext);
     const add_item_instagram =["/assets/images/blog/insta_1.jpg","#"];

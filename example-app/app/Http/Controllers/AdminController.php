@@ -146,5 +146,40 @@ class AdminController extends Controller
             }
         }
     }
+    public function UPLOAD_FILE(Request $request)
+    {
+        if (Auth::check()) {
+            $request->validate([
+                'file' => 'required|mimes:jpeg,png,jpg,gif,svg,mp4,mov,avi|max:20480',
+            ]);
+    
+            if ($request->hasFile('file')) {
+
+                $file = $request->file('file');
+            
+                // تغییر نام فایل با استفاده از زمان و نام اصلی فایل
+                $filename = time() . '_' . $file->getClientOriginalName();
+                
+                $jsonFilePath = resource_path('data\list-img.json');
+
+                // خواندن محتوای فایل JSON فعلی
+                $jsonData = json_decode(File::get($jsonFilePath), true);
+        
+                // اضافه کردن نام فایل به آرایه Image
+                $jsonData['Image'][] = $filename;
+        
+                // ذخیره محتوای جدید در فایل JSON
+                File::put($jsonFilePath, json_encode($jsonData));
+
+                // ذخیره فایل در پوشه 'public/uploads'
+                $destinationPath = public_path('/asset/img');
+                $file->move($destinationPath, $filename);
+    
+                return response()->json(['success' => 'File uploaded successfully']);
+            }
+    
+            return response()->json(['error' => 'File not uploaded'], 400);
+        }
+    }
 
 }

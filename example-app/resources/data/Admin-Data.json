@@ -10,5 +10,9 @@
         {
             "name":"Forms"
         }
+        ,
+        {
+            "name":"upload_files"
+        }
     ]
 }

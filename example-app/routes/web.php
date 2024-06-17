@@ -45,6 +45,7 @@ Route::post('access_page', [AdminController::class, 'Access_Page']);
 Route::post('delete_page', [AdminController::class, 'Delete_Page']);
 Route::post('edit_data_search', [AdminController::class, 'Edit_Data_Search']);
 Route::post('edit_data_profile', [AdminController::class, 'Edit_Data_Profile']);
+Route::post('upload_file', [AdminController::class, 'UPLOAD_FILE']);
 
 ////Forms////
 Route::get('form/{name_url}', [Formscontroller::class, 'Forms_control']);
