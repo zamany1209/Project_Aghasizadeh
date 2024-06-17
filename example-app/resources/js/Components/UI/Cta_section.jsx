@@ -7,18 +7,18 @@ export default function cta_section({ index_Component, name_Component }) {
     const id_Modal = String(name_Component+"_"+index_Component);
     return (
         <>
-        <section className="cta-area-v3 dark_blue section_padding pt-110 pb-120">
+        <section id={data.components[index_Component]?.id}  className="cta-area-v3 section_padding pt-110 pb-120" style={{backgroundColor:data.components[index_Component].id_4}} onContextMenu={(event)=>{open_Context_Menu(event,id_Modal,index_Component)}}>
             <div className="container">
-                <div className="row align-items-center">
-                    <div className="col-lg-9">
-                        <div className="section-title section-title-white">
-                            <span className="span">call to action</span>
-                            <h2>Representing All Of The Major <br/>Telecom Companies</h2>
+                <div className="row align-items-center rtl">
+                    <div className="col-lg-10">
+                        <div className="section-title section-title-white text-right">
+                            <span className="span" style={{color:data.components[index_Component].id_3[1]}}>{data.components[index_Component].id_3[0]}</span>
+                            <h2 style={{"fontSize":data.components[index_Component].id_1[2]+"px","color":data.components[index_Component].id_1[1],lineHeight:1.6}}>{data.components[index_Component].id_1[0]}</h2>
                         </div>
                     </div>
-                    <div className="col-lg-3">
+                    <div className="col-lg-2 mt-5">
                         <div className="button">
-                            <a href="#" className="main-btn">get a qoute</a>
+                            <a href={data.components[index_Component].id_2[3]} className="main-btn" style={{"backgroundColor":data.components[index_Component].id_2[2],"color":data.components[index_Component].id_2[1]}}>{data.components[index_Component].id_2[0]}</a>
                         </div>
                     </div>
                 </div>
@@ -61,50 +61,58 @@ const ModalComponent = ({id_Modal,index_Component}) => {
         <div className='mb-3 col-12'>
           <p>ID: {data.components[index_Component].id}</p>
         </div>
-        <div className="mb-3">
+        <div className="mb-3 row">
+          <div className="col-8 text-right">
           <label htmlFor="formGroupExampleInput" className="form-label">عنوان</label>
-          <input type="text" style={{"fontSize":data.components[index_Component].id_1[1]+"px"}} className="form-control" id="formGroupExampleInput" placeholder="..." value={data.components[index_Component].id_1[0]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_1",0],event.target.value,"change")}}/>
-          <label htmlFor="customRange2" className="form-label" style={{"fontSize":"10px"}}>{data.components[index_Component].id_1[1]}</label>
-          <input type="range" className="form-range col-12" min="0" max="50" step="1" id="customRange2" value={data.components[index_Component].id_1[1]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_1",1],event.target.value,"change")}}/>
-        </div>
-        <div className="mb-3">
-          <label htmlFor="formGroupExampleInput2" className="form-label">متن</label>
-          <input type="text" style={{"fontSize":data.components[index_Component].id_2[1]+"px"}} className="form-control" id="formGroupExampleInput2" placeholder="..." value={data.components[index_Component].id_2[0]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_2",0],event.target.value,"change")}}/>
-          <label htmlFor="customRange2" className="form-label" style={{"fontSize":"10px"}}>{data.components[index_Component].id_2[1]}</label>
-          <input type="range" className="form-range col-12" min="0" max="50" step="1" id="customRange2" value={data.components[index_Component].id_2[1]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_2",1],event.target.value,"change")}}/>
-        </div>
-        <div className="col-12 p-0">
-        <div className="col-12 mb-2">
-            <div className="row">
-              <div className="col-5">
-                نام دکمه
-              </div>
-              <div className="col-3">
-                لینک
-              </div>
-              <div className="col-2">
-                رنگ
-              </div>
-              <div className="col-2">
-                حذف
-              </div>
-            </div>
-        </div>
-          {data.components[index_Component].id_3.map((item, index) =>
-          <div key={index} className="col-12 mb-2">
-            <div className="row">
-              <input type='text'  className="form-control col-5" placeholder='..' value={item["name"]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_3",index,"name"],event.target.value,"change")}}/>
-              <input type='text'  className="form-control col-3" placeholder='..' value={item["link"]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_3",index,"link"],event.target.value,"change")}}/>
-              <input type="color" className="form-control form-control-color col-2" id="exampleColorInput" value={item["color"]} title="Choose your color" onChange={(event)=>{changeValue_Data(["components",index_Component,"id_3",index,"color"],event.target.value,"change")}}/>
-              <input type='button'  className="form-control col-2 btn-danger" value="حذف" onClick={(event)=>{changeValue_Data(["components",index_Component,"id_3"],null,"delete",index)}}/>
-            </div>
+          <input type="text" className="form-control rtl text-right" id="formGroupExampleInput" placeholder="..." value={data.components[index_Component].id_3[0]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_3",0],event.target.value,"change")}}/>
           </div>
-          )}
+          <div className="col-4 text-right">
+          <label htmlFor="formGroupExampleInput2">رنگ متن</label>
+          <input type="color" className="form-control form-control-color col-12" id="exampleColorInput" value={data.components[index_Component].id_3[1]} title="Choose your color" onChange={(event)=>{changeValue_Data(["components",index_Component,"id_3",1],event.target.value,"change")}}/>
+          </div>
         </div>
-            <ul className="list-group list-group-horizontal">
-                <li className="list-group-item btn" onClick={()=> {open_Modal("list_image",window.scrollY,["components",index_Component,"id_4"])}}>تغییر عکس پس زمنیه</li>
-                <li className="list-group-item btn" onClick={(event)=>{changeValue_Data(["components",index_Component,"id_3"],addItem,"add")}}>افزودن دکمه</li>
-            </ul>
+
+
+        <h5 className='text-dark p-2 text-right'>تنظیمات تیتر</h5>
+        <div className="mb-3 row">
+          <div className="col-9 text-right">
+            <label htmlFor="formGroupExampleInput" className="form-label">عنوان </label>
+            <input type="text" className="form-control rtl text-right" id="formGroupExampleInput" placeholder="..." value={data.components[index_Component].id_1[0]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_1",0],event.target.value,"change")}}/>
+          </div>
+          <div className="col-3 text-right">
+            <label htmlFor="formGroupExampleInput2">رنگ متن</label>
+            <input type="color" className="form-control form-control-color col-12" id="exampleColorInput" value={data.components[index_Component].id_1[1]} title="Choose your color" onChange={(event)=>{changeValue_Data(["components",index_Component,"id_1",1],event.target.value,"change")}}/>
+          </div>
+          <div className="col-12 text-right">
+            <label htmlFor="formGroupExampleInput2">سایز</label>
+            <input type="range" className="form-range col-12" min="0" max="60" step="1" id="formGroupExampleInput2" value={data.components[index_Component].id_1[2]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_1",2],event.target.value,"change")}}/>
+          </div>
+        </div>
+
+
+        <h5 className='text-dark p-2 text-right'>تنظیمات دکمه</h5>
+        <div className="mb-3 row">
+          <div className="col-3 text-right">
+            <label htmlFor="formGroupExampleInput" className="form-label">عنوان دکمه</label>
+            <input type="text" className="form-control rtl text-right" id="formGroupExampleInput" placeholder="..." value={data.components[index_Component].id_2[0]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_2",0],event.target.value,"change")}}/>
+          </div>
+          <div className="col-3 text-right">
+            <label htmlFor="formGroupExampleInput" className="form-label">لینک</label>
+            <input type="text" className="form-control rtl text-right" id="formGroupExampleInput" placeholder="..." value={data.components[index_Component].id_2[3]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_2",3],event.target.value,"change")}}/>
+          </div>
+          <div className="col-3 text-right">
+            <label htmlFor="formGroupExampleInput2">رنگ دکمه</label>
+            <input type="color" className="form-control form-control-color col-12" id="exampleColorInput" value={data.components[index_Component].id_2[1]} title="Choose your color" onChange={(event)=>{changeValue_Data(["components",index_Component,"id_2",1],event.target.value,"change")}}/>
+          </div>
+          <div className="col-3 text-right">
+            <label htmlFor="formGroupExampleInput2">رنگ متن</label>
+            <input type="color" className="form-control form-control-color col-12" id="exampleColorInput" value={data.components[index_Component].id_2[2]} title="Choose your color" onChange={(event)=>{changeValue_Data(["components",index_Component,"id_2",2],event.target.value,"change")}}/>
+          </div>
+        </div>
+        <div className="col-12 text-right">
+            <label htmlFor="formGroupExampleInput2">رنگ پس زمینه</label>
+            <input type="color" className="form-control form-control-color col-12" id="exampleColorInput" value={data.components[index_Component].id_4} title="Choose your color" onChange={(event)=>{changeValue_Data(["components",index_Component,"id_4"],event.target.value,"change")}}/>
+        </div>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={()=>{close_Modal(id_Modal)}}>

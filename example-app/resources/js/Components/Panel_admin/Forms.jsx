@@ -1,12 +1,11 @@
-import React, { useContext,useEffect,useState  } from 'react';
+import React, { lazy,useContext,useEffect,useState  } from 'react';
 import { DataContext } from '@/Context/DataContext';
 import { Modal, Button,Dropdown  } from 'react-bootstrap';
 import moment from 'moment-jalaali';
 import Swal from 'sweetalert2';
-import { saveAs } from 'file-saver';
-import ExcelJS from 'exceljs';
 
 export default function Forms() {
+
     const { active_component,url } = useContext(DataContext);
     const id_Modal = "add_url";
     return(
@@ -465,11 +464,13 @@ const ModalComponentCreate_Form = ({id_Modal}) => {
   );
 };
 const ModalComponentList_Form = ({id_Modal}) => {
+  const LazyExcelJS  = React.lazy(() => import('exceljs'));
+  const LazyFileSaver = React.lazy(() => import('file-saver'));
   const { data,url, isModalOpen, close_Modal,add_Modal,open_Modal,changeValue_Data } = useContext(DataContext);
   const [List, setList] = useState([]);
   const [ListName, setListName] = useState([]);
   const List_form = async ()=>{
-    var id = data.list_forms[isModalOpen[id_Modal]?.value].id;
+    var id = data.list_forms[isModalOpen[id_Modal]?.value]?.id;
     try {
       const response = await axios.post(url+'/list_form', {
           id
@@ -486,18 +487,20 @@ const ModalComponentList_Form = ({id_Modal}) => {
   }, []);
   useEffect(() => {
     setListName(json_name?.data);
+    List_form();
 }, [isModalOpen[id_Modal]?.status]);
 
   if(isModalOpen[id_Modal]?.status){
     var json_name = JSON.parse(data.list_forms[isModalOpen[id_Modal]?.value].json_data);
-    List_form();
   }
 
   // یافتن طولانی‌ترین لیست
   const maxListLength = Math.max(...List.map(item => JSON.parse(item.json_data).length));
 
   // تابع برای تبدیل داده‌ها به فایل Excel
-  const exportToExcel = () => {
+  const exportToExcel = async () => {
+    const ExcelJS = await import('exceljs');
+    const { saveAs } = await import('file-saver');
     // ساخت ورک بوک جدید
     const workbook = new ExcelJS.Workbook();
     
@@ -583,9 +586,6 @@ const ModalComponentList_Form = ({id_Modal}) => {
       <Modal.Footer>
         <Button variant="secondary" onClick={()=>{close_Modal(id_Modal)}}>
           خروج
-        </Button>
-        <Button variant="success" onClick={(event)=>{Edit_form(event)}}>
-          ذخیره
         </Button>
       </Modal.Footer>
     </Modal>

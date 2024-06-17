@@ -751,11 +751,11 @@ const ModalComponent = ({id_Modal,index_Component}) => {
 
             {data.components[index_Component].id_5[0] ? (
                 <>
-                    <div className="mb-3">
+                    <div className="mb-3 text-right">
                         <label htmlFor="formGroupExampleInput" className="form-label">عنوان</label>
                         <input type="text" className="form-control" id="formGroupExampleInput" placeholder="..." value={data.components[index_Component].id_5[2]} onChange={(event)=>{changeValue_Data(["components",index_Component,"id_5",2],event.target.value,"change")}}/>
                     </div>
-                    <div className="mb-3">
+                    <div className="mb-3 text-right">
                         <label htmlFor="formGroupExampleInput_1" className="form-label">توضیحات</label>
                         <textarea className="form-control col-11 m-3 rtl text-right" id="formGroupExampleInput_1" rows="6" onChange={(event)=>{changeValue_Data(["components",index_Component,"id_5",3],event.target.value,"change")}} defaultValue={data.components[index_Component].id_5[3]}></textarea>
                     </div>

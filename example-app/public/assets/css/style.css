@@ -217,11 +217,6 @@ body {
     text-transform: uppercase;
     transition: all .5s;
 }
-.main-btn:hover,
-.main-btn:focus {
-    background: #00247e;
-    color: #fff;
-}
 .bg-cover {
     position: relative;
     background-position: center center;

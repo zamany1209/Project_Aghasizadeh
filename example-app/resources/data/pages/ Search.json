@@ -1,0 +1,62 @@
+{
+    "components": [
+        {
+            "id": "0eof0qdrhpx1W-49bdh49e-8dfh5sd2d7",
+            "name": "Footer"
+        }
+    ],
+    "title": null,
+    "comments": [
+        {
+            "id": "0e2f0db1-5457-46b0-949e-8032d2f9997a",
+            "name": "Header",
+            "id_1": [
+                [
+                    "\u062e\u0627\u0646\u0647",
+                    "http:\/\/127.0.0.1:8000\/"
+                ],
+                [
+                    "\u062e\u0627\u0646\u0647",
+                    "http:\/\/127.0.0.1:8000\/index\/list"
+                ],
+                [
+                    "\u062e\u0627\u0646\u0647",
+                    "http:\/\/127.0.0.1:8000\/"
+                ]
+            ],
+            "id_2": "http:\/\/127.0.0.1:8000\/assets\/img\/logo_2.png",
+            "id_3": [
+                "\u0631\u0627\u0647 \u0627\u0631\u062a\u0628\u0627\u0637\u06cc \u0645\u0627",
+                "info@webmail.com",
+                "mailto:info@webmail.com"
+            ],
+            "id_4": [
+                "#ffffff",
+                "#000000"
+            ]
+        },
+        {
+            "id": "0e2f0db1-5457-49b1-949e-8dfh6599799",
+            "name": "Bredcumbs_section",
+            "id_1": "\/assets\/images\/bredcumb_bg.jpg",
+            "id_2": [
+                "\u0639\u0646\u0648\u0627\u0646",
+                55
+            ],
+            "id_3": [
+                [
+                    "\u0648\u0628\u0644\u0627\u06af",
+                    "#"
+                ],
+                [
+                    "\u062e\u0648\u0646\u0647",
+                    "#"
+                ]
+            ]
+        },
+        {
+            "id": "0eof0qbpx1W-49bdh949e-8dfh532d799",
+            "name": "Search"
+        }
+    ]
+}

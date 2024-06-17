@@ -42,10 +42,51 @@ class PageController extends Controller
             $get_component_list = File::get(resource_path('data\list-components.json'));
         }
         
-        $data = File::get(resource_path('data\pages\landing.json'));
+        $data = File::get(resource_path('data\pages\ landing.json'));
         Inertia::setRootView('index'); 
         return  Inertia::render('Index', [
-            'name' => 'landing',
+            'name' => ' landing',
+            're_url' => $domain,
+            're_data' => $data,
+            're_data_search' => null,
+            're_token' => $token,
+            're_image_list' => $get_imagelist,
+            're_component_img' => $get_component_list_img,
+            're_component' => $get_component_list
+        ]);
+    }
+    public function Search(Request $request)
+    {
+        $url = $request->url();
+        $parsedUrl = parse_url($url);
+        $domain = $parsedUrl['scheme'] . '://' . $parsedUrl['host'];
+        if (isset($parsedUrl['port'])) {
+            $domain .= ':' . $parsedUrl['port'];
+        }
+        $get_component_list = null;
+        $get_component_list_img = null;
+        $get_imagelist = null;
+        $token = null;
+        if(Auth::check()){
+            $user = $request->user();
+            $currentToken = $user->currentAccessToken();
+            if($currentToken){
+                $token = $currentToken->plainTextToken;
+            }
+            else{
+                $user->tokens()->delete();
+                $create_token = $user->createToken('admin', ['*'], now()->addWeek());
+                $token = $create_token->plainTextToken;
+            }
+            $get_imagelist = File::get(resource_path('data\list-img.json'));
+            $get_component_list_img = File::get(resource_path('data\list-component-img.json'));
+            $get_component_list = File::get(resource_path('data\list-components.json'));
+        }
+        
+        $data = File::get(resource_path('data\pages\ Search.json'));
+        Inertia::setRootView('index'); 
+        return  Inertia::render('Index', [
+            'name' => ' Search',
             're_url' => $domain,
             're_data' => $data,
             're_data_search' => null,

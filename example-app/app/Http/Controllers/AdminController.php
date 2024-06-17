@@ -15,31 +15,35 @@ class AdminController extends Controller
     public function Create_Page(Request $request)
     {
         if (Auth::check()) {
-            $jsonData = '{"components": [],"title":null,"comments":[]}';
-            $name = $request->input('url_page');
-            $filePath = resource_path("data\pages\ $name.json");
-    
-            // اطمینان از وجود پوشه 'files' در مسیر 'resources'
-            if (!File::exists(dirname($filePath))) {
-                File::makeDirectory(dirname($filePath), 0755, true);
-            }
-            if(!File::exists($filePath)){
-                File::put($filePath, $jsonData);
-            }
-            $existingPage = Page::where('url', $request->input('url_page'))->first();
-            if ($existingPage) {
-                    return response()->json(['message' => 'شما قبلاً این صفحه را ایجاد کرده‌اید.'], 409);
-                
-            }
-
+            if($request->input('url_page') == "Search"|| $request->input('url_page') == "landing"){
+                return response()->json(['message' => 'شما قبلاً این صفحه را ایجاد کرده‌اید.'], 409);
+            }else{
+                $jsonData = '{"components": [],"title":null,"comments":[]}';
+                $name = $request->input('url_page');
+                $filePath = resource_path("data\pages\ $name.json");
         
-            $page = Page::create([
-                'url' => $request->input('url_page'),
-                'name' => "index",
-                'image' => "/assets/images/head_1.jpg",
-                'keywords' => "test",
-            ]);
-            return response()->json(['message' => 'صفحه شما با موفقیت ایجاد شد'], 201);
+                // اطمینان از وجود پوشه 'files' در مسیر 'resources'
+                if (!File::exists(dirname($filePath))) {
+                    File::makeDirectory(dirname($filePath), 0755, true);
+                }
+                if(!File::exists($filePath)){
+                    File::put($filePath, $jsonData);
+                }
+                $existingPage = Page::where('url', $request->input('url_page'))->first();
+                if ($existingPage) {
+                        return response()->json(['message' => 'شما قبلاً این صفحه را ایجاد کرده‌اید.'], 409);
+                    
+                }
+    
+            
+                $page = Page::create([
+                    'url' => $request->input('url_page'),
+                    'name' => "index",
+                    'image' => "/assets/images/head_1.jpg",
+                    'keywords' => "test",
+                ]);
+                return response()->json(['message' => 'صفحه شما با موفقیت ایجاد شد'], 201);
+            }
         }
     }
     public function Access_Page(Request $request)
