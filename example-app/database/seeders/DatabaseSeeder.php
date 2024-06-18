@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             Forms_nameSeeder::class,
             PageSeeder::class,
+            VisitSeeder::class
         ]);
     }
 }

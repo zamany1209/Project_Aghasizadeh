@@ -10,6 +10,30 @@
         <link href="{{ config('app.url') }}/admin_panel_asset/assets/css/all.min.css" rel="stylesheet" type="text/css" defer>
         <link href="{{ config('app.url') }}/admin_panel_asset/assets/css/sb-admin-2.min.css" rel="stylesheet" async>
         <style>
+            @font-face {
+        font-family: myFirstFont;
+        src: url('/asset/font/KalamehWeb-Medium.woff2') format('woff2'),
+            url('/asset/font/KalamehWeb-Medium.woff') format('woff');
+        }
+/* اعمال فونت سفارشی به تمام تگ‌های HTML */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center, dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend, table, caption,
+tbody, tfoot, thead, tr, th, td, article, aside,
+canvas, details, embed, figure, figcaption, footer,
+header, hgroup, menu, nav, output, ruby, section,
+summary, time, mark, audio, video {
+  font-family: 'myFirstFont', sans-serif;
+}
+
+/* اعمال فونت به عناصر ناشناخته HTML5 برای مرورگرهای قدیمی‌تر */
+* {
+  font-family: 'myFirstFont', sans-serif;
+}
         .table-responsive {
             max-height: 400px; /* تنظیم حداکثر ارتفاع جدول */
             overflow: auto; /* اسکرول افقی و عمودی */

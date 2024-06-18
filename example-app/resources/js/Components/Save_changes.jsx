@@ -23,8 +23,8 @@ export default function Save_changes({name,re_url}){
         <>
             <div className="col-md-2 fixed-bottom fixed-rigth mb-1">
                 <div className="col-10 row">
-                    <a onClick={send_data} className="col btn btn-success btn-circle p-3 m-1">ذخیره</a>
-                    <a href={url+"/Admin_panel"} className="col btn btn-primary btn-circle p-3 m-1">پنل ادمین</a>
+                    <a onClick={send_data} className="col-6 col-md-auto col-lg-10 btn btn-success btn-circle p-3 m-1">ذخیره</a>
+                    <a href={url+"/Admin_panel"} className="col-6 col-md-auto col-lg-10 btn btn-primary btn-circle p-3 m-1">پنل ادمین</a>
                 </div>
             </div>
             <div className="col-12 mt-5">

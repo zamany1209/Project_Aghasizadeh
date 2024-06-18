@@ -83,7 +83,7 @@ export default function Management_Modal({name}){
         </Modal.Footer>
       </Modal>
 
-      {name === " landing"  || name == " Search" ? (
+      {name === " landing"  || name == " Search" || name == " 404" ? (
           <Modal show={isModalOpen[show_edit_title]?.status} onHide={()=>{close_Modal(show_edit_title)}} centered size="md">
             <Modal.Header closeButton>
               <Modal.Title>ویرایش اطلاعات جستجو</Modal.Title>

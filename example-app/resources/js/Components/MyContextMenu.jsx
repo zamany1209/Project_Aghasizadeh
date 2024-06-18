@@ -46,7 +46,7 @@ import "react-contexify/dist/ReactContexify.css";
             انتقال به پایین
           </Item>
           <Item onClick={handleEdit_Title}>
-          {name === " landing" || name === " Search" ? (
+          {name === " landing" || name === " Search" || name == " 404" ? (
             <>ویرایش عنوان سایت</>
           ):(
             <>

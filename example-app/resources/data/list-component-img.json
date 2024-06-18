@@ -8,6 +8,7 @@
         {"img":"Bredcumbs_section.jpg","name":"Bredcumbs_section"},
         {"img":"Blog_details.jpg","name":"Blog_details"},
         {"img":"Cta_section.jpg","name":"Cta_section"},
-        {"img":"Footer.jpg","name":"Footer"}
+        {"img":"Footer.jpg","name":"Footer"},
+        {"img":"404.jpg","name":"404"}
     ]
 }

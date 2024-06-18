@@ -1,36 +1,5 @@
 import React, { useState, useEffect } from 'react';
 export default function Check_visit(){
-    // const [dateInfo, setDateInfo] = useState({
-    //     dayOfWeek: '',
-    //     dayOfMonth: ''
-    // });
-    
-    // useEffect(() => {
-    // const date = new Date();
-    // const daysOfWeek = [
-    //     'یکشنبه',
-    //     'دوشنبه',
-    //     'سه‌شنبه',
-    //     'چهارشنبه',
-    //     'پنج‌شنبه',
-    //     'جمعه',
-    //     'شنبه'
-    // ];
-
-    // const dayOfWeek = daysOfWeek[date.getDay()];
-    // const dayOfMonth = date.getDate();
-    // setDateInfo({
-    //     dayOfWeek,
-    //     dayOfMonth
-    // });
-    // }, []);
-    
-    // return (
-    // <div className='fixed-bottom fixed-rigth'>
-    //     <p>روز هفته: {dateInfo.dayOfWeek}</p>
-    //     <p>روز ماه: {dateInfo.dayOfMonth}</p>
-    // </div>
-    // );
     const [weekDays, setWeekDays] = useState([]);
 
     useEffect(() => {
@@ -58,7 +27,7 @@ export default function Check_visit(){
   
     return (
       <div>
-        {/* <h1>روزهای هفته</h1>
+        <h1>روزهای هفته</h1>
         <table border="1">
           <thead>
             <tr>
@@ -67,7 +36,7 @@ export default function Check_visit(){
               ))}
             </tr>
           </thead>
-        </table> */}
+        </table>
       </div>
     );
 }

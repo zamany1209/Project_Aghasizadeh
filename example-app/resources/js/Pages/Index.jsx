@@ -11,7 +11,7 @@ function Constructor({ name , re_url , re_data,re_data_search, re_token, re_imag
     var components =  JSON.parse(re_data);
     components["data_search"] = re_data_search;
     useEffect(() => {
-        if(name == " landing" || name == " Search"){
+        if(name == " landing" || name == " Search" || name == " 404"){
             document.title = data.title;
         }
         else{
@@ -30,7 +30,7 @@ function Constructor({ name , re_url , re_data,re_data_search, re_token, re_imag
             setComponent_list(JSON.parse(re_component));
         }
     }, []);
-    if(name == " landing" || name == " Search"){
+    if(name == " landing" || name == " Search" || name == " 404"){
         useEffect(() => {
             document.title = data.title;
         }, [data.title]);

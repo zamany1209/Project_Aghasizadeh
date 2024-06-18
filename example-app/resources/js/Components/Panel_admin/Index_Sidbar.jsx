@@ -43,6 +43,10 @@ export default function Index_Sidbar() {
           <a onClick={()=>{setActive_component("upload_files")}} type="button" className="nav-link ml-lg-4">
               <span>آپلود فایل</span></a>
       </li>
+      <li className="nav-item">
+          <a onClick={()=>{setActive_component("change_font")}} type="button" className="nav-link ml-lg-4">
+              <span>تغییر فونت</span></a>
+      </li>
 
   </ul>
     </>

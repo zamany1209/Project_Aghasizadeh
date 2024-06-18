@@ -238,6 +238,14 @@
         "id_8":[["info@example.com","mailto:info@example.com"],["+989000000","tel:+989000000"],["آدرس: ایران، خراسان رضوی، مشهد،خیابان","https://neshan.org/maps/#c36.289-59.582-14z-0p"],["example.com","example.com"]],
         "id_9":[["عنوان خبر شما","نویسنده","/assets/images/blog/feed_1.jpg","#"],["عنوان خبر شما","نویسنده","/assets/images/blog/feed_1.jpg","#"]],
         "id_10":"/assets/images/logo_2.png"
+    },
+    "404":{
+        "id":"x4wu-4rp0-949f-803g5191a",
+        "name":"404",
+        "id_1":["عنوان","#0574ff"],
+        "id_2":"تیتر انتخابی شما",
+        "id_3":["کلیک کنید","#","#0574ff","#fffff"],
+        "id_4":["/assets/images/404/404.png","#"]
     }
 
     

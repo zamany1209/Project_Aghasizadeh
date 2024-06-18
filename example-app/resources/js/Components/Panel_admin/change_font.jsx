@@ -16,7 +16,7 @@ function Constructor(){
         formData.append('file', file);
 
         try {
-            const response = await axios.post(url+'/upload_file', formData, {
+            const response = await axios.post(url+'/change_font', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -37,34 +37,25 @@ function Constructor(){
         <div className="col-12 d-flex justify-content-center">
             <div className="col-lg-5 col-sm-12">
                 <form className='was-validated' onSubmit={handleSubmit}>
-                    <div class="mb-3">
-                        <input type="file" class="form-control" aria-label="file example" onChange={handleFileChange}  required/>
-                        <div class="invalid-feedback">Example invalid form file feedback</div>
+                    <div className="mb-3">
+                        <input type="file" className="form-control" aria-label="file example" accept=".woff2,.woff" onChange={handleFileChange}  required/>
+                        <div className="invalid-feedback">Example invalid form file feedback</div>
                     </div>
 
-                    <div class="mb-3 text-center">
-                        <button class="btn btn-primary" type="submit">ارسال</button>
+                    <div className="mb-3 text-center">
+                        <button className="btn btn-primary" type="submit">ارسال</button>
                     </div>
                 </form>
-            </div>
-        </div>
-        <div className="col-12 d-flex justify-content-center">
-        <div className="col-11 shadow rounded rounded-4 row">
-                {data.list_img?.Image.map((name,index) =>
-                    <div key={index} className="col-md-2 col-sm-12 text-center p-4">
-                        <LazyLoadImage style={{height:"170px",width:"170px", objectFit:"cover",objectPosition:"center"}} src={url+"/asset/img/"+name} alt=""/>
-                    </div>
-                )}
             </div>
         </div>
         </>
     );
 }
-export default function upload_files() {
+export default function change_font() {
     const { active_component } = useContext(DataContext);
     return (
         <>
-        {active_component === 'upload_files' && <Constructor />}
+        {active_component === 'change_font' && <Constructor />}
         </>
     );
 }

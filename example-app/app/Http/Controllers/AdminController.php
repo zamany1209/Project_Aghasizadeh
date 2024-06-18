@@ -15,7 +15,7 @@ class AdminController extends Controller
     public function Create_Page(Request $request)
     {
         if (Auth::check()) {
-            if($request->input('url_page') == "Search"|| $request->input('url_page') == "landing"){
+            if($request->input('url_page') == "Search"|| $request->input('url_page') == "landing" || $request->input('url_page') == "404"){
                 return response()->json(['message' => 'شما قبلاً این صفحه را ایجاد کرده‌اید.'], 409);
             }else{
                 $jsonData = '{"components": [],"title":null,"comments":[]}';
@@ -176,6 +176,35 @@ class AdminController extends Controller
                 $file->move($destinationPath, $filename);
     
                 return response()->json(['success' => 'File uploaded successfully']);
+            }
+    
+            return response()->json(['error' => 'File not uploaded'], 400);
+        }
+    }
+    public function Change_Font(Request $request)
+    {
+        if (Auth::check()) {
+            $request->validate([
+                'file' => 'required|mimes:woff2,woff|max:20480',
+            ]);
+    
+            if ($request->hasFile('file')) {
+
+                $filePath_1 = public_path('/asset/font/KalamehWeb-Medium.woff2');
+                if (File::exists($filePath_1)) {
+                    File::delete($filePath_1);
+                }
+                $filePath_2 = public_path('/asset/font/KalamehWeb-Medium.woff');
+                if (File::exists($filePath_2)) {
+                    File::delete($filePath_2);
+                }
+                $file = $request->file('file');
+                $extension = $file->getClientOriginalExtension();
+                $filename = "KalamehWeb-Medium.".$extension;
+                $destinationPath = public_path('/asset/font');
+                $file->move($destinationPath, $filename);
+
+                return response()->json(['success' => 'File uploaded successfully'],201);
             }
     
             return response()->json(['error' => 'File not uploaded'], 400);

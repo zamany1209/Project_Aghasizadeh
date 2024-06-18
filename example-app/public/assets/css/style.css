@@ -29,7 +29,8 @@ Version: 1.0
 
 @font-face {
   font-family: myFirstFont;
-  src: url('../../asset/font/KalamehWeb-Medium.woff2');
+  src: url('../../asset/font/KalamehWeb-Medium.woff2') format('woff2'),
+       url('../../asset/font/KalamehWeb-Medium.woff') format('woff');
 }
 @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
 

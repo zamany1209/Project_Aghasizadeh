@@ -14,5 +14,9 @@
         {
             "name":"upload_files"
         }
+        ,
+        {
+            "name":"change_font"
+        }
     ]
 }

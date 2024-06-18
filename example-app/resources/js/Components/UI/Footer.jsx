@@ -67,14 +67,14 @@ export default function single_Slider({ index_Component, name_Component }) {
                                         <div className="col-lg-6">
                                             <ul className="widget-link text-center">
                                             {data.components[index_Component].id_6.map((item, index) =>
-                                                <li><a href={item[1]}>{item[0]}</a></li>
+                                                <li key={index}><a href={item[1]}>{item[0]}</a></li>
                                             )}
                                             </ul>
                                         </div> 
                                         <div className="col-lg-6">
                                             <ul className="widget-link text-center">
                                             {data.components[index_Component].id_7.map((item, index) =>
-                                                <li><a href={item[1]}>{item[0]}</a></li>
+                                                <li key={index}><a href={item[1]}>{item[0]}</a></li>
                                             )}
                                             </ul>
                                         </div> 
@@ -86,7 +86,7 @@ export default function single_Slider({ index_Component, name_Component }) {
                                     <h4 className="widget-title rtl text-center">راه های ارتباطی</h4>
                                     <div className="contact-info rtl text-center">
                                     {data.components[index_Component].id_8.map((item, index) =>
-                                        <p><a href={item[1]}>{item[0]}</a></p>
+                                        <p key={index}><a href={item[1]}>{item[0]}</a></p>
                                     )}
                                     </div>
                                 </div>
@@ -95,7 +95,7 @@ export default function single_Slider({ index_Component, name_Component }) {
                                 <div className="widget recent-post-widget mb-40">
                                     <h4 className="widget-title text-right mr-3">:اخبار</h4>
                                     {data.components[index_Component].id_9.map((item, index) =>
-                                    <div className="blog-post-item rtl">
+                                    <div key={index} className="blog-post-item rtl">
                                                                               <div className="post-thumbnail">
                                             <img src={url+item[2]} className="img-fluid rounded" alt=""/>
                                         </div>
@@ -106,7 +106,7 @@ export default function single_Slider({ index_Component, name_Component }) {
                                             <div className="post-meta text-right">
                                                 <ul>
                                                     <li className='mr-3'><span><a>{item[1]}</a>
-                                                    <svg  width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                                                    <svg  width="16" height="16" fill="currentColor" className="bi bi-person-fill" viewBox="0 0 16 16">
                                             <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
                                         </svg>
                                                     </span></li>
