@@ -1,21 +1,38 @@
-import React, { useContext,useEffect  } from 'react';
+import React, { useState,useContext,useEffect  } from 'react';
 import { DataContext } from '@/Context/DataContext';
 import { Modal, Button } from 'react-bootstrap';
 
 export default function single_Slider({ index_Component, name_Component }) {
     const { edit_text,url, token, data, changeValue_Data,open_Context_Menu } = useContext(DataContext);
     const id_Modal = String(name_Component+"_"+index_Component);
+    const [ search,setSearch ] = useState("");
     return (
         <>
-                <section className="shop-page-section pt-120 pb-70">
+        <div className="container pt-70">
+        <div className="sidebar-widget-area">
+          <div className="widget search-widget">
+                  <form action={url+"/search/"+search} method='GET'>
+                      <div className="form_group row text-center" action>
+                      <button type='submit' className="search_btn col-1" style={{position:"relative"}}>
+                          <svg width="16" height="16" fill="currentColor" className="bi bi-search" viewBox="0 0 16 16">
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                          </svg>
+                          </button>
+                          <input type="search" className="form_control col-11 text-right rtl" onChange={()=>{setSearch(event.target.value)}} placeholder="متن خود را وارد کنید...."/>
+                      </div>
+                  </form>
+              </div>
+            </div>
+        </div>
+        <section className="shop-page-section pt-70 pb-70">
             <div className="container">
                 <div className="row">
-                    <div className="col-lg-9">
+                    <div className="col-lg-10">
                         <div className="shop-wrapper">
                             <div className="product-filter mb-40">
-                                <div className="row align-items-center justify-content-between">
+                                <div className="row align-items-center justify-content-between rtl">
                                     <div className="col-lg-3 col-md-4">
-                                        <div className="shop-text">
+                                        <div className="shop-text text-right">
                                             <p>Showing 1 - 1 of 12  Results</p>
                                         </div>
                                     </div>
@@ -24,30 +41,31 @@ export default function single_Slider({ index_Component, name_Component }) {
                                 </div>
                             </div>
                             <div className="row">
-
-
+                            {data.data_search.map((item, index) =>
                                 <div className="col-lg-4 col-md-6 col-sm-12">
                                     <div className="product-item mb-40">
                                         <div className="product-img">
-                                            <img src="assets/images/shop/product_1.jpg" className="img-fluid" alt=""/>
-                                            <a href="#" className="wishlist-btn"><i className="far fa-heart"></i></a>
+                                            <img src={url+item["image"]} className="img-fluid" alt=""/>
+                                            <a className="wishlist-btn"></a>
                                             <div className="product-overlay">
                                                 <div className="product-content">
-                                                    <a href="#" className="icon-btn cart-btn"><i className="far fa-shopping-cart"></i></a>
-                                                    <a href="#" className="icon-btn view-btn"><i className="far fa-search"></i></a>
+                                                    <a href={url+"/page/"+item["url"]} className="icon-btn cart-btn">
+                                                    <svg width="16" height="16" fill="currentColor" className="bi bi-search" viewBox="0 0 16 16">
+                                                      <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                                                    </svg>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="product-info">
                                             <div className="product-holder">
-                                                <h3 className="title"><a href="shop_details.html">Yellow Light Kit</a></h3>
-                                                <p className="category"><a href="#">Essentials</a>,<a href="#">Furniture</a></p>
+                                                <h3 className="title text-right"><a href={url+"/page/"+item["url"]}>{item["name"]}</a></h3>
+                                                <p className="category text-right">{item["keywords"]}</p>
                                             </div>
-                                            <span className="price">$124</span>
                                         </div>
                                     </div>
                                 </div>
-
+                            )}
 
                             </div>
                         </div>
@@ -77,6 +95,11 @@ const ModalComponent = ({id_Modal,index_Component}) => {
       window.scrollTo(0, isModalOpen[id_Modal]?.location);
     }
   }, [isModalOpen[id_Modal]?.status]);
+  useEffect(() =>{
+    if(isModalOpen[id_Modal]?.status == true){
+      window.scrollTo(0, isModalOpen[id_Modal]?.location);
+    }
+  },[data]);
     return (
         <>
       <Modal show={isModalOpen[id_Modal]?.status} onHide={()=>{close_Modal(id_Modal)}} scrollable centered size="md">

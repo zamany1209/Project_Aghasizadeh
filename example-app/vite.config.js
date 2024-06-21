@@ -9,7 +9,19 @@ export default defineConfig({
             refresh: true,
         }),
         react(),
-    ]
+    ],
+    build: {
+        rollupOptions: {
+            output: {
+                manualChunks(id) {
+                    if (id.includes('node_modules')) {
+                        return 'vendor';
+                    }
+                }
+            }
+        },
+        chunkSizeWarningLimit: 2500
+    }
     // ,
     // server: {
     //     port: 80,

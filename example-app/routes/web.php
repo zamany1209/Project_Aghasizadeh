@@ -38,7 +38,9 @@ Route::post('access_page', [AdminController::class, 'Access_Page']);
 Route::post('delete_page', [AdminController::class, 'Delete_Page']);
 Route::post('edit_data_search', [AdminController::class, 'Edit_Data_Search']);
 Route::post('edit_data_profile', [AdminController::class, 'Edit_Data_Profile']);
+Route::post('change_password', [AdminController::class, 'Change_Password']);
 Route::post('upload_file', [AdminController::class, 'UPLOAD_FILE']);
+Route::post('delete_file', [AdminController::class, 'Delete_File']);
 Route::post('change_font', [AdminController::class, 'Change_Font']);
 
 ////Forms////

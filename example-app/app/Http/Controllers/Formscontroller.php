@@ -15,8 +15,9 @@ class Formscontroller extends Controller
     //
     public function Forms_control(Request $request)
     {
-        $forms = Forms_name::where('url', $request->name_url)->first();
+        $forms = Forms_name::where('url', $request->name_url)->where('status', true)->first();
         if ($forms) {
+            $forms->json_data = json_decode($forms->json_data);
             $url = $request->url();
             $parsedUrl = parse_url($url);
             $domain = $parsedUrl['scheme'] . '://' . $parsedUrl['host'];
@@ -27,11 +28,12 @@ class Formscontroller extends Controller
             return  Inertia::render('Form_control', [
                 'name' => "Admin",
                 're_url' => $domain,
-                're_data' => $forms->json_data,
+                're_data' => $forms,
                 'id_form' => $forms->id,
                 'name_url' => $request->name_url
             ]);
         } else {
+            return redirect()->intended('404');
         }
 
     }

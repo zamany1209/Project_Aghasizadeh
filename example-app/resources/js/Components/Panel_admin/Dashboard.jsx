@@ -6,6 +6,12 @@ function Constructor(){
     const { data,url } = useContext(DataContext);
     const [weekDays, setWeekDays] = useState([]);
     const maxValue = data.visit_web_site.visit_month.reduce((max, current) => (current.value > max ? current.value : max), 0);
+    const maxVisit = Math.max(...data.list_pages.map(item => item.visit));
+
+    const dataWithGrowth = data.list_pages.map(item => ({
+    ...item,
+    growth: (item.visit / maxVisit) * 100
+    }));
     const currentMonth = moment().jMonth();
     const currentLastMonth = ()=>{
         if(moment().jMonth() == 0){
@@ -125,7 +131,7 @@ function Constructor(){
                                       <div className="col">
                                           <div className="progress progress-sm mr-2">
                                               <div className="progress-bar bg-warning " role="progressbar"
-                                                  style={{"width": +String(((data.visit_web_site.total_month - data.visit_web_site.total_last_month) / data.visit_web_site.total_last_month) * 100)+"%"}} aria-valuenow="-1" aria-valuemin="0"
+                                                  style={{"width": +String(((data.visit_web_site.visit_month[currentMonth].value - data.visit_web_site.visit_month[currentLastMonth()].value) / data.visit_web_site.visit_month[currentLastMonth()].value) * 100)+"%"}} aria-valuenow="-1" aria-valuemin="0"
                                                   aria-valuemax="100"></div>
                                           </div>
                                       </div>
@@ -230,7 +236,7 @@ function Constructor(){
                     {/* <!-- Card Header - Dropdown --> */}
                     <div
                         className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 className="m-0 font-weight-bold text-primary">Revenue Sources</h6>
+                        <h6 className="m-0 font-weight-bold text-primary">مقایسه</h6>
                     </div>
                     {/* <!-- Card Body --> */}
                     <div className="card-body">
@@ -246,6 +252,27 @@ function Constructor(){
                             </RadarChart>
                         </ResponsiveContainer>
                         </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div className="row">
+            <div className="col-xl-8 col-lg-7">
+                <div className="card shadow mb-4">
+                    <div className="card-header py-3">
+                        <h6 className="m-0 font-weight-bold text-primary">صفحه ها</h6>
+                    </div>
+                    <div className="card-body">
+                    {dataWithGrowth?.map(item => 
+                        <>
+                        <h4 className="small font-weight-bold">{item.url} <span
+                                className="float-right">{parseInt(item.visit)}</span></h4>
+                        <div className="progress mb-4">
+                            <div className="progress-bar bg-info" role="progressbar" style={{"width": parseInt(item.growth)+"%"}}
+                                aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        </>
+                    )}
                     </div>
                 </div>
             </div>

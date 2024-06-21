@@ -1,9 +1,10 @@
 import { Link } from '@inertiajs/react';
-import React, { useContext,useEffect } from 'react';
+import React, { useContext,useEffect, useState } from 'react';
 import axios from 'axios';
 import { DataContext } from '@/Context/DataContext';
 import { Modal, Button } from 'react-bootstrap';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
+import Swal from 'sweetalert2';
 export default function Index_Navbar() {
     const { url,data,open_Modal,active_sidbar, setActive_Sidbar } = useContext(DataContext);
     useEffect(() => {
@@ -83,20 +84,13 @@ export default function Index_Navbar() {
               <div className="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                   aria-labelledby="userDropdown">
                   <a type='button' className="dropdown-item" onClick={()=>{open_Modal("Edit_Profile")}}>
-                      <i className="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                       پروفایل
                   </a>
-                  <a className="dropdown-item" href="#">
-                      <i className="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                      Settings
-                  </a>
-                  <a className="dropdown-item" href="#">
-                      <i className="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                      Activity Log
+                  <a type='button' className="dropdown-item" onClick={()=>{open_Modal("Change_new_password")}}>
+                      تغییر پسورد
                   </a>
                   <div className="dropdown-divider"></div>
                   <Link href={route('logout')} method="post" as="button" className="dropdown-item" data-toggle="modal" data-target="#logoutModal">
-                      <i className="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                       خروج از حساب
                   </Link>
               </div>
@@ -106,6 +100,7 @@ export default function Index_Navbar() {
 
       </nav>
       <ModalComponent id_Modal="Edit_Profile"></ModalComponent>
+      <ModalChange_password id_Modal="Change_new_password"></ModalChange_password>
     </>
   );
 }
@@ -180,6 +175,109 @@ const ModalComponent = ({id_Modal,index_Component}) => {
             خروج
           </Button>
           <Button variant="success" onClick={(event)=>{save_data_profile(event)}}>
+              ذخیره
+            </Button>
+        </Modal.Footer>
+      </Modal>
+      </>
+    );
+  };
+  const ModalChange_password = ({id_Modal,index_Component}) => {
+    const { data,url, isModalOpen, close_Modal,add_Modal,open_Modal,changeValue_Data } = useContext(DataContext);
+    const [ oldpassword,setoldpassword ] = useState('');
+    const [ newpassword,setnewpassword ] = useState('');
+    const [ renewpassword,setrenewpassword ] = useState('');
+    const chancge_password = async (event) => {
+        event.preventDefault();
+        if(newpassword == renewpassword && newpassword != ""){
+          try {
+            var email = data.auth.user.email;
+            var new_password = newpassword;
+            const response = await axios.post(url+'/change_password', {
+                email,new_password
+            });
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "تغییرات اعمال شد",
+              showConfirmButton: false,
+              timer: 1500
+            });
+            // close_Modal(show_edit_title);
+        } catch(error) {
+            if (error.response && error.response.status === 409) {
+              Swal.fire({
+                position: "top-end",
+                icon: "error",
+                title: "لطفا پسورد خود را به شکل صحیح وارد کنید",
+                showConfirmButton: false,
+                timer: 1500
+              });
+            }
+            else{
+              console.log(error);
+              Swal.fire({
+                position: "top-end",
+                icon: "error",
+                title: "تغییرات اعمال نشد",
+                showConfirmButton: false,
+                timer: 1500
+              });
+
+            }
+          }
+        }
+        else{
+          Swal.fire({
+            position: "top-end",
+            icon: "error",
+            title: "تکرار پسورد جدید شما صحیح نمی باشد",
+            showConfirmButton: false,
+            timer: 1500
+          });
+        }
+    }
+    useEffect(() => {
+        add_Modal(id_Modal);
+    }, []);
+  // not is chancge scrolle
+  useEffect(() => {
+    if(isModalOpen[id_Modal]?.status == true){
+      window.scrollTo(0, isModalOpen[id_Modal]?.location);
+    }else{
+      window.scrollTo(0, isModalOpen[id_Modal]?.location);
+    }
+  }, [isModalOpen[id_Modal]?.status]);
+  useEffect(() =>{
+    if(isModalOpen[id_Modal]?.status == true){
+      window.scrollTo(0, isModalOpen[id_Modal]?.location);
+    }
+  },[data]);
+    return (
+        <>
+      <Modal show={isModalOpen[id_Modal]?.status} onHide={()=>{close_Modal(id_Modal)}} scrollable centered size="md">
+        <Modal.Header>
+          <Modal.Title>پروفایل</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+
+        <div className="mb-3 row">
+            <div className="col-12 rtl text-right">
+                <label htmlFor="formGroupExampleInput" className="form-label">پسورد جدید</label>
+                <input type="text" className="form-control rtl text-right" id="formGroupExampleInput" placeholder="..." value={newpassword} onChange={(event)=>{setnewpassword(event.target.value);}}/>
+            </div>
+            <div className="col-12 rtl text-right">
+                <label htmlFor="formGroupExampleInput" className="form-label">تکرار پسورد</label>
+                <input type="text" className="form-control rtl text-right" id="formGroupExampleInput" placeholder="..." value={renewpassword} onChange={(event)=>{setrenewpassword(event.target.value);}}/>
+            </div>
+        </div>
+
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={()=>{close_Modal(id_Modal)}}>
+            خروج
+          </Button>
+          <Button variant="success" onClick={(event)=>{chancge_password(event)}}>
               ذخیره
             </Button>
         </Modal.Footer>

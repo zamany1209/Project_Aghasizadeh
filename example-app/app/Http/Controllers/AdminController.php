@@ -6,8 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use App\Models\Page;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
+
 
 class AdminController extends Controller
 {
@@ -146,11 +149,30 @@ class AdminController extends Controller
             }
         }
     }
+    public function Change_Password(Request $request)
+    {
+        $request->validate([
+            'email' => 'required',
+            'new_password' => 'required',
+        ]);
+        if (Auth::check()) {
+            $existingPage = User::where('email', $request->input('email'))->update(['password' => Hash::make($request->input('new_password'))]);
+            if ($existingPage) {
+                return response()->json(['message' => 'تغییرات اعمال شد'], 201);
+            }
+            else{
+                return response()->json(['message' => 'متاسفانه تغییر اعمال نشد'], 409);
+            }
+        }
+    }
     public function UPLOAD_FILE(Request $request)
     {
         if (Auth::check()) {
+            // $request->validate([
+            //     'file' => 'required|mimes:jpeg,png,jpg,gif,svg,mp4,mov,avi|max:20480',
+            // ]);
             $request->validate([
-                'file' => 'required|mimes:jpeg,png,jpg,gif,svg,mp4,mov,avi|max:20480',
+                'file' => 'required|mimes:jpeg,png,jpg,gif,svg|max:20480',
             ]);
     
             if ($request->hasFile('file')) {
@@ -208,6 +230,49 @@ class AdminController extends Controller
             }
     
             return response()->json(['error' => 'File not uploaded'], 400);
+        }
+    }
+    public function Delete_File(Request $request)
+    {
+        try {
+            if (Auth::check()) {
+                $request->validate([
+                    'file_name' => 'required|string'
+                ]);
+    
+                if ($request->input('file_name')) {
+                    $jsonFilePath = resource_path('data/list-img.json');
+    
+                    // خواندن محتوای فایل JSON فعلی
+                    if (File::exists($jsonFilePath)) {
+                        $jsonData = json_decode(File::get($jsonFilePath), true);
+    
+                        if (($key = array_search($request->input('file_name'), $jsonData['Image'])) !== false) {
+                            unset($jsonData['Image'][$key]);
+                        }
+    
+                        $jsonData['Image'] = array_values($jsonData['Image']);
+    
+                        File::put($jsonFilePath, json_encode($jsonData, JSON_PRETTY_PRINT));
+    
+                        $filePath_1 = public_path('asset/img/' . $request->input('file_name'));
+                        if (File::exists($filePath_1)) {
+                            File::delete($filePath_1);
+                        }
+    
+                        return response()->json(['success' => 'File deleted successfully'], 201);
+                    } else {
+                        return response()->json(['error' => 'JSON file not found'], 404);
+                    }
+                }
+    
+                return response()->json(['error' => 'File name not provided'], 400);
+            }
+    
+            return response()->json(['error' => 'Unauthorized'], 401);
+        } catch (\Exception $e) {
+            Log::error('Error deleting file: ' . $e->getMessage());
+            return response()->json(['error' => 'An error occurred while deleting the file'], 500);
         }
     }
 

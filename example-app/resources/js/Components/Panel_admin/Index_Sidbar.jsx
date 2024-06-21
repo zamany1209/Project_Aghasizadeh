@@ -1,14 +1,14 @@
 import React, { useContext  } from 'react';
 import { DataContext } from '@/Context/DataContext';
 export default function Index_Sidbar() {
-    const { setActive_component,active_sidbar } = useContext(DataContext);
+    const { setActive_component,url,active_sidbar } = useContext(DataContext);
     var is_active_sidbar = active_sidbar === true ?(""):("d-none d-sm-block");
   return(
     <>
     <ul className={"navbar-nav bg-gradient-primary sidebar sidebar-dark accordion "+is_active_sidbar} id="accordionSidebar">
 
       {/* <!-- Sidebar - Brand --> */}
-      <a className="sidebar-brand d-flex align-items-center justify-content-center" href="/">
+      <a className="sidebar-brand d-flex align-items-center justify-content-center" href={url+"/"}>
           <div className="sidebar-brand-text mx-3">مرکز تحقیقاتی شهید آقاسی زاده</div>
       </a>
 
@@ -18,7 +18,7 @@ export default function Index_Sidbar() {
       {/* <!-- Nav Item - Dashboard --> */}
       <li className="nav-item active">
           <a onClick={()=>{setActive_component("Dashboard")}} type="button" className="nav-link">
-              <img src="http://127.0.0.1:8000/admin_panel_asset/assets/image/dashboard.svg" className="fas fa-fw mr-2" style={{filter: "invert(1)"}} width="12px" alt="" />
+              <img src={url+"/admin_panel_asset/assets/image/dashboard.svg"} className="fas fa-fw mr-2" style={{filter: "invert(1)"}} width="12px" alt="" />
               <span>پیشخوان</span></a>
       </li>
 

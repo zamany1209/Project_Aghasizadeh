@@ -56,6 +56,11 @@ const ModalComponent = ({id_Modal,index_Component}) => {
       window.scrollTo(0, isModalOpen[id_Modal]?.location);
     }
   }, [isModalOpen[id_Modal]?.status]);
+  useEffect(() =>{
+    if(isModalOpen[id_Modal]?.status == true){
+      window.scrollTo(0, isModalOpen[id_Modal]?.location);
+    }
+  },[data]);
     return (
         <>
       <Modal show={isModalOpen[id_Modal]?.status} onHide={()=>{close_Modal(id_Modal)}} scrollable centered size="md">

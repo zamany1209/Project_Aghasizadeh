@@ -63,7 +63,7 @@ export default function Index({ name ,re_url,re_data,re_data_search ,re_token, r
                         <Save_changes name={name} re_url={re_url}></Save_changes>
                     </div>
                 ):(
-                    <Check_visit></Check_visit>
+                    <Check_visit re_url={re_url} name={name}></Check_visit>
                 )}
             </DataProvider>
         </>

@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 
 function Constructor({re_data,re_url,id_form,name_url}){
   const { data, setData,changeValue_Data } = useContext(DataContext);
-  const data_input = JSON.parse(re_data);
+  const data_input = re_data.json_data;
   useEffect(() => {
     const list = Array.from({ length: data_input.data.length }, () => "");
     setData({data:{list}});
@@ -99,17 +99,32 @@ function Constructor({re_data,re_url,id_form,name_url}){
             <img src={re_url+"/asset/img/logo_2.png"} alt="لوگو" className="img-fluid col-4" />
           </div>
           <div className="card-body rtl">
+          <h5 className="card-title">{re_data.title}</h5>
+          <p className="card-text mb-3">{re_data.description}</p>
             <form className="needs-validation" noValidate onSubmit={(event)=>{send_data(event)}}>
-
                   {data_input.data.map((item,index) =>
                     <div key={index} className="row mb-3">
-                        <label htmlFor={"input"+item[0]} className="col-sm-2 col-form-label">{item[0]}</label>
-                        <div className="col-sm-10">
-                            <input type={item[1]} className="form-control" name={"input"+item[0]} id={"input"+item[0]} value={data.data?.list[index]} onChange={(event)=>{changeValue_Data(["data","list",index],event.target.value,"change");}} required/>
-                            <div className="invalid-feedback">
-                            لطفا این قسمت را پر کنید
-                            </div>
-                        </div>
+                          {item[1] == "checkbox"?(
+                            <>
+                              <label htmlFor={"input"+item[0]} className="col-sm-2 col-form-label">{item[0]}</label>
+                              <div className="col-sm-10">
+                              <input type="checkbox" className="form-check-input"  name={"input"+item[0]} id={"input"+item[0]} checked={data.data?.list[index]} onChange={(event)=>{changeValue_Data(["data","list",index],event.target.checked,"change");}} required/>
+                                  <div className="invalid-feedback">
+                                  لطفا این قسمت را پر کنید
+                                  </div>
+                              </div>
+                            </>
+                          ):(
+                            <>
+                              <label htmlFor={"input"+item[0]} className="col-sm-2 col-form-label">{item[0]}</label>
+                              <div className="col-sm-10">
+                                  <input type={item[1]} className="form-control" name={"input"+item[0]} id={"input"+item[0]} value={data.data?.list[index]} onChange={(event)=>{changeValue_Data(["data","list",index],event.target.value,"change");}} required/>
+                                  <div className="invalid-feedback">
+                                  لطفا این قسمت را پر کنید
+                                  </div>
+                              </div>
+                            </>
+                          )}
                     </div>
                 )}
                 <div className='col-12 text-center'>

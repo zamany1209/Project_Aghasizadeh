@@ -180,7 +180,7 @@ const ModalComponentDetails_Form = ({id_Modal}) => {
           var json_data = JSON.stringify(json);
           
             try {
-              const response = await axios.post(url+'/form_get', {
+              const response = await axios.post(url+'/edit_form', {
                   id,name,title,description,json_data
               });
               await new Promise((resolve) => changeValue_Data(["list_forms",isModalOpen[id_Modal]?.value,"name"],name,"change", null, resolve));
@@ -217,6 +217,7 @@ const ModalComponentDetails_Form = ({id_Modal}) => {
     { value: 'email', label: 'Email', data: 'Data for Option 1' },
     { value: 'text', label: 'Text', data: 'Data for Option 2' },
     { value: 'number', label: 'Number', data: 'Data for Option 3' },
+    { value: 'checkbox', label: 'Checkbox', data: 'Data for Option 4' },
   ];
   const updateJson_data_type = (index, newValue) => {
     setJsonData(prevJsonData => {
@@ -374,6 +375,7 @@ const ModalComponentCreate_Form = ({id_Modal}) => {
     { value: 'email', label: 'Email', data: 'Data for Option 1' },
     { value: 'text', label: 'Text', data: 'Data for Option 2' },
     { value: 'number', label: 'Number', data: 'Data for Option 3' },
+    { value: 'checkbox', label: 'Checkbox', data: 'Data for Option 4' },
   ];
   const updateJson_data_type = (index, newValue) => {
     setJsonData(prevJsonData => {

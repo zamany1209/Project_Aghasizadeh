@@ -15,10 +15,10 @@ class VisitSeeder extends Seeder
     {
         //
         $data = [
-            ['name' => null, 'type' => 'total_last_week', 'date' => 0, 'value' => 20],
-            ['name' => null, 'type' => 'total_last_month', 'date' => 0, 'value' => 23],
+            ['name' => null, 'type' => 'total_last_week', 'date' => 0, 'value' => 19],
+            ['name' => null, 'type' => 'total_last_month', 'date' => 0, 'value' => 38],
             ['name' => null, 'type' => 'total_week', 'date' => 0, 'value' => 20],
-            ['name' => null, 'type' => 'total_month', 'date' => 0, 'value' => 23],
+            ['name' => null, 'type' => 'total_month', 'date' => 0, 'value' => 38],
             ['name' => 'شنبه', 'type' => 'week_0', 'date' => 1, 'value' => 2],
             ['name' => 'یکشنبه', 'type' => 'week_1', 'date' => 2, 'value' => 0],
             ['name' => 'دوشنبه', 'type' => 'week_2', 'date' => 3, 'value' => 5],
@@ -33,8 +33,8 @@ class VisitSeeder extends Seeder
             ['name' => 'چهارشنبه', 'type' => 'last_week_4', 'date' => 5, 'value' => 1],
             ['name' => 'پنج‌شنبه', 'type' => 'last_week_5', 'date' => 6, 'value' => 1],
             ['name' => 'جمعه', 'type' => 'last_week_6', 'date' => 7, 'value' => 5],
-            ['name' => 'فروردین', 'type' => 'month_0', 'date' => 1403, 'value' => 0],
-            ['name' => 'اردیبهشت', 'type' => 'month_1', 'date' => 1403, 'value' => 0],
+            ['name' => 'فروردین', 'type' => 'month_0', 'date' => 1403, 'value' => 5],
+            ['name' => 'اردیبهشت', 'type' => 'month_1', 'date' => 1403, 'value' => 10],
             ['name' => 'خرداد', 'type' => 'month_2', 'date' => 1403, 'value' => 23],
             ['name' => 'تیر', 'type' => 'month_3', 'date' => 1403, 'value' => 0],
             ['name' => 'مرداد', 'type' => 'month_4', 'date' => 1403, 'value' => 0],

@@ -105,10 +105,11 @@ export default function single_Slider({ index_Component, name_Component }) {
                                             </div>
                                             <div className="post-meta text-right">
                                                 <ul>
-                                                    <li className='mr-3'><span><a>{item[1]}</a>
+                                                    <li className='mr-3'><span>
                                                     <svg  width="16" height="16" fill="currentColor" className="bi bi-person-fill" viewBox="0 0 16 16">
-                                            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
-                                        </svg>
+                                                        <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+                                                    </svg>
+                                                    <a>{item[1]}</a>
                                                     </span></li>
                                                 </ul>
                                             </div>
@@ -167,6 +168,11 @@ const ModalComponent = ({id_Modal,index_Component}) => {
       window.scrollTo(0, isModalOpen[id_Modal]?.location);
     }
   }, [isModalOpen[id_Modal]?.status]);
+  useEffect(() =>{
+    if(isModalOpen[id_Modal]?.status == true){
+      window.scrollTo(0, isModalOpen[id_Modal]?.location);
+    }
+  },[data]);
     return (
         <>
       <Modal show={isModalOpen[id_Modal]?.status} onHide={()=>{close_Modal(id_Modal)}} scrollable centered size="md">
