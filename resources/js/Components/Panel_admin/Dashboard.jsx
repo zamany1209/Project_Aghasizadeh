@@ -26,14 +26,21 @@ function Constructor(){
         value1: item.value,
         value2: data.visit_web_site.visit_last_week[index].value,
       }));
-
-      const today = new Date();
-      const currentDayIndex = today.getDay()+1;
+      const Get_Date = ()=>{
+        const today = new Date();
+        if(today.getDay() == 6){
+            return 0;
+        }
+        else{
+            const currentDayIndex = today.getDay()+ 1;
+            return currentDayIndex;
+        }
+      }
+      const currentDayIndex = Get_Date();
         const adjustedDays = [
         ...daysOfWeek.slice(currentDayIndex + 1),
         ...daysOfWeek.slice(0, currentDayIndex + 1)
       ];
-  
       setWeekDays(adjustedDays);
     }, []);
     return (

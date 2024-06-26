@@ -23,7 +23,7 @@ class AdminController extends Controller
             }else{
                 $jsonData = '{"components": [],"title":null,"comments":[]}';
                 $name = $request->input('url_page');
-                $filePath = resource_path("data\pages\ $name.json");
+                $filePath = resource_path("data/pages/ $name.json");
         
                 // اطمینان از وجود پوشه 'files' در مسیر 'resources'
                 if (!File::exists(dirname($filePath))) {
@@ -79,7 +79,7 @@ class AdminController extends Controller
     {
         if (Auth::check()) {
             $name = $request->input('url_page');
-            $filePath = resource_path("data\pages\ $name.json");
+            $filePath = resource_path("data/pages/ $name.json");
     
             // اطمینان از وجود پوشه 'files' در مسیر 'resources'
             if (!File::exists(dirname($filePath))) {
@@ -105,7 +105,7 @@ class AdminController extends Controller
             $data_get = json_decode($request->input('components'));
             $title_get = $request->input('title');
             $name_get = $request->input('name');
-            $path = resource_path("data\pages\ $name_get.json");
+            $path = resource_path("data/pages/ $name_get.json");
             $get_file = File::get($path);
             $get_file = json_decode($get_file,true);
             $get_file['components'] = $data_get;
@@ -182,7 +182,7 @@ class AdminController extends Controller
                 // تغییر نام فایل با استفاده از زمان و نام اصلی فایل
                 $filename = time() . '_' . $file->getClientOriginalName();
                 
-                $jsonFilePath = resource_path('data\list-img.json');
+                $jsonFilePath = resource_path('data/list-img.json');
 
                 // خواندن محتوای فایل JSON فعلی
                 $jsonData = json_decode(File::get($jsonFilePath), true);

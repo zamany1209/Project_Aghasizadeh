@@ -38,12 +38,12 @@ class PageController extends Controller
                 $create_token = $user->createToken('admin', ['*'], now()->addWeek());
                 $token = $create_token->plainTextToken;
             }
-            $get_imagelist = File::get(resource_path('data\list-img.json'));
-            $get_component_list_img = File::get(resource_path('data\list-component-img.json'));
-            $get_component_list = File::get(resource_path('data\list-components.json'));
+            $get_imagelist = File::get(resource_path('data/list-img.json'));
+            $get_component_list_img = File::get(resource_path('data/list-component-img.json'));
+            $get_component_list = File::get(resource_path('data/list-components.json'));
         }
         
-        $data = File::get(resource_path('data\pages\ landing.json'));
+        $data = File::get(resource_path('data/pages/ landing.json'));
         Inertia::setRootView('index'); 
         return  Inertia::render('Index', [
             'name' => ' landing',
@@ -79,9 +79,9 @@ class PageController extends Controller
                 $create_token = $user->createToken('admin', ['*'], now()->addWeek());
                 $token = $create_token->plainTextToken;
             }
-            $get_imagelist = File::get(resource_path('data\list-img.json'));
-            $get_component_list_img = File::get(resource_path('data\list-component-img.json'));
-            $get_component_list = File::get(resource_path('data\list-components.json'));
+            $get_imagelist = File::get(resource_path('data/list-img.json'));
+            $get_component_list_img = File::get(resource_path('data/list-component-img.json'));
+            $get_component_list = File::get(resource_path('data/list-components.json'));
         }
         
         if($request->data){
@@ -95,7 +95,7 @@ class PageController extends Controller
             $data_search = Page::select('id','url','name','access','image','keywords')->where('access', true)->orderByRaw('RAND()')->limit(10)->get();
         }
 
-        $data = File::get(resource_path('data\pages\ Search.json'));
+        $data = File::get(resource_path('data/pages/ Search.json'));
         Inertia::setRootView('index'); 
         return  Inertia::render('Index', [
             'name' => ' Search',
@@ -131,13 +131,13 @@ class PageController extends Controller
                 $create_token = $user->createToken('admin', ['*'], now()->addWeek());
                 $token = $create_token->plainTextToken;
             }
-            $get_imagelist = File::get(resource_path('data\list-img.json'));
-            $get_component_list_img = File::get(resource_path('data\list-component-img.json'));
-            $get_component_list = File::get(resource_path('data\list-components.json'));
+            $get_imagelist = File::get(resource_path('data/list-img.json'));
+            $get_component_list_img = File::get(resource_path('data/list-component-img.json'));
+            $get_component_list = File::get(resource_path('data/list-components.json'));
         }
         $url_name = Page::select('id','url','name','access','image','keywords')->where('url', $request->name)->first();
         if($url_name && $url_name['access']){
-            $file_components = File::get(resource_path("data\pages\ $request->name.json"));
+            $file_components = File::get(resource_path("data/pages/ $request->name.json"));
             Inertia::setRootView('index'); 
             return  Inertia::render('Index', [
                 'name' => $request->name,
@@ -177,12 +177,12 @@ class PageController extends Controller
                 $create_token = $user->createToken('admin', ['*'], now()->addWeek());
                 $token = $create_token->plainTextToken;
             }
-            $get_imagelist = File::get(resource_path('data\list-img.json'));
-            $get_component_list_img = File::get(resource_path('data\list-component-img.json'));
-            $get_component_list = File::get(resource_path('data\list-components.json'));
+            $get_imagelist = File::get(resource_path('data/list-img.json'));
+            $get_component_list_img = File::get(resource_path('data/list-component-img.json'));
+            $get_component_list = File::get(resource_path('data/list-components.json'));
         }
         
-        $data = File::get(resource_path('data\pages\ 404.json'));
+        $data = File::get(resource_path('data/pages/ 404.json'));
         Inertia::setRootView('index'); 
         return  Inertia::render('Index', [
             'name' => ' 404',
@@ -216,8 +216,8 @@ class PageController extends Controller
                 $token = $create_token->plainTextToken;
             }
 
-            $ffs_1 = File::get(resource_path('data\Admin-Data.json'));
-            $ffs_3 = File::get(resource_path('data\list-img.json'));
+            $ffs_1 = File::get(resource_path('data/Admin-Data.json'));
+            $ffs_3 = File::get(resource_path('data/list-img.json'));
             $page_list = Page::select('id','url','access', 'visit')->get();
             $form_list = Forms_name::select('id','url','name', 'title','description','json_data','duplicate','status')->get();
             $change_data = json_decode($ffs_1);
